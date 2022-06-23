@@ -1,6 +1,3 @@
-CAPSTONE PROJECT
-===
-
 # PostBy (remix of Yik Yak)
 
 ## Table of Contents
