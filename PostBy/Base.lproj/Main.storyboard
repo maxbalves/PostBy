@@ -135,7 +135,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UwC-Cr-xmI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="831" y="1003"/>
+            <point key="canvasLocation" x="265" y="1725"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="c3p-Eq-rZG">
@@ -163,10 +163,43 @@
                     <view key="view" contentMode="scaleToFill" id="Bjf-p9-Uha">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5K2-yF-W1J">
+                                <rect key="frame" x="45" y="74" width="300" height="99.666666666666686"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <string key="text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9dt-nb-xpw">
+                                <rect key="frame" x="157.66666666666674" y="671" width="75" height="45"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="75" id="CPM-G7-2Lx"/>
+                                    <constraint firstAttribute="height" constant="45" id="j3e-N3-QRL"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Post"/>
+                                <connections>
+                                    <action selector="sendPost:" destination="bxy-6x-Y9V" eventType="touchUpInside" id="p4X-p2-Rlz"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Pbc-rL-Ohi"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Pbc-rL-Ohi" firstAttribute="trailing" secondItem="5K2-yF-W1J" secondAttribute="trailing" constant="45" id="T0L-mQ-YTu"/>
+                            <constraint firstItem="5K2-yF-W1J" firstAttribute="leading" secondItem="Pbc-rL-Ohi" secondAttribute="leading" constant="45" id="XNU-0Z-D5B"/>
+                            <constraint firstItem="5K2-yF-W1J" firstAttribute="top" secondItem="Pbc-rL-Ohi" secondAttribute="top" constant="30" id="m1g-lO-e0z"/>
+                            <constraint firstItem="Pbc-rL-Ohi" firstAttribute="bottom" secondItem="9dt-nb-xpw" secondAttribute="bottom" constant="45" id="wxY-8N-E0s"/>
+                            <constraint firstItem="9dt-nb-xpw" firstAttribute="centerX" secondItem="Pbc-rL-Ohi" secondAttribute="centerX" id="zYe-Rr-bd8"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Compose" image="plus" catalog="system" id="9H2-SC-AEH"/>
+                    <connections>
+                        <outlet property="postButton" destination="9dt-nb-xpw" id="FVS-yj-p7x"/>
+                        <outlet property="postTextField" destination="5K2-yF-W1J" id="Zub-0w-w49"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2oa-YW-PCt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -185,7 +218,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uxA-U7-Xum" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1748" y="1003"/>
+            <point key="canvasLocation" x="-514" y="1725"/>
         </scene>
         <!--Home-->
         <scene sceneID="W3m-Tj-d7i">
@@ -211,6 +244,9 @@
         <image name="house" catalog="system" width="128" height="106"/>
         <image name="map" catalog="system" width="128" height="110"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
