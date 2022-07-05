@@ -5,7 +5,15 @@
 //  Created by Max Bagatini Alves on 7/5/22.
 //
 
+// View Controllers
 #import "HomeViewController.h"
+#import "LoginViewController.h"
+
+// Frameworks
+@import Parse;
+
+// Scene Delegate
+#import "SceneDelegate.h"
 
 @interface HomeViewController ()
 
@@ -16,6 +24,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (IBAction)logoutUser:(id)sender {
+    // PFUser.current() will now be nil
+    [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        LoginViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        SceneDelegate *mySceneDelegate = (SceneDelegate *) UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
+        mySceneDelegate.window.rootViewController = loginVC;
+    }];
 }
 
 /*
