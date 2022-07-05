@@ -19,6 +19,12 @@
 		CD0490B92874AC5E0072A7A3 /* PostByUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490B82874AC5E0072A7A3 /* PostByUITests.m */; };
 		CD0490BB2874AC5E0072A7A3 /* PostByUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490BA2874AC5E0072A7A3 /* PostByUITestsLaunchTests.m */; };
 		CD0490C82874AF370072A7A3 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = CD0490C72874AF370072A7A3 /* Keys.plist */; };
+		CD0490CF2874B7490072A7A3 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490CE2874B7490072A7A3 /* LoginViewController.m */; };
+		CD0490D22874B7640072A7A3 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490D12874B7640072A7A3 /* MapViewController.m */; };
+		CD0490D52874B7780072A7A3 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490D42874B7780072A7A3 /* HomeViewController.m */; };
+		CD0490D82874B79A0072A7A3 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490D72874B79A0072A7A3 /* ComposeViewController.m */; };
+		CD0490DB2874B7D30072A7A3 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490DA2874B7D30072A7A3 /* DetailsViewController.m */; };
+		CD0490DE2874B8010072A7A3 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490DD2874B8010072A7A3 /* SettingsViewController.m */; };
 		F00C3A111490211407C39844 /* Pods_PostBy_PostByUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B5E1EC5823BDC41143A5B4 /* Pods_PostBy_PostByUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +69,18 @@
 		CD0490B82874AC5E0072A7A3 /* PostByUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostByUITests.m; sourceTree = "<group>"; };
 		CD0490BA2874AC5E0072A7A3 /* PostByUITestsLaunchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostByUITestsLaunchTests.m; sourceTree = "<group>"; };
 		CD0490C72874AF370072A7A3 /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		CD0490CD2874B7490072A7A3 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		CD0490CE2874B7490072A7A3 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		CD0490D02874B7640072A7A3 /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		CD0490D12874B7640072A7A3 /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		CD0490D32874B7780072A7A3 /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		CD0490D42874B7780072A7A3 /* HomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		CD0490D62874B79A0072A7A3 /* ComposeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComposeViewController.h; sourceTree = "<group>"; };
+		CD0490D72874B79A0072A7A3 /* ComposeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ComposeViewController.m; sourceTree = "<group>"; };
+		CD0490D92874B7D30072A7A3 /* DetailsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
+		CD0490DA2874B7D30072A7A3 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
+		CD0490DC2874B8010072A7A3 /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		CD0490DD2874B8010072A7A3 /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		E3ABA5FAE7C3C750D37F0627 /* Pods_PostBy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PostBy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E900EE6B6DE2B25A0C0CDCAF /* Pods-PostBy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PostBy.debug.xcconfig"; path = "Target Support Files/Pods-PostBy/Pods-PostBy.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -130,6 +148,10 @@
 		CD0490912874AC5D0072A7A3 /* PostBy */ = {
 			isa = PBXGroup;
 			children = (
+				CD0490CC2874B6E00072A7A3 /* Models */,
+				CD0490CA2874B6BC0072A7A3 /* Views */,
+				CD0490C92874B6990072A7A3 /* View Controllers */,
+				CD0490CB2874B6C80072A7A3 /* View Models */,
 				CD0490922874AC5D0072A7A3 /* AppDelegate.h */,
 				CD0490932874AC5D0072A7A3 /* AppDelegate.m */,
 				CD0490952874AC5D0072A7A3 /* SceneDelegate.h */,
@@ -159,6 +181,46 @@
 				CD0490BA2874AC5E0072A7A3 /* PostByUITestsLaunchTests.m */,
 			);
 			path = PostByUITests;
+			sourceTree = "<group>";
+		};
+		CD0490C92874B6990072A7A3 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				CD0490D62874B79A0072A7A3 /* ComposeViewController.h */,
+				CD0490D72874B79A0072A7A3 /* ComposeViewController.m */,
+				CD0490D92874B7D30072A7A3 /* DetailsViewController.h */,
+				CD0490DA2874B7D30072A7A3 /* DetailsViewController.m */,
+				CD0490D32874B7780072A7A3 /* HomeViewController.h */,
+				CD0490D42874B7780072A7A3 /* HomeViewController.m */,
+				CD0490CD2874B7490072A7A3 /* LoginViewController.h */,
+				CD0490CE2874B7490072A7A3 /* LoginViewController.m */,
+				CD0490D02874B7640072A7A3 /* MapViewController.h */,
+				CD0490D12874B7640072A7A3 /* MapViewController.m */,
+				CD0490DC2874B8010072A7A3 /* SettingsViewController.h */,
+				CD0490DD2874B8010072A7A3 /* SettingsViewController.m */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		CD0490CA2874B6BC0072A7A3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		CD0490CB2874B6C80072A7A3 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
+		CD0490CC2874B6E00072A7A3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		F6C9DF2374B37A2D68575A68 /* Pods */ = {
@@ -413,9 +475,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD0490CF2874B7490072A7A3 /* LoginViewController.m in Sources */,
 				CD0490942874AC5D0072A7A3 /* AppDelegate.m in Sources */,
+				CD0490D22874B7640072A7A3 /* MapViewController.m in Sources */,
+				CD0490DE2874B8010072A7A3 /* SettingsViewController.m in Sources */,
 				CD0490A52874AC5E0072A7A3 /* main.m in Sources */,
+				CD0490D82874B79A0072A7A3 /* ComposeViewController.m in Sources */,
 				CD0490972874AC5D0072A7A3 /* SceneDelegate.m in Sources */,
+				CD0490D52874B7780072A7A3 /* HomeViewController.m in Sources */,
+				CD0490DB2874B7D30072A7A3 /* DetailsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
