@@ -133,6 +133,8 @@ App allows users to see and create posts for their timeline. Each timeline will 
 | commentsCount | Number          | post author                                 |
 | likesCount    | Number          | post author                                 |
 | dislikesCount | Number          | post author                                 |
+| latitude      | Number          | user's latitude when posted                 |
+| longitude     | Number          | user's longitude when posted                |
 | createdAt     | DateTime        | unique id for the user post (default field) |
 | updatedAt     | DateTime        | unique id for the user post (default field) |
 
