@@ -100,6 +100,9 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="map" catalog="system" id="IfI-R7-bBN"/>
+                    <connections>
+                        <outlet property="mapView" destination="OzO-tV-b1y" id="RY5-Xm-TfW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8cM-vm-5Ku" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
