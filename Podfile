@@ -5,6 +5,7 @@ target 'PostBy' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
   pod 'Parse'
+  pod 'AFNetworking'
 
   # Pods for PostBy
 
