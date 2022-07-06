@@ -5,7 +5,7 @@
 //  Created by Max Bagatini Alves on 7/5/22.
 //
 
-#import <Parse/Parse.h>
+@import Parse;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,10 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSNumber *latitude;
 @property (nonatomic, strong) NSNumber *longitude;
 
-// TODO: Implement privacy options
-// i.g. (BOOL) showLocation, (BOOL) showUsername, (BOOL) showProfilePicture
-
-+ (void) postWithText:(NSString *)text withCompletion:(PFBooleanResultBlock  _Nullable)completion;
++ (void) postWithText:(NSString *)text withLat:(NSNumber *)latitude withLong:(NSNumber *)longitude withCompletion:(PFBooleanResultBlock  _Nullable)completion;
 
 @end
 

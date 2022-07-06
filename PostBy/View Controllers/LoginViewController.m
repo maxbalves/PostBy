@@ -8,11 +8,11 @@
 // View Controllers
 #import "LoginViewController.h"
 
-// Scene Delegate
-#import "SceneDelegate.h"
-
 // Frameworks
 @import Parse;
+
+// Scene Delegate
+#import "SceneDelegate.h"
 
 @interface LoginViewController ()
 
@@ -75,7 +75,6 @@
         } else {
             // display view controller that needs to shown after successful login
             [self presentHome];
-            
         }
     }];
 }

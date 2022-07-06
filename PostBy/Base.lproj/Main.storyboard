@@ -85,8 +85,19 @@
                     <view key="view" contentMode="scaleToFill" id="G3V-Cd-PPD">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="OzO-tV-b1y">
+                                <rect key="frame" x="0.0" y="44" width="390" height="717"/>
+                            </mapView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="PMd-uM-QOt"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="OzO-tV-b1y" firstAttribute="leading" secondItem="PMd-uM-QOt" secondAttribute="leading" id="53d-xu-pvL"/>
+                            <constraint firstItem="PMd-uM-QOt" firstAttribute="trailing" secondItem="OzO-tV-b1y" secondAttribute="trailing" id="7bX-dC-2Bn"/>
+                            <constraint firstItem="OzO-tV-b1y" firstAttribute="top" secondItem="PMd-uM-QOt" secondAttribute="top" id="F1e-aU-BWj"/>
+                            <constraint firstItem="PMd-uM-QOt" firstAttribute="bottom" secondItem="OzO-tV-b1y" secondAttribute="bottom" id="FPv-yA-CHj"/>
+                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="map" catalog="system" id="IfI-R7-bBN"/>
                 </viewController>
@@ -251,7 +262,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9dt-nb-xpw">
-                                <rect key="frame" x="157.66666666666674" y="671" width="75" height="45"/>
+                                <rect key="frame" x="157.66666666666666" y="198.66666666666666" width="75" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="75" id="CPM-G7-2Lx"/>
                                     <constraint firstAttribute="height" constant="45" id="j3e-N3-QRL"/>
@@ -265,13 +276,17 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Pbc-rL-Ohi"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
                         <constraints>
+                            <constraint firstItem="9dt-nb-xpw" firstAttribute="top" secondItem="5K2-yF-W1J" secondAttribute="bottom" constant="25" id="2T6-EO-47V"/>
                             <constraint firstItem="Pbc-rL-Ohi" firstAttribute="trailing" secondItem="5K2-yF-W1J" secondAttribute="trailing" constant="45" id="T0L-mQ-YTu"/>
                             <constraint firstItem="5K2-yF-W1J" firstAttribute="leading" secondItem="Pbc-rL-Ohi" secondAttribute="leading" constant="45" id="XNU-0Z-D5B"/>
                             <constraint firstItem="5K2-yF-W1J" firstAttribute="top" secondItem="Pbc-rL-Ohi" secondAttribute="top" constant="30" id="m1g-lO-e0z"/>
-                            <constraint firstItem="Pbc-rL-Ohi" firstAttribute="bottom" secondItem="9dt-nb-xpw" secondAttribute="bottom" constant="45" id="wxY-8N-E0s"/>
                             <constraint firstItem="9dt-nb-xpw" firstAttribute="centerX" secondItem="Pbc-rL-Ohi" secondAttribute="centerX" id="zYe-Rr-bd8"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="wE1-as-r3j" appends="YES" id="uaq-IF-lTD"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Compose" image="plus" catalog="system" id="9H2-SC-AEH"/>
                     <connections>
@@ -280,6 +295,11 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2oa-YW-PCt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="wE1-as-r3j">
+                    <connections>
+                        <action selector="onTap:" destination="bxy-6x-Y9V" id="FWh-si-vQh"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1748" y="210"/>
         </scene>

@@ -26,8 +26,6 @@
 @property (strong, nonatomic) NSArray *postsArray;
 @property (nonatomic) int MAX_POSTS_SHOWN;
 
-// TODO: Implement infinite scrolling feature
-
 @end
 
 @implementation HomeViewController
@@ -38,7 +36,7 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
-    self.MAX_POSTS_SHOWN = 8;
+    self.MAX_POSTS_SHOWN = 10;
     
     self.refreshControl = [UIRefreshControl new];
     [self.refreshControl addTarget:self action:@selector(refreshPosts) forControlEvents:UIControlEventValueChanged];
@@ -92,15 +90,5 @@
     // Prevents cell from having gray background due to being selected
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
-/* TODO: Work on segue from home screen to details page
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

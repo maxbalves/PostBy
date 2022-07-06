@@ -25,7 +25,7 @@
     return @"Post";
 }
 
-+ (void) postWithText:(NSString *)text withCompletion:(PFBooleanResultBlock  _Nullable)completion {
++ (void) postWithText:(NSString *)text withLat:(NSNumber *)latitude withLong:(NSNumber *)longitude withCompletion:(PFBooleanResultBlock)completion {
     Post *newPost = [Post new];
     newPost.author = [PFUser currentUser];
     newPost.postText = text;
@@ -33,9 +33,8 @@
     newPost.likeCount = @(0);
     newPost.dislikeCount = @(0);
     
-    // TODO: Implement correct way to get latitude / longitude
-    newPost.latitude = @(1.234);
-    newPost.longitude = @(4.321);
+    newPost.latitude = latitude;
+    newPost.longitude = longitude;
     
     [newPost saveInBackgroundWithBlock: completion];
 }

@@ -5,23 +5,20 @@
 //  Created by Max Bagatini Alves on 7/6/22.
 //
 
-// Frameworks
-#import "UIImageView+AFNetworking.h"
-
 // Views
 #import "PostTableViewCell.h"
+
+// Frameworks
+#import "UIImageView+AFNetworking.h"
 
 @implementation PostTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 - (void) setPost:(Post *)post {
@@ -44,7 +41,5 @@
     [self.dislikeButton setTitle:dislikeCount forState:UIControlStateHighlighted];
     [self.dislikeButton setTitle:dislikeCount forState:UIControlStateSelected];
 }
-
-// TODO: Like/Dislike Features
 
 @end
