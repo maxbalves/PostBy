@@ -25,6 +25,9 @@
     if (PFUser.currentUser) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
+        
+        // Get the current user's most up to date data
+        [PFUser.currentUser fetch];
     }
 }
 
