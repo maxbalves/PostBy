@@ -23,6 +23,9 @@
 @property (strong, nonatomic) NSArray *postsArray;
 @property (nonatomic) int MAX_POSTS_SHOWN;
 
+@property (nonatomic) double CLOSE_ZOOM;
+@property (nonatomic) double MEDIUM_ZOOM;
+
 @end
 
 @implementation MapViewController
@@ -30,9 +33,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // Set span values to use (smaller value == closer zoom)
+    self.CLOSE_ZOOM = 0.01;
+    self.MEDIUM_ZOOM = 0.1;
+    
     // Default to Seattle - Coordinates
-    // ~ one degree of latitude/longitude is approximately 111 kilometers (69 miles) at all times.
-    [self setMapToRegionWithLat:47.6062 WithLong:-122.3321 WithSpan:0.1];
+    [self setMapToRegionWithLat:47.6062 WithLong:-122.3321 WithSpan:self.MEDIUM_ZOOM];
     
     self.didZoomOnUser = NO;
     
@@ -96,7 +102,7 @@
         double latitude = manager.location.coordinate.latitude;
         double longitude = manager.location.coordinate.longitude;
         
-        [self setMapToRegionWithLat:latitude WithLong:longitude WithSpan:0.01];
+        [self setMapToRegionWithLat:latitude WithLong:longitude WithSpan:self.CLOSE_ZOOM];
         
         self.didZoomOnUser = YES;
     }
