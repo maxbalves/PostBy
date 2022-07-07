@@ -87,7 +87,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="OzO-tV-b1y">
-                                <rect key="frame" x="0.0" y="44" width="390" height="717"/>
+                                <rect key="frame" x="0.0" y="88" width="390" height="673"/>
                             </mapView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PMd-uM-QOt"/>
@@ -99,14 +99,26 @@
                             <constraint firstItem="PMd-uM-QOt" firstAttribute="bottom" secondItem="OzO-tV-b1y" secondAttribute="bottom" id="FPv-yA-CHj"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Map" image="map" catalog="system" id="IfI-R7-bBN"/>
+                    <navigationItem key="navigationItem" title="Map" id="dyK-p9-4SC">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="IOv-AL-BRq">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="HuZ-8H-gFO">
+                                <rect key="frame" x="288" y="5" width="86" height="34.333333333333336"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="arrow.clockwise" catalog="system"/>
+                                <connections>
+                                    <action selector="refreshMapTap:" destination="2Fp-KD-VT7" eventType="touchUpInside" id="YZv-sw-aoQ"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="OzO-tV-b1y" id="RY5-Xm-TfW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8cM-vm-5Ku" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="831" y="210"/>
+            <point key="canvasLocation" x="831" y="1002"/>
         </scene>
         <!--Home-->
         <scene sceneID="T1c-9g-hb7">
@@ -199,9 +211,20 @@
                                 <rect key="frame" x="16" y="5" width="86" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Log Out"/>
+                                <buttonConfiguration key="configuration" style="plain" image="rectangle.portrait.and.arrow.right" catalog="system"/>
                                 <connections>
                                     <action selector="logoutUser:" destination="bue-qi-BuZ" eventType="touchUpInside" id="QHg-qX-DGn"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="0A6-pX-UeN">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="SL7-Ku-H08">
+                                <rect key="frame" x="288" y="5" width="86" height="34.333333333333336"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="gearshape" catalog="system"/>
+                                <connections>
+                                    <segue destination="BTW-Z5-PLK" kind="show" id="BNF-6P-iYo"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -227,7 +250,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UwC-Cr-xmI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="265" y="1725"/>
+            <point key="canvasLocation" x="831" y="1725"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="c3p-Eq-rZG">
@@ -240,7 +263,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="ydU-4l-abL" kind="relationship" relationship="viewControllers" id="tdF-XF-nZt"/>
-                        <segue destination="2Fp-KD-VT7" kind="relationship" relationship="viewControllers" id="DNo-a1-QYs"/>
+                        <segue destination="CkA-1b-yLM" kind="relationship" relationship="viewControllers" id="DNo-a1-QYs"/>
                         <segue destination="bxy-6x-Y9V" kind="relationship" relationship="viewControllers" id="iVL-8r-Mze"/>
                     </connections>
                 </tabBarController>
@@ -304,9 +327,9 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1748" y="210"/>
+            <point key="canvasLocation" x="1768" y="210"/>
         </scene>
-        <!--Settings View Controller-->
+        <!--Settings-->
         <scene sceneID="SU9-6n-bEn">
             <objects>
                 <viewController id="BTW-Z5-PLK" customClass="SettingsViewController" sceneMemberID="viewController">
@@ -316,10 +339,11 @@
                         <viewLayoutGuide key="safeArea" id="THR-Gt-5tz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Settings" id="uYy-DZ-tUx"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uxA-U7-Xum" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-514" y="1725"/>
+            <point key="canvasLocation" x="-118" y="1725"/>
         </scene>
         <!--Home-->
         <scene sceneID="W3m-Tj-d7i">
@@ -340,13 +364,35 @@
             </objects>
             <point key="canvasLocation" x="-118" y="210"/>
         </scene>
+        <!--Map-->
+        <scene sceneID="VlF-Qk-2K3">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="CkA-1b-yLM" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Map" image="map" catalog="system" id="IfI-R7-bBN"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="KMK-fa-8J1">
+                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="2Fp-KD-VT7" kind="relationship" relationship="rootViewController" id="fiN-uM-lEw"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RPU-ll-ayp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="830.76923076923072" y="209.71563981042652"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
         <image name="arrow.down.circle" catalog="system" width="128" height="121"/>
         <image name="arrow.up.circle" catalog="system" width="128" height="121"/>
+        <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="house" catalog="system" width="128" height="106"/>
         <image name="map" catalog="system" width="128" height="110"/>
         <image name="plus" catalog="system" width="128" height="113"/>
+        <image name="rectangle.portrait.and.arrow.right" catalog="system" width="128" height="108"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

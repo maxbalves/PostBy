@@ -49,6 +49,12 @@
     [self refreshPosts];
 }
 
+- (IBAction)refreshMapTap:(id)sender {
+    NSArray *allMapPins = self.mapView.annotations;
+    [self.mapView removeAnnotations:allMapPins];
+    [self refreshPosts];
+}
+
 - (void)refreshPosts {
     // construct query
     PFQuery *query = [PFQuery queryWithClassName:@"Post"];
