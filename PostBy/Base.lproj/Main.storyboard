@@ -114,6 +114,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="OzO-tV-b1y" id="RY5-Xm-TfW"/>
+                        <segue destination="huZ-5l-SlD" kind="show" identifier="MapShowDetails" id="fc8-9e-t6P"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8cM-vm-5Ku" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -240,13 +241,14 @@
         <!--Details View Controller-->
         <scene sceneID="EDg-d5-V3I">
             <objects>
-                <viewController id="huZ-5l-SlD" customClass="DetailsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailsViewController" id="huZ-5l-SlD" customClass="DetailsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="i4i-xX-xn1">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="CrP-1Q-LJp"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="wJa-gj-RMc"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UwC-Cr-xmI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -6,15 +6,17 @@
 //
 
 // Frameworks
-#import <MapKit/MapKit.h>
+@import MapKit;
 
 // View Controllers
+#import "DetailsViewController.h"
 #import "MapViewController.h"
 
 // Views
+#import "MapPin.h"
 #import "Post.h"
 
-@interface MapViewController () <CLLocationManagerDelegate>
+@interface MapViewController () <CLLocationManagerDelegate, MKMapViewDelegate>
 
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) CLLocationManager *locationManager;
@@ -42,6 +44,7 @@
     
     self.didZoomOnUser = NO;
     
+    self.mapView.delegate = self;
     self.locationManager = [CLLocationManager new];
     self.locationManager.delegate = self;
     [self.locationManager requestWhenInUseAuthorization];
@@ -84,10 +87,52 @@
         if (!post.latitude || !post.longitude)
             continue;
         
-        MKPointAnnotation *pin = [MKPointAnnotation new];
-        pin.coordinate = CLLocationCoordinate2DMake(post.latitude.floatValue, post.longitude.floatValue);
-        pin.title = post.objectId;
+        MapPin *pin = [MapPin createPinFromPost:post];
+        
         [self.mapView addAnnotation:pin];
+    }
+}
+
+// Change pin/annotation look
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    // If the annotation is the user location, don't change it
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        return nil;
+    }
+    
+    MKPinAnnotationView *annotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Pin"];
+    if (annotationView == nil) {
+        annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
+        annotationView.canShowCallout = true;
+        
+        // Every pin will hold an image of size 50 x 50 of the user's profile pic
+        annotationView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 50.0, 50.0)];
+        
+        // create 'i' button
+        UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        annotationView.rightCalloutAccessoryView = infoButton;
+    }
+
+    UIImageView *imageView = (UIImageView*)annotationView.leftCalloutAccessoryView;
+    
+    // Create our custom pin and put the profile picture as image
+    MapPin *mapPin = (MapPin *)annotation; // refer to this generic annotation as our more specific PhotoAnnotation
+    [imageView setImage:mapPin.profilePic]; // set the image into the callout imageview
+
+    return annotationView;
+}
+
+// When pin's button is clicked, perform segue to details page
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
+    [self performSegueWithIdentifier:@"MapShowDetails" sender:view.annotation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+    if (!self.didZoomOnUser) {
+        double latitude = manager.location.coordinate.latitude;
+        double longitude = manager.location.coordinate.longitude;
+        [self setMapToRegionWithLat:latitude WithLong:longitude WithSpan:self.CLOSE_ZOOM];
+        self.didZoomOnUser = YES;
     }
 }
 
@@ -97,19 +142,18 @@
     [self.mapView setRegion:region animated:YES];
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
-    if (!self.didZoomOnUser) {
-        double latitude = manager.location.coordinate.latitude;
-        double longitude = manager.location.coordinate.longitude;
-        
-        [self setMapToRegionWithLat:latitude WithLong:longitude WithSpan:self.CLOSE_ZOOM];
-        
-        self.didZoomOnUser = YES;
-    }
-}
-
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     NSLog(@"Error: %@", error.localizedDescription);
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"MapShowDetails"]) {
+        DetailsViewController *detailsVC = [segue destinationViewController];
+        MapPin *pin = sender;
+        detailsVC.post = pin.post;
+        // TODO: Hide 'i' button that goes to maps on Details VC
+        // TODO: Create Details VC Skeleton
+    }
 }
 
 @end

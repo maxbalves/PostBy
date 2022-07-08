@@ -27,6 +27,7 @@
 		CD0490DE2874B8010072A7A3 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490DD2874B8010072A7A3 /* SettingsViewController.m */; };
 		CD1F4D342874DCFD00D9254F /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1F4D332874DCFD00D9254F /* Post.m */; };
 		CD1F4D372875F29A00D9254F /* PostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1F4D362875F29A00D9254F /* PostTableViewCell.m */; };
+		CD6800B8287795BC0012EC21 /* MapPin.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6800B7287795BC0012EC21 /* MapPin.m */; };
 		CD9DDB1028760E95006DB10B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9DDB0F28760E95006DB10B /* MapKit.framework */; };
 		F00C3A111490211407C39844 /* Pods_PostBy_PostByUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B5E1EC5823BDC41143A5B4 /* Pods_PostBy_PostByUITests.framework */; };
 /* End PBXBuildFile section */
@@ -88,6 +89,8 @@
 		CD1F4D332874DCFD00D9254F /* Post.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
 		CD1F4D352875F29A00D9254F /* PostTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostTableViewCell.h; sourceTree = "<group>"; };
 		CD1F4D362875F29A00D9254F /* PostTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostTableViewCell.m; sourceTree = "<group>"; };
+		CD6800B6287795BC0012EC21 /* MapPin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapPin.h; sourceTree = "<group>"; };
+		CD6800B7287795BC0012EC21 /* MapPin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapPin.m; sourceTree = "<group>"; };
 		CD9DDB0F28760E95006DB10B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		E3ABA5FAE7C3C750D37F0627 /* Pods_PostBy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PostBy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E900EE6B6DE2B25A0C0CDCAF /* Pods-PostBy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PostBy.debug.xcconfig"; path = "Target Support Files/Pods-PostBy/Pods-PostBy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -215,6 +218,8 @@
 		CD0490CA2874B6BC0072A7A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CD6800B6287795BC0012EC21 /* MapPin.h */,
+				CD6800B7287795BC0012EC21 /* MapPin.m */,
 				CD1F4D352875F29A00D9254F /* PostTableViewCell.h */,
 				CD1F4D362875F29A00D9254F /* PostTableViewCell.m */,
 			);
@@ -489,6 +494,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD6800B8287795BC0012EC21 /* MapPin.m in Sources */,
 				CD0490CF2874B7490072A7A3 /* LoginViewController.m in Sources */,
 				CD0490942874AC5D0072A7A3 /* AppDelegate.m in Sources */,
 				CD0490D22874B7640072A7A3 /* MapViewController.m in Sources */,
