@@ -61,6 +61,9 @@
     // Prevent user from sharing more than once if clicking multiple times on share
     self.postButton.userInteractionEnabled = NO;
     
+    // TODO: If no location found, cancel
+    // Location will be necessary to show around other users but can be opted if exact or not
+    
     [Post postWithText:self.postTextField.text withLat:self.latitude withLong:self.longitude withCompletion:^(BOOL succeeded, NSError *error) {
         [PFUser.currentUser fetch];
         if (succeeded) {

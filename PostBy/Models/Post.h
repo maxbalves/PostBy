@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) PFUser *author;
 @property (nonatomic, strong) NSString *postText;
+@property (nonatomic) BOOL hideLocation;
 @property (nonatomic, strong) NSNumber *latitude;
 @property (nonatomic, strong) NSNumber *longitude;
 @property (nonatomic, strong) NSNumber *likeCount;

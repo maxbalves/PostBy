@@ -25,6 +25,7 @@
     pin.post = post;
     
     // BAD! (not async call to get data);
+    // TODO: Look into dispatch_async solution!
     PFFileObject *profilePicObj = [post.author valueForKey:@"profilePicture"];
     NSURL *imageURL = [NSURL URLWithString:profilePicObj.url];
     NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
@@ -32,8 +33,6 @@
     // Default every pin's image to be 50 x 50
     CGSize pinImgSize = CGSizeMake(50, 50);
     pin.profilePic = [pin resizeImage:[UIImage imageWithData:imageData] withSize:pinImgSize];
-    // TODO: Look into dispatch_async solution!
-    // dispatch_async()});
     
     pin.coordinate = CLLocationCoordinate2DMake(post.latitude.floatValue, post.longitude.floatValue);
     

@@ -100,13 +100,18 @@
         return nil;
     }
     
+    // refer to this generic annotation as our more specific PhotoAnnotation
+    MapPin *mapPin = (MapPin *)annotation;
+    
     MKPinAnnotationView *annotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Pin"];
     if (annotationView == nil) {
         annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
         annotationView.canShowCallout = true;
         
-        // Every pin will hold an image of size 50 x 50 of the user's profile pic
-        annotationView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 50.0, 50.0)];
+        // Every pin will hold an image of the user's profile pic
+        double width = mapPin.profilePic.size.width;
+        double height = mapPin.profilePic.size.height;
+        annotationView.leftCalloutAccessoryView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, width, height)];
         
         // create 'i' button
         UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
@@ -115,8 +120,6 @@
 
     UIImageView *imageView = (UIImageView*)annotationView.leftCalloutAccessoryView;
     
-    // Create our custom pin and put the profile picture as image
-    MapPin *mapPin = (MapPin *)annotation; // refer to this generic annotation as our more specific PhotoAnnotation
     [imageView setImage:mapPin.profilePic]; // set the image into the callout imageview
 
     return annotationView;

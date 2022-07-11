@@ -6,6 +6,7 @@
 //
 
 // View Controllers
+#import "DetailsViewController.h"
 #import "HomeViewController.h"
 #import "LoginViewController.h"
 
@@ -89,6 +90,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Prevents cell from having gray background due to being selected
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"HomeShowDetails"]) {
+        DetailsViewController *detailsVC = [segue destinationViewController];
+        detailsVC.post = self.postsArray[[self.tableView indexPathForCell:sender].row];
+    }
 }
 
 @end

@@ -15,6 +15,7 @@
 
 @dynamic author;
 @dynamic postText;
+@dynamic hideLocation;
 @dynamic latitude;
 @dynamic longitude;
 @dynamic likeCount;
@@ -33,6 +34,9 @@
     
     newPost.latitude = latitude;
     newPost.longitude = longitude;
+    
+    // TODO: Implement option to hide or show location
+    newPost.hideLocation = NO;
     
     [newPost saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         PFRelation *userPosts = [PFUser.currentUser relationForKey:@"posts"];
