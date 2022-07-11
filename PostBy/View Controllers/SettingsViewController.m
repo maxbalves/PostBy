@@ -5,18 +5,27 @@
 //  Created by Max Bagatini Alves on 7/5/22.
 //
 
+// Models
+#import "Post.h"
+
 // Frameworks
 @import Parse;
 #import "UIImageView+AFNetworking.h"
 
 // View Controllers
+#import "LoginViewController.h"
 #import "SettingsViewController.h"
+
+// Scene Delegate
+#import "SceneDelegate.h"
 
 @interface SettingsViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (strong, nonatomic) IBOutlet UILabel *createdOnLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *profilePicture;
+
+@property (strong, nonatomic) IBOutlet UIButton *deleteAccButton;
 
 @property (nonatomic) int DEFAULT_IMAGE_SIZE;
 
@@ -126,6 +135,100 @@
     UIGraphicsEndImageContext();
     
     return newImage;
+}
+
+- (IBAction)promptAccountDeletion:(id)sender {
+    NSString *title = @"Delete Account";
+    NSString *message = @"Are you sure you want to delete your account?";
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+
+    // create Confirm action
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {[self deleteAccount];}];
+    
+    // add the OK action to the alert controller
+    [alert addAction:confirmAction];
+    
+    // create/add the Cancel action to the alert controller
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
+    [alert addAction:cancelAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void) deleteAccount {
+    // delete posts
+    PFRelation *postsRelation = [PFUser.currentUser relationForKey:@"posts"];
+    NSArray *userPosts = [[postsRelation query] findObjects];
+    for (Post *post in userPosts) {
+        // get & delete this post's comments
+        PFRelation *commentsRelation = [post relationForKey:@"comments"];
+        NSArray *comments = [[commentsRelation query] findObjects];
+        for (PFObject *comment in comments) {
+            [comment delete];
+        }
+        
+        [post delete];
+    }
+    
+    // delete likes
+    PFRelation *likesRelation = [PFUser.currentUser relationForKey:@"likes"];
+    NSArray *likedPosts = [[likesRelation query] findObjects];
+    for (Post *post in likedPosts) {
+        // unlike the post
+        [self unlikePost:post];
+        
+        // remove it from my relation
+        [likesRelation removeObject:post];
+    }
+    [PFUser.currentUser save];
+    
+    // delete dislikes
+    PFRelation *dislikesRelation = [PFUser.currentUser relationForKey:@"dislikes"];
+    NSArray *dislikedPosts = [[dislikesRelation query] findObjects];
+    for (Post *post in dislikedPosts) {
+        // unlike the post
+        [self undislikePost:post];
+        
+        // remove it from my relation
+        [dislikesRelation removeObject:post];
+    }
+    [PFUser.currentUser save];
+    
+    // delete comments
+    PFRelation *commentsRelation = [PFUser.currentUser relationForKey:@"comments"];
+    NSArray *userComments = [[commentsRelation query] findObjects];
+    for (PFObject *comment in userComments) {
+        [comment delete];
+    }
+    
+    // delete account
+    [PFUser.currentUser delete];
+    
+    // log out
+    [self logoutUser];
+}
+
+- (void) unlikePost:(Post *) post {
+    PFRelation *postLikes = [post relationForKey:@"likes"];
+    [postLikes removeObject:PFUser.currentUser];
+    post.likeCount = @(post.likeCount.intValue - 1);
+    [post save];
+}
+
+- (void) undislikePost:(Post *) post {
+    PFRelation *postDislikes = [post relationForKey:@"dislikes"];
+    [postDislikes removeObject:PFUser.currentUser];
+    post.dislikeCount = @(post.dislikeCount.intValue - 1);
+    [post save];
+}
+
+- (void) logoutUser {
+    [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        LoginViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        SceneDelegate *mySceneDelegate = (SceneDelegate *) UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
+        mySceneDelegate.window.rootViewController = loginVC;
+    }];
 }
 
 @end
