@@ -44,7 +44,7 @@
     // set default profile picture
     UIImage *img = [UIImage imageNamed:@"profile_tab.png"];
     NSData *img_data = UIImagePNGRepresentation(img);
-    PFFileObject *profilePicture = [PFFileObject fileObjectWithName:@"profilePicture.png" data:img_data];;
+    PFFileObject *profilePicture = [PFFileObject fileObjectWithName:@"profilePicture.png" data:img_data];
     
     [newUser setValue:profilePicture forKey:@"profilePicture"];
 

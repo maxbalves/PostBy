@@ -62,6 +62,7 @@
     self.postButton.userInteractionEnabled = NO;
     
     [Post postWithText:self.postTextField.text withLat:self.latitude withLong:self.longitude withCompletion:^(BOOL succeeded, NSError *error) {
+        [PFUser.currentUser fetch];
         if (succeeded) {
             self.postTextField.text = @"";
             [self presentHome];

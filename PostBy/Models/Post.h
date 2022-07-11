@@ -13,11 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) PFUser *author;
 @property (nonatomic, strong) NSString *postText;
-@property (nonatomic, strong) NSNumber *commentCount;
-@property (nonatomic, strong) NSNumber *likeCount;
-@property (nonatomic, strong) NSNumber *dislikeCount;
 @property (nonatomic, strong) NSNumber *latitude;
 @property (nonatomic, strong) NSNumber *longitude;
+@property (nonatomic, strong) NSNumber *likeCount;
+@property (nonatomic, strong) NSNumber *dislikeCount;
 
 + (void) postWithText:(NSString *)text withLat:(NSNumber *)latitude withLong:(NSNumber *)longitude withCompletion:(PFBooleanResultBlock  _Nullable)completion;
 

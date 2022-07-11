@@ -15,11 +15,10 @@
 
 @dynamic author;
 @dynamic postText;
-@dynamic commentCount;
-@dynamic likeCount;
-@dynamic dislikeCount;
 @dynamic latitude;
 @dynamic longitude;
+@dynamic likeCount;
+@dynamic dislikeCount;
 
 + (nonnull NSString *)parseClassName {
     return @"Post";
@@ -29,14 +28,19 @@
     Post *newPost = [Post new];
     newPost.author = [PFUser currentUser];
     newPost.postText = text;
-    newPost.commentCount = @(0);
     newPost.likeCount = @(0);
     newPost.dislikeCount = @(0);
     
     newPost.latitude = latitude;
     newPost.longitude = longitude;
     
-    [newPost saveInBackgroundWithBlock: completion];
+    [newPost saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        PFRelation *userPosts = [PFUser.currentUser relationForKey:@"posts"];
+        
+        [userPosts addObject:newPost];
+        
+        [PFUser.currentUser saveInBackgroundWithBlock:completion];
+    }];
 }
 
 @end
