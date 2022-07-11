@@ -44,6 +44,15 @@
     
     self.didZoomOnUser = NO;
     
+    // If we are segueing from Details page, we will have set a post to show.
+    // This checks that, and if so zooms in on the post instead of the user's location
+    if (self.postToShow != nil) {
+        double latitude = self.postToShow.latitude.floatValue;
+        double longitude = self.postToShow.longitude.floatValue;
+        [self setMapToRegionWithLat:latitude WithLong:longitude WithSpan:self.CLOSE_ZOOM];
+        self.didZoomOnUser = YES;
+    }
+    
     self.mapView.delegate = self;
     self.locationManager = [CLLocationManager new];
     self.locationManager.delegate = self;
@@ -154,8 +163,6 @@
         DetailsViewController *detailsVC = [segue destinationViewController];
         MapPin *pin = sender;
         detailsVC.post = pin.post;
-        // TODO: Hide 'i' button that goes to maps on Details VC
-        // TODO: Create Details VC Skeleton
     }
 }
 

@@ -61,8 +61,12 @@
     // Prevent user from sharing more than once if clicking multiple times on share
     self.postButton.userInteractionEnabled = NO;
     
-    // TODO: If no location found, cancel
     // Location will be necessary to show around other users but can be opted if exact or not
+    if (![CLLocationManager locationServicesEnabled] || !self.latitude || !self.longitude) {
+        [self showAlertWithTitle:@"Location Required" message:@"Location services are required in order to share posts."];
+        self.postButton.userInteractionEnabled = YES;
+        return;
+    }
     
     [Post postWithText:self.postTextField.text withLat:self.latitude withLong:self.longitude withCompletion:^(BOOL succeeded, NSError *error) {
         [PFUser.currentUser fetch];
@@ -74,6 +78,18 @@
         }
         self.postButton.userInteractionEnabled = YES;
     }];
+}
+
+- (void) showAlertWithTitle:(NSString *)title message:(NSString *)message {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
+
+    // create an OK action
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    
+    // add the OK action to the alert controller
+    [alert addAction:okAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void) presentHome {

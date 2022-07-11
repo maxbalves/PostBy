@@ -7,10 +7,14 @@
 
 // View Controllers
 #import "DetailsViewController.h"
+#import "MapViewController.h"
 
 // Frameworks
 @import Parse;
 #import "UIImageView+AFNetworking.h"
+
+// Scene Delegate
+#import "SceneDelegate.h"
 
 @interface DetailsViewController ()
 
@@ -50,7 +54,6 @@
         self.deleteButton.hidden = YES;
     }
     
-    
     // Show or hide post location button if has location or not
     if (self.post.latitude && self.post.longitude && !self.post.hideLocation) {
         self.pinLocationButton.hidden = NO;
@@ -59,14 +62,15 @@
     }
 }
 
-/* TODO: Implement navigation to Map's Screen with a specific zoom on the posts location
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)showPostLocation:(id)sender {
+    [self performSegueWithIdentifier:@"DetailsShowMap" sender:self.post];
 }
-*/
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"DetailsShowMap"]) {
+        MapViewController *mapVC = [segue destinationViewController];
+        mapVC.postToShow = sender;
+    }
+}
 
 @end
