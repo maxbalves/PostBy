@@ -33,6 +33,7 @@
 - (void) refreshCell {
     self.usernameLabel.text = self.postVM.post.author.username;
     self.postTextLabel.text = self.postVM.post.postText;
+    self.shortDate.text = self.postVM.postShortDate;
     
     [self.profilePicture setImageWithURL:self.postVM.profilePicUrl];
     

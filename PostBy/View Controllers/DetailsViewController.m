@@ -27,6 +27,7 @@
     
     self.usernameLabel.text = self.postVM.post.author.username;
     self.postTextLabel.text = self.postVM.post.postText;
+    self.postDateLabel.text = self.postVM.postDate;
     
     // Profile Picture
     [self.profilePicture setImageWithURL:self.postVM.profilePicUrl];

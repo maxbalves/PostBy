@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) Post *post;
 @property (strong, nonatomic) NSURL *profilePicUrl;
+@property (strong, nonatomic) NSString *postDate;
 @property (strong, nonatomic) NSString *postShortDate;
 
 @property (nonatomic) double latitude;

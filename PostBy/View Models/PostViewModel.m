@@ -27,17 +27,20 @@
     PFFileObject *profilePicObj = post.author[@"profilePicture"];
     _profilePicUrl = [NSURL URLWithString:profilePicObj.url];
     
-    // Create date for time since post creation
+    // Format and set createdAtString
     NSDateFormatter *formatter = [NSDateFormatter new];
+    
     // Configure the input format to parse the date string
     formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
-    // Convert String to Date
-    NSString *createdAtOriginal = [NSString stringWithFormat:@"%@", post.createdAt];
-    NSDate *date = [formatter dateFromString:createdAtOriginal];
+    
     // Configure output format
     formatter.dateStyle = NSDateFormatterShortStyle;
-    formatter.timeStyle = NSDateFormatterNoStyle;
-    _postShortDate = date.shortTimeAgoSinceNow;
+    formatter.timeStyle = NSDateFormatterShortStyle;
+    
+    _postDate = [formatter stringFromDate:post.createdAt];
+    
+    // Create short date for time since post creation
+    _postShortDate = post.createdAt.shortTimeAgoSinceNow;
     
     // Latitude & Longitude
     _latitude = post.location.latitude;
