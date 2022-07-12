@@ -25,51 +25,72 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.usernameLabel.text = self.post.author.username;
-    self.postTextLabel.text = self.post.postText;
+    self.usernameLabel.text = self.postVM.post.author.username;
+    self.postTextLabel.text = self.postVM.post.postText;
     
     // Profile Picture
-    PFFileObject *profilePictureObj = self.post.author[@"profilePicture"];
-    NSURL *url = [NSURL URLWithString:profilePictureObj.url];
-    [self.profilePicture setImageWithURL:url];
+    [self.profilePicture setImageWithURL:self.postVM.profilePicUrl];
     
-    // Like Button Count
-    NSString *likeCount = [NSString stringWithFormat:@"%@", self.post.likeCount];
-    [self.likeButton setTitle:likeCount forState:UIControlStateNormal];
-    [self.likeButton setTitle:likeCount forState:UIControlStateHighlighted];
-    [self.likeButton setTitle:likeCount forState:UIControlStateSelected];
-    
-    // Dislike Button Count
-    NSString *dislikeCount = [NSString stringWithFormat:@"%@", self.post.dislikeCount];
-    [self.dislikeButton setTitle:dislikeCount forState:UIControlStateNormal];
-    [self.dislikeButton setTitle:dislikeCount forState:UIControlStateHighlighted];
-    [self.dislikeButton setTitle:dislikeCount forState:UIControlStateSelected];
+    [self refreshLikeDislikeUI];
     
     // Show or hide edit/delete button if owner or not
-    if ([self.post.author.username isEqualToString:PFUser.currentUser.username]) {
-        self.editButton.hidden = NO;
-        self.deleteButton.hidden = NO;
-    } else {
-        self.editButton.hidden = YES;
-        self.deleteButton.hidden = YES;
-    }
+    self.editButton.hidden = !self.postVM.isAuthor;
+    self.deleteButton.hidden = !self.postVM.isAuthor;
     
     // Show or hide post location button if has location or not
-    if (self.post.latitude && self.post.longitude && !self.post.hideLocation) {
-        self.pinLocationButton.hidden = NO;
-    } else {
-        self.pinLocationButton.hidden = YES;
-    }
+    self.pinLocationButton.hidden = !self.postVM.showsLocation;
+}
+
+- (void) refreshLikeDislikeUI {
+    // Like
+    [self.likeButton setTitle:self.postVM.likeCountStr forState:UIControlStateNormal];
+    [self.likeButton setTitle:self.postVM.likeCountStr forState:UIControlStateHighlighted];
+    [self.likeButton setTitle:self.postVM.likeCountStr forState:UIControlStateSelected];
+    
+    [self.likeButton setImage:self.postVM.likeButtonImg forState:UIControlStateNormal];
+    [self.likeButton setImage:self.postVM.likeButtonImg forState:UIControlStateSelected];
+    [self.likeButton setImage:self.postVM.likeButtonImg forState:UIControlStateHighlighted];
+    
+    // Dislike
+    [self.dislikeButton setTitle:self.postVM.dislikeCountStr forState:UIControlStateNormal];
+    [self.dislikeButton setTitle:self.postVM.dislikeCountStr forState:UIControlStateHighlighted];
+    [self.dislikeButton setTitle:self.postVM.dislikeCountStr forState:UIControlStateSelected];
+    
+    [self.dislikeButton setImage:self.postVM.dislikeButtonImg forState:UIControlStateNormal];
+    [self.dislikeButton setImage:self.postVM.dislikeButtonImg forState:UIControlStateSelected];
+    [self.dislikeButton setImage:self.postVM.dislikeButtonImg forState:UIControlStateHighlighted];
+}
+
+- (IBAction)likeButtonTap:(id)sender {
+    self.likeButton.userInteractionEnabled = NO;
+    self.dislikeButton.userInteractionEnabled = NO;
+    
+    [self.postVM likeButtonTap];
+    [self refreshLikeDislikeUI];
+    
+    self.likeButton.userInteractionEnabled = YES;
+    self.dislikeButton.userInteractionEnabled = YES;
+}
+
+- (IBAction)dislikeButtonTap:(id)sender {
+    self.likeButton.userInteractionEnabled = NO;
+    self.dislikeButton.userInteractionEnabled = NO;
+    
+    [self.postVM dislikeButtonTap];
+    [self refreshLikeDislikeUI];
+    
+    self.likeButton.userInteractionEnabled = YES;
+    self.dislikeButton.userInteractionEnabled = YES;
 }
 
 - (IBAction)showPostLocation:(id)sender {
-    [self performSegueWithIdentifier:@"DetailsShowMap" sender:self.post];
+    [self performSegueWithIdentifier:@"DetailsShowMap" sender:self.postVM];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"DetailsShowMap"]) {
         MapViewController *mapVC = [segue destinationViewController];
-        mapVC.postToShow = sender;
+        mapVC.postVMtoShow = sender;
     }
 }
 

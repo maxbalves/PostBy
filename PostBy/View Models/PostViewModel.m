@@ -64,7 +64,7 @@
     return self;
 }
 
-- (void) reloadLikeDislikeUI {
+- (void) reloadLikeDislikeData {
     // Likes
     self.likeCountStr = [NSString stringWithFormat:@"%@", self.post.likeCount];
     if (self.isLiked) {
@@ -155,9 +155,10 @@
 }
 
 - (void) saveAndRefresh {
-    [self.post saveInBackground];
-    [PFUser.currentUser saveInBackground];
-    [self reloadLikeDislikeUI];
+    [self.post saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        [PFUser.currentUser saveInBackground];
+    }];
+    [self reloadLikeDislikeData];
 }
 
 + (NSArray *)postVMsWithArray:(NSArray *)posts {

@@ -17,24 +17,22 @@
 @implementation MapPin
 
 - (NSString *)title {
-    return self.post.author.username;
+    return self.postVM.post.author.username;
 }
 
-+ (MapPin *)createPinFromPost:(Post *)post {
++ (MapPin *)createPinFromPostVM:(PostViewModel *)postVM {
     MapPin *pin = [MapPin new];
-    pin.post = post;
+    pin.postVM = postVM;
     
     // BAD! (not async call to get data);
     // TODO: Look into dispatch_async solution!
-    PFFileObject *profilePicObj = [post.author valueForKey:@"profilePicture"];
-    NSURL *imageURL = [NSURL URLWithString:profilePicObj.url];
-    NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+    NSData *imageData = [NSData dataWithContentsOfURL:postVM.profilePicUrl];
     
     // Default every pin's image to be 50 x 50
     CGSize pinImgSize = CGSizeMake(50, 50);
     pin.profilePic = [pin resizeImage:[UIImage imageWithData:imageData] withSize:pinImgSize];
     
-    pin.coordinate = CLLocationCoordinate2DMake(post.latitude.floatValue, post.longitude.floatValue);
+    pin.coordinate = CLLocationCoordinate2DMake(postVM.post.latitude.floatValue, postVM.post.longitude.floatValue);
     
     return pin;
 }

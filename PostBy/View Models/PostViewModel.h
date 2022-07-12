@@ -33,6 +33,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL isLiked;
 @property (nonatomic) BOOL isDisliked;
 
+- (void) likeButtonTap;
+
+- (void) dislikeButtonTap;
+
++ (NSArray *)postVMsWithArray:(NSArray *)posts;
+
 @end
 
 NS_ASSUME_NONNULL_END

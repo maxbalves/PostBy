@@ -9,17 +9,17 @@
 #import <Foundation/Foundation.h>
 @import MapKit;
 
-// Model
-#import "Post.h"
+// View Models
+#import "PostViewModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MapPin : NSObject <MKAnnotation>
 
 @property (strong, nonatomic) UIImage *profilePic;
-@property (strong, nonatomic) Post *post;
+@property (strong, nonatomic) PostViewModel *postVM;
 
-+ (MapPin *)createPinFromPost:(Post *)post;
++ (MapPin *)createPinFromPostVM:(PostViewModel *)postVM;
 
 @end
 

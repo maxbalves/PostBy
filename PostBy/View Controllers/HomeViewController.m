@@ -16,6 +16,9 @@
 // Views
 #import "PostTableViewCell.h"
 
+// View Models
+#import "PostViewModel.h"
+
 // Scene Delegate
 #import "SceneDelegate.h"
 
@@ -24,7 +27,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
-@property (strong, nonatomic) NSArray *postsArray;
+@property (strong, nonatomic) NSArray *postVMsArray;
 @property (nonatomic) int MAX_POSTS_SHOWN;
 
 @end
@@ -46,6 +49,10 @@
     [self refreshPosts];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [self.tableView reloadData];
+}
+
 - (void)refreshPosts {
     [self.refreshControl beginRefreshing];
     
@@ -58,7 +65,7 @@
     // fetch data asynchronously
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
-            self.postsArray = posts;
+            self.postVMsArray = [PostViewModel postVMsWithArray:posts];
             [self.tableView reloadData];
             [self.refreshControl endRefreshing];
         } else {
@@ -79,12 +86,12 @@
 
 - (PostTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PostTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PostTableViewCell" forIndexPath:indexPath];
-    cell.post = self.postsArray[indexPath.row];
+    cell.postVM = self.postVMsArray[indexPath.row];
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.postsArray.count;
+    return self.postVMsArray.count;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -98,7 +105,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"HomeShowDetails"]) {
         DetailsViewController *detailsVC = [segue destinationViewController];
-        detailsVC.post = self.postsArray[[self.tableView indexPathForCell:sender].row];
+        detailsVC.postVM = self.postVMsArray[[self.tableView indexPathForCell:sender].row];
     }
 }
 

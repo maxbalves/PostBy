@@ -22,7 +22,7 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (nonatomic) BOOL didZoomOnUser;
 
-@property (strong, nonatomic) NSArray *postsArray;
+@property (strong, nonatomic) NSArray *postVMsArray;
 @property (nonatomic) int MAX_POSTS_SHOWN;
 
 @property (nonatomic) double CLOSE_ZOOM;
@@ -46,9 +46,9 @@
     
     // If we are segueing from Details page, we will have set a post to show.
     // This checks that, and if so zooms in on the post instead of the user's location
-    if (self.postToShow != nil) {
-        double latitude = self.postToShow.latitude.floatValue;
-        double longitude = self.postToShow.longitude.floatValue;
+    if (self.postVMtoShow != nil) {
+        double latitude = self.postVMtoShow.post.latitude.floatValue;
+        double longitude = self.postVMtoShow.post.longitude.floatValue;
         [self setMapToRegionWithLat:latitude WithLong:longitude WithSpan:self.CLOSE_ZOOM];
         self.didZoomOnUser = YES;
     }
@@ -83,7 +83,7 @@
     // fetch data asynchronously
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
-            self.postsArray = posts;
+            self.postVMsArray = [PostViewModel postVMsWithArray:posts];
             [self addAnnotationsFromPosts];
         } else {
             NSLog(@"%@", error.localizedDescription);
@@ -92,11 +92,11 @@
 }
 
 - (void) addAnnotationsFromPosts {
-    for (Post *post in self.postsArray) {
-        if (!post.latitude || !post.longitude)
+    for (PostViewModel *postVM in self.postVMsArray) {
+        if (!postVM.post.latitude || !postVM.post.longitude || postVM.post.hideLocation)
             continue;
         
-        MapPin *pin = [MapPin createPinFromPost:post];
+        MapPin *pin = [MapPin createPinFromPostVM:postVM];
         
         [self.mapView addAnnotation:pin];
     }
@@ -162,7 +162,7 @@
     if ([segue.identifier isEqualToString:@"MapShowDetails"]) {
         DetailsViewController *detailsVC = [segue destinationViewController];
         MapPin *pin = sender;
-        detailsVC.post = pin.post;
+        detailsVC.postVM = pin.postVM;
     }
 }
 
