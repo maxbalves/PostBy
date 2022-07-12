@@ -6,6 +6,7 @@ target 'PostBy' do
   use_frameworks!
   pod 'Parse'
   pod 'AFNetworking'
+  pod 'DateTools'
 
   # Pods for PostBy
 
