@@ -18,14 +18,10 @@
 // Scene Delegate
 #import "SceneDelegate.h"
 
-@interface ComposeViewController () <CLLocationManagerDelegate>
+@interface ComposeViewController ()
 
 @property (strong, nonatomic) IBOutlet UITextView *postTextField;
 @property (strong, nonatomic) IBOutlet UIButton *postButton;
-
-@property (strong, nonatomic) CLLocationManager *locationManager;
-@property (nonatomic) NSNumber *latitude;
-@property (nonatomic) NSNumber *longitude;
 
 @end
 
@@ -36,16 +32,8 @@
     
     [self setUpUI];
     
-    self.locationManager = [CLLocationManager new];
-    self.locationManager.delegate = self;
-    
-    self.latitude = nil;
-    self.longitude = nil;
-    
-    [self.locationManager requestWhenInUseAuthorization];
-    if ([CLLocationManager locationServicesEnabled]) {
-        [self.locationManager startUpdatingLocation];
-    }
+    // This is only used to ask the user for location access if they haven't given it yet
+    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint * _Nullable geoPoint, NSError * _Nullable error) {}];
 }
 
 - (void)setUpUI {
@@ -61,22 +49,26 @@
     // Prevent user from sharing more than once if clicking multiple times on share
     self.postButton.userInteractionEnabled = NO;
     
-    // Location will be necessary to show around other users but can be opted if exact or not
-    if (![CLLocationManager locationServicesEnabled] || !self.latitude || !self.longitude) {
-        [self showAlertWithTitle:@"Location Required" message:@"Location services are required in order to share posts."];
-        self.postButton.userInteractionEnabled = YES;
-        return;
-    }
-    
-    [Post postWithText:self.postTextField.text withLat:self.latitude withLong:self.longitude withCompletion:^(BOOL succeeded, NSError *error) {
-        [PFUser.currentUser fetch];
-        if (succeeded) {
-            self.postTextField.text = @"";
-            [self presentHome];
-        } else if (error) {
+    // Get user's location with PFGeoPoint
+    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint * _Nullable geoPoint, NSError * _Nullable error) {
+        if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
+            [self showAlertWithTitle:@"Location Error" message:@"Location services are required in order to share posts."];
+            self.postButton.userInteractionEnabled = YES;
+            return;
         }
-        self.postButton.userInteractionEnabled = YES;
+        
+        // On success, create post
+        [Post postWithText:self.postTextField.text withLocation:geoPoint withCompletion:^(BOOL succeeded, NSError *error) {
+            [PFUser.currentUser fetch];
+            if (succeeded) {
+                self.postTextField.text = @"";
+                [self presentHome];
+            } else if (error) {
+                NSLog(@"Error: %@", error.localizedDescription);
+            }
+            self.postButton.userInteractionEnabled = YES;
+        }];
     }];
 }
 
@@ -97,15 +89,6 @@
     UITabBarController *tabBarController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
     SceneDelegate *mySceneDelegate = (SceneDelegate *) UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
     mySceneDelegate.window.rootViewController = tabBarController;
-}
-
-- (void) locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
-    self.latitude = @(manager.location.coordinate.latitude);
-    self.longitude = @(manager.location.coordinate.longitude);
-}
-
-- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    NSLog(@"Error: %@", error.localizedDescription);
 }
 
 // Dismiss keyboard when user taps on the screen

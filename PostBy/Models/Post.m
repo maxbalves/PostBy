@@ -15,9 +15,8 @@
 
 @dynamic author;
 @dynamic postText;
+@dynamic location;
 @dynamic hideLocation;
-@dynamic latitude;
-@dynamic longitude;
 @dynamic likeCount;
 @dynamic dislikeCount;
 
@@ -25,15 +24,14 @@
     return @"Post";
 }
 
-+ (void) postWithText:(NSString *)text withLat:(NSNumber *)latitude withLong:(NSNumber *)longitude withCompletion:(PFBooleanResultBlock)completion {
++ (void) postWithText:(NSString *)text withLocation:(PFGeoPoint *)location withCompletion:(PFBooleanResultBlock)completion {
     Post *newPost = [Post new];
     newPost.author = [PFUser currentUser];
     newPost.postText = text;
     newPost.likeCount = @(0);
     newPost.dislikeCount = @(0);
     
-    newPost.latitude = latitude;
-    newPost.longitude = longitude;
+    newPost.location = location;
     
     // TODO: Implement option to hide or show location
     newPost.hideLocation = NO;

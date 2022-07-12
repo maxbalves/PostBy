@@ -19,6 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSURL *profilePicUrl;
 @property (strong, nonatomic) NSString *postShortDate;
 
+@property (nonatomic) double latitude;
+@property (nonatomic) double longitude;
+
 
 @property (strong, nonatomic) NSString *likeCountStr;
 @property (strong, nonatomic) NSString *dislikeCountStr;

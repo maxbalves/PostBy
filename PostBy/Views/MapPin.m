@@ -32,7 +32,7 @@
     CGSize pinImgSize = CGSizeMake(50, 50);
     pin.profilePic = [pin resizeImage:[UIImage imageWithData:imageData] withSize:pinImgSize];
     
-    pin.coordinate = CLLocationCoordinate2DMake(postVM.post.latitude.floatValue, postVM.post.longitude.floatValue);
+    pin.coordinate = CLLocationCoordinate2DMake(postVM.latitude, postVM.longitude);
     
     return pin;
 }

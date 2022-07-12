@@ -29,6 +29,7 @@
 
 @property (strong, nonatomic) NSArray *postVMsArray;
 @property (nonatomic) int MAX_POSTS_SHOWN;
+@property (nonatomic) int ADDITIONAL_POSTS;
 
 @end
 
@@ -41,6 +42,7 @@
     self.tableView.delegate = self;
     
     self.MAX_POSTS_SHOWN = 10;
+    self.ADDITIONAL_POSTS = 10;
     
     self.refreshControl = [UIRefreshControl new];
     [self.refreshControl addTarget:self action:@selector(refreshPosts) forControlEvents:UIControlEventValueChanged];
@@ -97,6 +99,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Prevents cell from having gray background due to being selected
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+// Infinite scrolling
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row + 1 == self.postVMsArray.count && self.postVMsArray.count == self.MAX_POSTS_SHOWN) {
+        self.MAX_POSTS_SHOWN += self.ADDITIONAL_POSTS;
+        [self refreshPosts];
+    }
 }
 
 #pragma mark - Navigation

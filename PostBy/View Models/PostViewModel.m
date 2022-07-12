@@ -39,9 +39,13 @@
     formatter.timeStyle = NSDateFormatterNoStyle;
     _postShortDate = date.shortTimeAgoSinceNow;
     
+    // Latitude & Longitude
+    _latitude = post.location.latitude;
+    _longitude = post.location.longitude;
+    
     // Edit / Remove / Location buttons
     _isAuthor = [post.author.username isEqualToString:PFUser.currentUser.username];
-    _showsLocation = post.latitude && post.longitude && !post.hideLocation;
+    _showsLocation = post.location && !post.hideLocation;
     
     // Likes
     _likeCountStr = [NSString stringWithFormat:@"%@", post.likeCount];

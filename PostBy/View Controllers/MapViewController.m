@@ -47,8 +47,8 @@
     // If we are segueing from Details page, we will have set a post to show.
     // This checks that, and if so zooms in on the post instead of the user's location
     if (self.postVMtoShow != nil) {
-        double latitude = self.postVMtoShow.post.latitude.floatValue;
-        double longitude = self.postVMtoShow.post.longitude.floatValue;
+        double latitude = self.postVMtoShow.latitude;
+        double longitude = self.postVMtoShow.longitude;
         [self setMapToRegionWithLat:latitude WithLong:longitude WithSpan:self.CLOSE_ZOOM];
         self.didZoomOnUser = YES;
     }
@@ -93,7 +93,7 @@
 
 - (void) addAnnotationsFromPosts {
     for (PostViewModel *postVM in self.postVMsArray) {
-        if (!postVM.post.latitude || !postVM.post.longitude || postVM.post.hideLocation)
+        if (!postVM.post.location || postVM.post.hideLocation)
             continue;
         
         MapPin *pin = [MapPin createPinFromPostVM:postVM];
