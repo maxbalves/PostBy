@@ -17,6 +17,8 @@
 @dynamic postText;
 @dynamic location;
 @dynamic hideLocation;
+@dynamic hideUsername;
+@dynamic hideProfilePic;
 @dynamic likeCount;
 @dynamic dislikeCount;
 
@@ -24,7 +26,7 @@
     return @"Post";
 }
 
-+ (void) postWithText:(NSString *)text withLocation:(PFGeoPoint *)location withCompletion:(PFBooleanResultBlock)completion {
++ (void) postWithText:(NSString *)text withLocation:(PFGeoPoint *)location hideLocation:(BOOL)hideLocation hideUsername:(BOOL)hideUsername hideProfilePic:(BOOL)hideProfilePic  withCompletion:(PFBooleanResultBlock)completion {
     Post *newPost = [Post new];
     newPost.author = [PFUser currentUser];
     newPost.postText = text;
@@ -33,8 +35,10 @@
     
     newPost.location = location;
     
-    // TODO: Implement option to hide or show location
-    newPost.hideLocation = NO;
+    // Privacy Options
+    newPost.hideLocation = hideLocation;
+    newPost.hideUsername = hideUsername;
+    newPost.hideProfilePic = hideProfilePic;
     
     [newPost saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         PFRelation *userPosts = [PFUser.currentUser relationForKey:@"posts"];

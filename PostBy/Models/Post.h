@@ -15,10 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *postText;
 @property (nonatomic, strong) PFGeoPoint *location;
 @property (nonatomic) BOOL hideLocation;
+@property (nonatomic) BOOL hideUsername;
+@property (nonatomic) BOOL hideProfilePic;
 @property (nonatomic, strong) NSNumber *likeCount;
 @property (nonatomic, strong) NSNumber *dislikeCount;
 
-+ (void) postWithText:(NSString *)text withLocation:(PFGeoPoint *)location withCompletion:(PFBooleanResultBlock  _Nullable)completion;
++ (void) postWithText:(NSString *)text withLocation:(PFGeoPoint *)location hideLocation:(BOOL)hideLocation hideUsername:(BOOL)hideUsername hideProfilePic:(BOOL)hideProfilePic withCompletion:(PFBooleanResultBlock  _Nullable)completion;
 
 @end
 

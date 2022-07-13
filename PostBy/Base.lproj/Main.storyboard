@@ -121,7 +121,7 @@
             </objects>
             <point key="canvasLocation" x="831" y="987"/>
         </scene>
-        <!--Home-->
+        <!--Home View Controller-->
         <scene sceneID="T1c-9g-hb7">
             <objects>
                 <viewController id="bue-qi-BuZ" customClass="HomeViewController" sceneMemberID="viewController">
@@ -222,7 +222,8 @@
                             <constraint firstItem="HoK-Oq-Kb9" firstAttribute="trailing" secondItem="iPt-5S-3nP" secondAttribute="trailing" id="xCy-wC-8fI"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Home" id="jK2-P6-19x">
+                    <navigationItem key="navigationItem" id="jK2-P6-19x">
+                        <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" style="plain" id="1Xa-0o-ZxY">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="4Bc-FZ-NHW">
                                 <rect key="frame" x="16" y="5" width="86" height="34.333333333333336"/>
@@ -234,6 +235,17 @@
                                 </connections>
                             </button>
                         </barButtonItem>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="g3u-Jw-XrL">
+                            <rect key="frame" x="121.66666666666669" y="6" width="147" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Newest"/>
+                                <segment title="Trending"/>
+                            </segments>
+                            <connections>
+                                <action selector="sortControlChanged:" destination="bue-qi-BuZ" eventType="valueChanged" id="tVD-5b-PA1"/>
+                            </connections>
+                        </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="0A6-pX-UeN">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="SL7-Ku-H08">
                                 <rect key="frame" x="288" y="5" width="86" height="34.333333333333336"/>
@@ -247,6 +259,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="sortControl" destination="g3u-Jw-XrL" id="CEh-FF-kmd"/>
                         <outlet property="tableView" destination="iPt-5S-3nP" id="3MA-Px-A2k"/>
                     </connections>
                 </viewController>
@@ -406,7 +419,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9dt-nb-xpw">
-                                <rect key="frame" x="157.66666666666666" y="198.66666666666666" width="75" height="45"/>
+                                <rect key="frame" x="157.66666666666666" y="342.66666666666669" width="75" height="45"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="75" id="CPM-G7-2Lx"/>
                                     <constraint firstAttribute="height" constant="45" id="j3e-N3-QRL"/>
@@ -417,15 +430,45 @@
                                     <action selector="sendPost:" destination="bxy-6x-Y9V" eventType="touchUpInside" id="p4X-p2-Rlz"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="me8-0l-VoW" customClass="CheckBox">
+                                <rect key="frame" x="45" y="203.66666666666666" width="134.33333333333334" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="checkmark.circle.fill" catalog="system" title="Hide Location"/>
+                                <connections>
+                                    <action selector="hideLocationTapped:" destination="bxy-6x-Y9V" eventType="touchUpInside" id="rjA-6p-w3J"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q8P-P1-ySH" customClass="CheckBox">
+                                <rect key="frame" x="45" y="281.66666666666669" width="170" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="circle" catalog="system" title="Hide Profile Picture"/>
+                                <connections>
+                                    <action selector="hideProfilePicTapped:" destination="bxy-6x-Y9V" eventType="touchUpInside" id="zHG-jQ-FeV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fft-Ju-lXu" customClass="CheckBox">
+                                <rect key="frame" x="45" y="242.66666666666663" width="145" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="circle" catalog="system" title="Hide Username"/>
+                                <connections>
+                                    <action selector="hideUsernameTapped:" destination="bxy-6x-Y9V" eventType="touchUpInside" id="9DA-61-8rw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Pbc-rL-Ohi"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="9dt-nb-xpw" firstAttribute="top" secondItem="5K2-yF-W1J" secondAttribute="bottom" constant="25" id="2T6-EO-47V"/>
+                            <constraint firstItem="Q8P-P1-ySH" firstAttribute="top" secondItem="Fft-Ju-lXu" secondAttribute="bottom" constant="8" id="2ST-rV-fKo"/>
+                            <constraint firstItem="Q8P-P1-ySH" firstAttribute="leading" secondItem="Fft-Ju-lXu" secondAttribute="leading" id="A4t-wt-Qwo"/>
+                            <constraint firstItem="Fft-Ju-lXu" firstAttribute="top" secondItem="me8-0l-VoW" secondAttribute="bottom" constant="8" id="Ave-wO-O1u"/>
+                            <constraint firstItem="9dt-nb-xpw" firstAttribute="top" secondItem="Q8P-P1-ySH" secondAttribute="bottom" constant="30" id="DHx-qw-kHJ"/>
+                            <constraint firstItem="Fft-Ju-lXu" firstAttribute="leading" secondItem="me8-0l-VoW" secondAttribute="leading" id="S6k-ih-0zQ"/>
                             <constraint firstItem="Pbc-rL-Ohi" firstAttribute="trailing" secondItem="5K2-yF-W1J" secondAttribute="trailing" constant="45" id="T0L-mQ-YTu"/>
                             <constraint firstItem="5K2-yF-W1J" firstAttribute="leading" secondItem="Pbc-rL-Ohi" secondAttribute="leading" constant="45" id="XNU-0Z-D5B"/>
+                            <constraint firstItem="me8-0l-VoW" firstAttribute="leading" secondItem="5K2-yF-W1J" secondAttribute="leading" id="lp4-S7-Egb"/>
                             <constraint firstItem="5K2-yF-W1J" firstAttribute="top" secondItem="Pbc-rL-Ohi" secondAttribute="top" constant="30" id="m1g-lO-e0z"/>
+                            <constraint firstItem="me8-0l-VoW" firstAttribute="top" secondItem="5K2-yF-W1J" secondAttribute="bottom" constant="30" id="wj1-cZ-Fhx"/>
                             <constraint firstItem="9dt-nb-xpw" firstAttribute="centerX" secondItem="Pbc-rL-Ohi" secondAttribute="centerX" id="zYe-Rr-bd8"/>
                         </constraints>
                         <connections>
@@ -434,6 +477,9 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Compose" image="plus" catalog="system" id="9H2-SC-AEH"/>
                     <connections>
+                        <outlet property="hideLocationButton" destination="me8-0l-VoW" id="Nkg-Pf-H0N"/>
+                        <outlet property="hideProfilePicButton" destination="Q8P-P1-ySH" id="e2s-jF-Pi6"/>
+                        <outlet property="hideUsernameButton" destination="Fft-Ju-lXu" id="WXd-s7-GFZ"/>
                         <outlet property="postButton" destination="9dt-nb-xpw" id="FVS-yj-p7x"/>
                         <outlet property="postTextField" destination="5K2-yF-W1J" id="Zub-0w-w49"/>
                     </connections>
@@ -573,6 +619,8 @@
         <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
         <image name="arrow.down.circle" catalog="system" width="128" height="121"/>
         <image name="arrow.up.circle" catalog="system" width="128" height="121"/>
+        <image name="checkmark.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="circle" catalog="system" width="128" height="121"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="house" catalog="system" width="128" height="106"/>
         <image name="map" catalog="system" width="128" height="110"/>

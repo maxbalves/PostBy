@@ -13,6 +13,7 @@
 @import Parse;
 
 // Views
+#import "CheckBox.h"
 #import "Post.h"
 
 // Scene Delegate
@@ -22,6 +23,9 @@
 
 @property (strong, nonatomic) IBOutlet UITextView *postTextField;
 @property (strong, nonatomic) IBOutlet UIButton *postButton;
+@property (strong, nonatomic) IBOutlet CheckBox *hideLocationButton;
+@property (strong, nonatomic) IBOutlet CheckBox *hideUsernameButton;
+@property (strong, nonatomic) IBOutlet CheckBox *hideProfilePicButton;
 
 @end
 
@@ -59,7 +63,7 @@
         }
         
         // On success, create post
-        [Post postWithText:self.postTextField.text withLocation:geoPoint withCompletion:^(BOOL succeeded, NSError *error) {
+        [Post postWithText:self.postTextField.text withLocation:geoPoint hideLocation:self.hideLocationButton.isChecked hideUsername:self.hideUsernameButton.isChecked hideProfilePic:self.hideProfilePicButton.isChecked withCompletion:^(BOOL succeeded, NSError *error) {
             [PFUser.currentUser fetch];
             if (succeeded) {
                 self.postTextField.text = @"";
@@ -94,6 +98,18 @@
 // Dismiss keyboard when user taps on the screen
 - (IBAction)onTap:(id)sender {
     [self.view endEditing:YES];
+}
+
+- (IBAction)hideLocationTapped:(id)sender {
+    [self.hideLocationButton buttonTapped];
+}
+
+- (IBAction)hideUsernameTapped:(id)sender {
+    [self.hideUsernameButton buttonTapped];
+}
+
+- (IBAction)hideProfilePicTapped:(id)sender {
+    [self.hideProfilePicButton buttonTapped];
 }
 
 @end

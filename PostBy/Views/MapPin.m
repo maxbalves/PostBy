@@ -17,20 +17,27 @@
 @implementation MapPin
 
 - (NSString *)title {
-    return self.postVM.post.author.username;
+    return self.postVM.username;
 }
 
 + (MapPin *)createPinFromPostVM:(PostViewModel *)postVM {
     MapPin *pin = [MapPin new];
     pin.postVM = postVM;
     
-    // BAD! (not async call to get data);
-    // TODO: Look into dispatch_async solution!
-    NSData *imageData = [NSData dataWithContentsOfURL:postVM.profilePicUrl];
-    
     // Default every pin's image to be 50 x 50
     CGSize pinImgSize = CGSizeMake(50, 50);
-    pin.profilePic = [pin resizeImage:[UIImage imageWithData:imageData] withSize:pinImgSize];
+    
+    UIImage *img = nil;
+    if (postVM.profilePicUrl != nil) {
+        // BAD! (not async call to get data);
+        // TODO: Look into dispatch_async solution!
+        NSData *imageData = [NSData dataWithContentsOfURL:postVM.profilePicUrl];
+        img = [UIImage imageWithData:imageData];
+    } else {
+        img = [UIImage imageNamed:@"profile_tab.png"];
+    }
+    
+    pin.profilePic = [pin resizeImage:img withSize:pinImgSize];
     
     pin.coordinate = CLLocationCoordinate2DMake(postVM.latitude, postVM.longitude);
     

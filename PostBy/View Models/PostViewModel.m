@@ -24,8 +24,20 @@
     
     _post = post;
     
-    PFFileObject *profilePicObj = post.author[@"profilePicture"];
-    _profilePicUrl = [NSURL URLWithString:profilePicObj.url];
+    if (post.hideProfilePic) {
+        _profilePicUrl = nil;
+    } else {
+        PFFileObject *profilePicObj = post.author[@"profilePicture"];
+        _profilePicUrl = [NSURL URLWithString:profilePicObj.url];
+    }
+    
+    if (post.hideUsername) {
+        _username = @" ";
+    } else {
+        _username = post.author.username;
+    }
+    
+    _postText = post.postText;
     
     // Format and set createdAtString
     NSDateFormatter *formatter = [NSDateFormatter new];
@@ -48,7 +60,7 @@
     
     // Edit / Remove / Location buttons
     _isAuthor = [post.author.username isEqualToString:PFUser.currentUser.username];
-    _showsLocation = post.location && !post.hideLocation;
+    _hideLocation = !post.location || post.hideLocation;
     
     // Likes
     _likeCountStr = [NSString stringWithFormat:@"%@", post.likeCount];

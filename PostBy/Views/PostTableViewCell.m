@@ -31,11 +31,15 @@
 }
 
 - (void) refreshCell {
-    self.usernameLabel.text = self.postVM.post.author.username;
-    self.postTextLabel.text = self.postVM.post.postText;
+    self.usernameLabel.text = self.postVM.username;
+    self.postTextLabel.text = self.postVM.postText;
     self.shortDate.text = self.postVM.postShortDate;
     
-    [self.profilePicture setImageWithURL:self.postVM.profilePicUrl];
+    if (self.postVM.profilePicUrl != nil) {
+        [self.profilePicture setImageWithURL:self.postVM.profilePicUrl];
+    } else {
+        [self.profilePicture setImage:[UIImage imageNamed:@"profile_tab.png"]];
+    }
     
     [self refreshLikeDislikeUI];
 }

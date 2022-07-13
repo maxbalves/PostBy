@@ -17,22 +17,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) Post *post;
 @property (strong, nonatomic) NSURL *profilePicUrl;
+@property (strong, nonatomic) NSString *username;
+@property (strong, nonatomic) NSString *postText;
 @property (strong, nonatomic) NSString *postDate;
 @property (strong, nonatomic) NSString *postShortDate;
 
 @property (nonatomic) double latitude;
 @property (nonatomic) double longitude;
 
-
 @property (strong, nonatomic) NSString *likeCountStr;
 @property (strong, nonatomic) NSString *dislikeCountStr;
-
 
 @property (strong, nonatomic) UIImage *likeButtonImg;
 @property (strong, nonatomic) UIImage *dislikeButtonImg;
 
 @property (nonatomic) BOOL isAuthor;
-@property (nonatomic) BOOL showsLocation;
+@property (nonatomic) BOOL hideLocation;
 
 @property (nonatomic) BOOL isLiked;
 @property (nonatomic) BOOL isDisliked;

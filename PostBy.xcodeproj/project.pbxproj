@@ -28,6 +28,7 @@
 		CD1F4D342874DCFD00D9254F /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1F4D332874DCFD00D9254F /* Post.m */; };
 		CD1F4D372875F29A00D9254F /* PostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1F4D362875F29A00D9254F /* PostTableViewCell.m */; };
 		CD44A43D287DD07300359A48 /* PostViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CD44A43C287DD07300359A48 /* PostViewModel.m */; };
+		CD5195EC287F319400BA8B43 /* CheckBox.m in Sources */ = {isa = PBXBuildFile; fileRef = CD5195EB287F319400BA8B43 /* CheckBox.m */; };
 		CD6800B8287795BC0012EC21 /* MapPin.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6800B7287795BC0012EC21 /* MapPin.m */; };
 		CD9DDB1028760E95006DB10B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD9DDB0F28760E95006DB10B /* MapKit.framework */; };
 		F00C3A111490211407C39844 /* Pods_PostBy_PostByUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B5E1EC5823BDC41143A5B4 /* Pods_PostBy_PostByUITests.framework */; };
@@ -92,6 +93,8 @@
 		CD1F4D362875F29A00D9254F /* PostTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostTableViewCell.m; sourceTree = "<group>"; };
 		CD44A43B287DD07300359A48 /* PostViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostViewModel.h; sourceTree = "<group>"; };
 		CD44A43C287DD07300359A48 /* PostViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostViewModel.m; sourceTree = "<group>"; };
+		CD5195EA287F319400BA8B43 /* CheckBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CheckBox.h; sourceTree = "<group>"; };
+		CD5195EB287F319400BA8B43 /* CheckBox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CheckBox.m; sourceTree = "<group>"; };
 		CD6800B6287795BC0012EC21 /* MapPin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapPin.h; sourceTree = "<group>"; };
 		CD6800B7287795BC0012EC21 /* MapPin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapPin.m; sourceTree = "<group>"; };
 		CD9DDB0F28760E95006DB10B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -221,6 +224,8 @@
 		CD0490CA2874B6BC0072A7A3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CD5195EA287F319400BA8B43 /* CheckBox.h */,
+				CD5195EB287F319400BA8B43 /* CheckBox.m */,
 				CD6800B6287795BC0012EC21 /* MapPin.h */,
 				CD6800B7287795BC0012EC21 /* MapPin.m */,
 				CD1F4D352875F29A00D9254F /* PostTableViewCell.h */,
@@ -503,6 +508,7 @@
 				CD0490CF2874B7490072A7A3 /* LoginViewController.m in Sources */,
 				CD0490942874AC5D0072A7A3 /* AppDelegate.m in Sources */,
 				CD44A43D287DD07300359A48 /* PostViewModel.m in Sources */,
+				CD5195EC287F319400BA8B43 /* CheckBox.m in Sources */,
 				CD0490D22874B7640072A7A3 /* MapViewController.m in Sources */,
 				CD0490DE2874B8010072A7A3 /* SettingsViewController.m in Sources */,
 				CD0490A52874AC5E0072A7A3 /* main.m in Sources */,

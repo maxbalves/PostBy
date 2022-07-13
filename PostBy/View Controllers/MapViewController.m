@@ -93,7 +93,7 @@
 
 - (void) addAnnotationsFromPosts {
     for (PostViewModel *postVM in self.postVMsArray) {
-        if (!postVM.post.location || postVM.post.hideLocation)
+        if (!postVM.post.location || postVM.hideLocation)
             continue;
         
         MapPin *pin = [MapPin createPinFromPostVM:postVM];

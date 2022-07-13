@@ -25,12 +25,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.usernameLabel.text = self.postVM.post.author.username;
-    self.postTextLabel.text = self.postVM.post.postText;
+    self.usernameLabel.text = self.postVM.username;
+    self.postTextLabel.text = self.postVM.postText;
     self.postDateLabel.text = self.postVM.postDate;
     
     // Profile Picture
-    [self.profilePicture setImageWithURL:self.postVM.profilePicUrl];
+    if (self.postVM.profilePicUrl != nil) {
+        [self.profilePicture setImageWithURL:self.postVM.profilePicUrl];
+    } else {
+        [self.profilePicture setImage:[UIImage imageNamed:@"profile_tab.png"]];
+    }
     
     [self refreshLikeDislikeUI];
     
@@ -39,7 +43,7 @@
     self.deleteButton.hidden = !self.postVM.isAuthor;
     
     // Show or hide post location button if has location or not
-    self.pinLocationButton.hidden = !self.postVM.showsLocation;
+    self.pinLocationButton.hidden = self.postVM.hideLocation;
 }
 
 - (void) refreshLikeDislikeUI {
