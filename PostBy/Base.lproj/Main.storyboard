@@ -236,7 +236,7 @@
                             </button>
                         </barButtonItem>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="g3u-Jw-XrL">
-                            <rect key="frame" x="121.66666666666669" y="6" width="147" height="33"/>
+                            <rect key="frame" x="121.66666666666669" y="5.6666666666666679" width="147" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="Newest"/>
