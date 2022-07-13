@@ -166,7 +166,6 @@
         for (PFObject *comment in comments) {
             [comment delete];
         }
-        
         [post delete];
     }
     
@@ -176,7 +175,6 @@
     for (Post *post in likedPosts) {
         // unlike the post
         [self unlikePost:post];
-        
         // remove it from my relation
         [likesRelation removeObject:post];
     }
@@ -188,7 +186,6 @@
     for (Post *post in dislikedPosts) {
         // unlike the post
         [self undislikePost:post];
-        
         // remove it from my relation
         [dislikesRelation removeObject:post];
     }
