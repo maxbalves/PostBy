@@ -63,22 +63,31 @@
     }
     
     self.MAX_POSTS_SHOWN = 10;
-    [self refreshPosts];
+    
+    NSArray *areaRect = [self getViewAreaFromMap];
+    [self refreshPostsInside:areaRect];
 }
 
 - (IBAction)refreshMapTap:(id)sender {
     NSArray *allMapPins = self.mapView.annotations;
     [self.mapView removeAnnotations:allMapPins];
-    [self refreshPosts];
+    
+    NSArray *areaRect = [self getViewAreaFromMap];
+    [self refreshPostsInside:areaRect];
 }
 
-- (void)refreshPosts {
+- (void)refreshPostsInside:(NSArray *)areaRect {
     // construct query
     PFQuery *query = [PFQuery queryWithClassName:@"Post"];
     query.limit = self.MAX_POSTS_SHOWN;
     [query orderByDescending:@"createdAt"];
     [query includeKeys:@[@"author"]];
-
+    
+    PFGeoPoint *bottomLeft = areaRect[0];
+    PFGeoPoint *topRight = areaRect[1];
+    [query whereKey:@"location" withinGeoBoxFromSouthwest:bottomLeft toNortheast:topRight];
+    [query whereKey:@"hideLocation" equalTo:@NO];
+    
     // fetch data asynchronously
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
@@ -90,6 +99,30 @@
     }];
 }
 
+- (NSArray *) getViewAreaFromMap {
+    MKMapRect areaOnScreen = self.mapView.visibleMapRect;
+    MKCoordinateRegion region = MKCoordinateRegionForMapRect(areaOnScreen);
+    
+    double latitude = region.center.latitude;
+    double longitude = region.center.longitude;
+    
+    double latDelta = region.span.latitudeDelta;
+    double longDelta = region.span.longitudeDelta;
+    
+    // Sanity check must be done so that latitude nor longitude
+    // are out of bounds due to innacuracy errors.
+    double bottomLeftLat = [self checkLatitude:(latitude - latDelta)];
+    double bottomLeftLong = [self checkLongitude:(longitude - longDelta)];
+    double topRightLat = [self checkLatitude:(latitude + latDelta)];
+    double topRightLong = [self checkLongitude:(longitude + longDelta)];
+    
+    PFGeoPoint *bottomLeft = [PFGeoPoint geoPointWithLatitude:bottomLeftLat longitude:bottomLeftLong];
+    PFGeoPoint *topRight = [PFGeoPoint geoPointWithLatitude:topRightLat longitude:topRightLong];
+    
+    NSArray *rectangle = @[bottomLeft, topRight];
+    return rectangle;
+}
+
 - (void) addAnnotationsFromPosts {
     for (PostViewModel *postVM in self.postVMsArray) {
         if (!postVM.post.location || postVM.hideLocation)
@@ -99,6 +132,22 @@
         
         [self.mapView addAnnotation:pin];
     }
+}
+
+- (double) checkLatitude:(double)latitude {
+    if (latitude < -90.0)
+        return -90.0;
+    if (latitude > 90.0)
+        return 90.0;
+    return latitude;
+}
+
+- (double) checkLongitude:(double)longitude {
+    if (longitude < -180.0)
+        return -180.0;
+    if (longitude > 180.0)
+        return 180.0;
+    return longitude;
 }
 
 // Change pin/annotation look
