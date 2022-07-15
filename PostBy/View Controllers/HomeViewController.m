@@ -64,7 +64,9 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    self.postVMsArray = @[];
     [self.tableView reloadData];
+    [self refreshPosts];
 }
 
 - (void)refreshPosts {

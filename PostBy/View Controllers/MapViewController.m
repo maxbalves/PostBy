@@ -14,7 +14,6 @@
 
 // Views
 #import "MapPin.h"
-#import "Post.h"
 
 @interface MapViewController () <CLLocationManagerDelegate, MKMapViewDelegate>
 

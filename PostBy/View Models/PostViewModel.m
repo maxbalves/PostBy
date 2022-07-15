@@ -62,23 +62,18 @@
     _isAuthor = [post.author.username isEqualToString:PFUser.currentUser.username];
     _hideLocation = !post.location || post.hideLocation;
     
-    // Likes
+    // Likes - Default
+    _isLiked = NO;
     _likeCountStr = [NSString stringWithFormat:@"%@", post.likeCount];
-    _isLiked = [self checkIfLiked];
-    if (_isLiked) {
-        _likeButtonImg = [UIImage systemImageNamed:@"arrow.up.circle.fill"];
-    } else {
-        _likeButtonImg = [UIImage systemImageNamed:@"arrow.up.circle"];
-    }
+    _likeButtonImg = [UIImage systemImageNamed:@"arrow.up.circle"];
     
-    // Dislikes
+    // Dislikes - Default
+    _isDisliked = NO;
     _dislikeCountStr = [NSString stringWithFormat:@"%@", post.dislikeCount];
-    _isDisliked = [self checkIfDisliked];
-    if (_isDisliked) {
-        _dislikeButtonImg = [UIImage systemImageNamed:@"arrow.down.circle.fill"];
-    } else {
-        _dislikeButtonImg = [UIImage systemImageNamed:@"arrow.down.circle"];
-    }
+    _dislikeButtonImg = [UIImage systemImageNamed:@"arrow.down.circle"];
+    
+    [self checkIfLiked];
+    [self checkIfDisliked];
     
     return self;
 }
@@ -101,22 +96,26 @@
     }
 }
 
-- (BOOL) checkIfLiked {
+- (void) checkIfLiked {
     PFRelation *userLikes = [PFUser.currentUser relationForKey:@"likes"];
     PFQuery *checkIfLiked = [userLikes query];
     [checkIfLiked whereKey:@"objectId" equalTo:self.post.objectId];
-    NSArray *liked = [checkIfLiked findObjects];
-    
-    return liked.count > 0;
+    [checkIfLiked findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        self.isLiked = objects.count > 0;
+        [self reloadLikeDislikeData];
+        [self.delegate didLoadLikeDislikeData];
+    }];
 }
 
-- (BOOL) checkIfDisliked {
+- (void) checkIfDisliked {
     PFRelation *userDislikes = [PFUser.currentUser relationForKey:@"dislikes"];
     PFQuery *checkIfDisliked = [userDislikes query];
     [checkIfDisliked whereKey:@"objectId" equalTo:self.post.objectId];
-    NSArray *disliked = [checkIfDisliked findObjects];
-    
-    return disliked.count > 0;
+    [checkIfDisliked findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        self.isDisliked = objects.count > 0;
+        [self reloadLikeDislikeData];
+        [self.delegate didLoadLikeDislikeData];
+    }];
 }
 
 - (void) likeButtonTap {

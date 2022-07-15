@@ -13,7 +13,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol PostViewModelDelegate <NSObject>
+
+- (void) didLoadLikeDislikeData;
+
+@end
+
 @interface PostViewModel : NSObject
+
+@property (nonatomic, weak) id<PostViewModelDelegate> delegate;
 
 @property (strong, nonatomic) Post *post;
 @property (strong, nonatomic) NSURL *profilePicUrl;

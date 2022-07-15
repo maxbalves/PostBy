@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DetailsViewController : UIViewController
+@interface DetailsViewController : UIViewController <PostViewModelDelegate>
 
 @property (strong, nonatomic) PostViewModel *postVM;
 

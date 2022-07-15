@@ -9,6 +9,9 @@
 #import "DetailsViewController.h"
 #import "MapViewController.h"
 
+// View Model
+#import "PostViewModel.h"
+
 // Frameworks
 @import Parse;
 #import "UIImageView+AFNetworking.h"
@@ -21,6 +24,11 @@
 @end
 
 @implementation DetailsViewController
+
+- (void) setPostVM:(PostViewModel *)postVM {
+    postVM.delegate = self;
+    _postVM = postVM;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -44,6 +52,30 @@
     
     // Show or hide post location button if has location or not
     self.pinLocationButton.hidden = self.postVM.hideLocation;
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [self queryPostWithObjectId:self.postVM.post.objectId];
+}
+
+- (void) queryPostWithObjectId:(NSString *)objectId {
+    // construct query
+    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    [query includeKeys:@[@"author"]];
+    [query whereKey:@"objectId" equalTo:objectId];
+
+    // fetch data asynchronously
+    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
+        if (posts != nil) {
+            self.postVM = [PostViewModel postVMsWithArray:posts][0];
+        } else {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
+}
+
+- (void) didLoadLikeDislikeData {
+    [self refreshLikeDislikeUI];
 }
 
 - (void) refreshLikeDislikeUI {

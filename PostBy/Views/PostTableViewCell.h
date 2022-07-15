@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PostTableViewCell : UITableViewCell
+@interface PostTableViewCell : UITableViewCell <PostViewModelDelegate>
 
 @property (strong, nonatomic) PostViewModel *postVM;
 

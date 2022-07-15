@@ -24,9 +24,16 @@
     [super setSelected:selected animated:animated];
 }
 
+
 - (void) setPostVM:(PostViewModel *)postVM {
+    postVM.delegate = self;
+    
     _postVM = postVM;
     
+    [self refreshCell];
+}
+
+- (void) didLoadLikeDislikeData {
     [self refreshCell];
 }
 
