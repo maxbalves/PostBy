@@ -20,9 +20,11 @@
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (nonatomic) BOOL didZoomOnUser;
+@property (strong, nonatomic) IBOutlet UIButton *numPostsShownButton;
 
 @property (strong, nonatomic) NSArray *postVMsArray;
 @property (nonatomic) int MAX_POSTS_SHOWN;
+@property (nonatomic) int ADDITIONAL_POSTS;
 
 @property (nonatomic) double CLOSE_ZOOM;
 @property (nonatomic) double MEDIUM_ZOOM;
@@ -63,9 +65,28 @@
     }
     
     self.MAX_POSTS_SHOWN = 10;
+    self.ADDITIONAL_POSTS = 5;
     
     NSArray *areaRect = [self getViewAreaFromMap];
     [self refreshPostsInside:areaRect];
+}
+
+- (IBAction)increaseMaxPostsTap:(id)sender {
+    self.MAX_POSTS_SHOWN += self.ADDITIONAL_POSTS;
+    [self updateNumPostsShownButton];
+}
+
+- (IBAction)decreaseMaxPostsTap:(id)sender {
+    self.MAX_POSTS_SHOWN -= self.ADDITIONAL_POSTS;
+    if (self.MAX_POSTS_SHOWN < 0)
+        self.MAX_POSTS_SHOWN = 0;
+    [self updateNumPostsShownButton];
+}
+
+- (void) updateNumPostsShownButton {
+    NSString *title = [NSString stringWithFormat:@"%lu/%d", self.postVMsArray.count, self.MAX_POSTS_SHOWN];
+    [self.numPostsShownButton setTitle:title forState:UIControlStateNormal];
+    [self.numPostsShownButton sizeToFit];
 }
 
 - (IBAction)userLocationButtonTap:(id)sender {
@@ -99,6 +120,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
             self.postVMsArray = [PostViewModel postVMsWithArray:posts];
+            [self updateNumPostsShownButton];
             [self addAnnotationsFromPosts];
         } else {
             NSLog(@"%@", error.localizedDescription);

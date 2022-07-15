@@ -87,30 +87,72 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="OzO-tV-b1y">
-                                <rect key="frame" x="0.0" y="44" width="390" height="766"/>
+                                <rect key="frame" x="0.0" y="88" width="390" height="673"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JRi-3S-KaK">
-                                <rect key="frame" x="335" y="59" width="40" height="40"/>
+                                <rect key="frame" x="305" y="676" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="5Hn-Pw-9Ap"/>
                                     <constraint firstAttribute="width" constant="40" id="D7v-mk-Wbf"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" image="location.fill" catalog="system" title=""/>
+                                <buttonConfiguration key="configuration" style="filled" image="arrow.clockwise" catalog="system" title=""/>
                                 <connections>
-                                    <action selector="userLocationButtonTap:" destination="2Fp-KD-VT7" eventType="touchUpInside" id="G3v-uj-axv"/>
+                                    <action selector="refreshMapTap:" destination="2Fp-KD-VT7" eventType="touchUpInside" id="aJh-jZ-prF"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uWe-o8-CPc">
+                                <rect key="frame" x="250" y="676" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="IoM-q5-eXH"/>
+                                    <constraint firstAttribute="height" constant="40" id="qKd-sE-O3h"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" image="minus" catalog="system" title=""/>
+                                <connections>
+                                    <action selector="decreaseMaxPostsTap:" destination="2Fp-KD-VT7" eventType="touchUpInside" id="jvJ-I6-TpP"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZNh-TQ-NJz">
+                                <rect key="frame" x="196" y="676" width="46" height="40"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" button="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="BxT-Rb-dbC"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="45" id="XnN-JD-lRA"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="0/0"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PN6-Vx-zXa">
+                                <rect key="frame" x="148" y="676" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="8G2-x2-x9X"/>
+                                    <constraint firstAttribute="height" constant="40" id="Nr1-1V-K7S"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" image="plus" catalog="system" title=""/>
+                                <connections>
+                                    <action selector="increaseMaxPostsTap:" destination="2Fp-KD-VT7" eventType="touchUpInside" id="reX-zS-EJk"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PMd-uM-QOt"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="PMd-uM-QOt" firstAttribute="trailing" secondItem="JRi-3S-KaK" secondAttribute="trailing" constant="45" id="4S2-GV-Tw6"/>
+                            <constraint firstItem="uWe-o8-CPc" firstAttribute="leading" secondItem="ZNh-TQ-NJz" secondAttribute="trailing" constant="8" id="4fV-rZ-uIA"/>
                             <constraint firstItem="OzO-tV-b1y" firstAttribute="leading" secondItem="PMd-uM-QOt" secondAttribute="leading" id="53d-xu-pvL"/>
+                            <constraint firstItem="ZNh-TQ-NJz" firstAttribute="centerY" secondItem="PN6-Vx-zXa" secondAttribute="centerY" id="69i-s1-dxF"/>
+                            <constraint firstItem="JRi-3S-KaK" firstAttribute="centerY" secondItem="uWe-o8-CPc" secondAttribute="centerY" id="7Ef-eM-Xqk"/>
                             <constraint firstItem="PMd-uM-QOt" firstAttribute="trailing" secondItem="OzO-tV-b1y" secondAttribute="trailing" id="7bX-dC-2Bn"/>
                             <constraint firstItem="OzO-tV-b1y" firstAttribute="top" secondItem="PMd-uM-QOt" secondAttribute="top" id="F1e-aU-BWj"/>
+                            <constraint firstItem="uWe-o8-CPc" firstAttribute="centerY" secondItem="ZNh-TQ-NJz" secondAttribute="centerY" id="FCK-u6-BPt"/>
                             <constraint firstItem="PMd-uM-QOt" firstAttribute="bottom" secondItem="OzO-tV-b1y" secondAttribute="bottom" id="FPv-yA-CHj"/>
-                            <constraint firstItem="JRi-3S-KaK" firstAttribute="top" secondItem="PMd-uM-QOt" secondAttribute="top" constant="15" id="xs0-xu-ynH"/>
-                            <constraint firstItem="PMd-uM-QOt" firstAttribute="trailing" secondItem="JRi-3S-KaK" secondAttribute="trailing" constant="15" id="z6T-RT-qYm"/>
+                            <constraint firstItem="JRi-3S-KaK" firstAttribute="leading" secondItem="uWe-o8-CPc" secondAttribute="trailing" constant="15" id="Mdq-Q1-jne"/>
+                            <constraint firstItem="ZNh-TQ-NJz" firstAttribute="leading" secondItem="PN6-Vx-zXa" secondAttribute="trailing" constant="8" symbolic="YES" id="xiJ-FD-2YX"/>
+                            <constraint firstItem="PMd-uM-QOt" firstAttribute="bottom" secondItem="JRi-3S-KaK" secondAttribute="bottom" constant="45" id="zlw-Kd-WMf"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Map" id="dyK-p9-4SC">
@@ -119,15 +161,16 @@
                                 <rect key="frame" x="288" y="5" width="86" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="arrow.clockwise" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="plain" image="location.square" catalog="system"/>
                                 <connections>
-                                    <action selector="refreshMapTap:" destination="2Fp-KD-VT7" eventType="touchUpInside" id="YZv-sw-aoQ"/>
+                                    <action selector="userLocationButtonTap:" destination="2Fp-KD-VT7" eventType="touchUpInside" id="OYn-Iz-bUP"/>
                                 </connections>
                             </button>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="OzO-tV-b1y" id="RY5-Xm-TfW"/>
+                        <outlet property="numPostsShownButton" destination="ZNh-TQ-NJz" id="JI5-ar-SQK"/>
                         <segue destination="huZ-5l-SlD" kind="show" identifier="MapShowDetails" id="fc8-9e-t6P"/>
                     </connections>
                 </viewController>
@@ -290,26 +333,26 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="x88-ia-L85">
-                                <rect key="frame" x="15" y="75" width="90" height="90"/>
+                                <rect key="frame" x="15" y="119" width="90" height="90"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="90" id="jhq-zT-cWe"/>
                                     <constraint firstAttribute="height" constant="90" id="xlI-3Y-Wi0"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BuS-7T-BJ8">
-                                <rect key="frame" x="113" y="75" width="247" height="20.333333333333329"/>
+                                <rect key="frame" x="113" y="118.99999999999999" width="247" height="20.333333333333329"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XLU-7k-8LH">
-                                <rect key="frame" x="113" y="103.33333333333333" width="262" height="19.333333333333329"/>
+                                <rect key="frame" x="113" y="147.33333333333334" width="262" height="19.333333333333343"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RTc-0P-wfx">
-                                <rect key="frame" x="113" y="161.66666666666666" width="98" height="31"/>
+                                <rect key="frame" x="113" y="205.66666666666666" width="98" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="arrow.up.circle" catalog="system" title="999999"/>
                                 <connections>
@@ -317,7 +360,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YF2-51-Tig">
-                                <rect key="frame" x="211" y="161.66666666666666" width="98" height="31"/>
+                                <rect key="frame" x="211" y="205.66666666666666" width="98" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="arrow.down.circle" catalog="system" title="999999"/>
                                 <connections>
@@ -325,7 +368,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iOM-4V-Jxw">
-                                <rect key="frame" x="309" y="44" width="66" height="31"/>
+                                <rect key="frame" x="309" y="88" width="66" height="31"/>
                                 <color key="tintColor" systemColor="systemPinkColor"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Delete">
@@ -333,12 +376,12 @@
                                 </buttonConfiguration>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcv-5a-kmW">
-                                <rect key="frame" x="230" y="44" width="49" height="31"/>
+                                <rect key="frame" x="230" y="88" width="49" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Edit"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lms-04-2L7">
-                                <rect key="frame" x="15" y="44" width="46" height="31"/>
+                                <rect key="frame" x="15" y="88" width="46" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="mappin.circle" catalog="system" title=""/>
                                 <connections>
@@ -346,7 +389,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZEr-wS-nmu">
-                                <rect key="frame" x="113" y="130.66666666666666" width="262" height="16"/>
+                                <rect key="frame" x="113" y="174.66666666666666" width="262" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -627,7 +670,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="fc8-9e-t6P"/>
-        <segue reference="f4A-cQ-P1m"/>
+        <segue reference="fiN-uM-lEw"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
@@ -637,9 +680,10 @@
         <image name="circle" catalog="system" width="128" height="121"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="house" catalog="system" width="128" height="106"/>
-        <image name="location.fill" catalog="system" width="128" height="121"/>
+        <image name="location.square" catalog="system" width="128" height="114"/>
         <image name="map" catalog="system" width="128" height="110"/>
         <image name="mappin.circle" catalog="system" width="128" height="121"/>
+        <image name="minus" catalog="system" width="128" height="24"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <image name="rectangle.portrait.and.arrow.right" catalog="system" width="128" height="108"/>
         <systemColor name="labelColor">
