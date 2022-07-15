@@ -71,8 +71,10 @@
 
     // create Camera action
     UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"Camera" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentViewController:imagePickerVC animated:YES completion:nil];
+        if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+            imagePickerVC.sourceType = UIImagePickerControllerSourceTypeCamera;
+            [self presentViewController:imagePickerVC animated:YES completion:nil];
+        }
     }];
     // add the Camera action to the alert controller
     [alert addAction:cameraAction];
@@ -174,22 +176,18 @@
     NSArray *likedPosts = [[likesRelation query] findObjects];
     for (Post *post in likedPosts) {
         // unlike the post
-        [self unlikePost:post];
-        // remove it from my relation
-        [likesRelation removeObject:post];
+        post.likeCount = @(post.likeCount.intValue - 1);
+        [post save];
     }
-    [PFUser.currentUser save];
     
     // delete dislikes
     PFRelation *dislikesRelation = [PFUser.currentUser relationForKey:@"dislikes"];
     NSArray *dislikedPosts = [[dislikesRelation query] findObjects];
     for (Post *post in dislikedPosts) {
         // unlike the post
-        [self undislikePost:post];
-        // remove it from my relation
-        [dislikesRelation removeObject:post];
+        post.dislikeCount = @(post.dislikeCount.intValue - 1);
+        [post save];
     }
-    [PFUser.currentUser save];
     
     // delete comments
     PFRelation *commentsRelation = [PFUser.currentUser relationForKey:@"comments"];
@@ -203,20 +201,6 @@
     
     // log out
     [self logoutUser];
-}
-
-- (void) unlikePost:(Post *) post {
-    PFRelation *postLikes = [post relationForKey:@"likes"];
-    [postLikes removeObject:PFUser.currentUser];
-    post.likeCount = @(post.likeCount.intValue - 1);
-    [post save];
-}
-
-- (void) undislikePost:(Post *) post {
-    PFRelation *postDislikes = [post relationForKey:@"dislikes"];
-    [postDislikes removeObject:PFUser.currentUser];
-    post.dislikeCount = @(post.dislikeCount.intValue - 1);
-    [post save];
 }
 
 - (void) logoutUser {

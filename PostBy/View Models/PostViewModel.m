@@ -179,6 +179,17 @@
     [self reloadLikeDislikeData];
 }
 
+- (void) deletePost {
+    // Delete comments
+    PFRelation *commentsRelation = [self.post relationForKey:@"comments"];
+    NSArray *comments = [[commentsRelation query] findObjects];
+    for (PFObject *comment in comments) {
+        [comment delete];
+    }
+    
+    [self.post delete];
+}
+
 + (NSArray *)postVMsWithArray:(NSArray *)posts {
     NSMutableArray *postVMsArray = [NSMutableArray new];
     for (Post *post in posts) {

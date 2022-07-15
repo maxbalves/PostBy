@@ -49,6 +49,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) dislikeButtonTap;
 
+- (void) deletePost;
+
 + (NSArray *)postVMsWithArray:(NSArray *)posts;
 
 @end

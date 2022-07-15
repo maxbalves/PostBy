@@ -120,6 +120,42 @@
     self.dislikeButton.userInteractionEnabled = YES;
 }
 
+- (IBAction)deleteButtonTap:(id)sender {
+    NSString *title = @"Post Deletion";
+    NSString *message = @"Are you sure you want to delete this post?";
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
+
+    // create an Confirm action
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {[self deletePost];}];
+    // add the Confirm action to the alert controller
+    [alert addAction:confirmAction];
+    
+    // create & add an Cancel action
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:nil];
+    [alert addAction:cancelAction];
+
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)deletePost {
+    [self setButtonsUserInteractionTo:NO];
+    [self.postVM deletePost];
+    [self setButtonsUserInteractionTo:YES];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void) setButtonsUserInteractionTo:(BOOL)value {
+    self.likeButton.userInteractionEnabled = value;
+    self.dislikeButton.userInteractionEnabled = value;
+    self.deleteButton.userInteractionEnabled = value;
+    self.editButton.userInteractionEnabled = value;
+}
+
+- (IBAction)editPost:(id)sender {
+    // TODO: Implement EDIT feature
+}
+
+
 - (IBAction)showPostLocation:(id)sender {
     [self performSegueWithIdentifier:@"DetailsShowMap" sender:self.postVM];
 }
