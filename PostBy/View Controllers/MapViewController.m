@@ -68,6 +68,13 @@
     [self refreshPostsInside:areaRect];
 }
 
+- (IBAction)userLocationButtonTap:(id)sender {
+    // Zoom in on user's location again
+    double latitude = self.locationManager.location.coordinate.latitude;
+    double longitude = self.locationManager.location.coordinate.longitude;
+    [self setMapToRegionWithLat:latitude WithLong:longitude WithSpan:self.CLOSE_ZOOM];
+}
+
 - (IBAction)refreshMapTap:(id)sender {
     NSArray *allMapPins = self.mapView.annotations;
     [self.mapView removeAnnotations:allMapPins];
@@ -99,6 +106,17 @@
     }];
 }
 
+- (void) addAnnotationsFromPosts {
+    for (PostViewModel *postVM in self.postVMsArray) {
+        if (!postVM.post.location || postVM.hideLocation)
+            continue;
+        
+        MapPin *pin = [MapPin createPinFromPostVM:postVM];
+        
+        [self.mapView addAnnotation:pin];
+    }
+}
+
 - (NSArray *) getViewAreaFromMap {
     MKMapRect areaOnScreen = self.mapView.visibleMapRect;
     MKCoordinateRegion region = MKCoordinateRegionForMapRect(areaOnScreen);
@@ -121,17 +139,6 @@
     
     NSArray *rectangle = @[bottomLeft, topRight];
     return rectangle;
-}
-
-- (void) addAnnotationsFromPosts {
-    for (PostViewModel *postVM in self.postVMsArray) {
-        if (!postVM.post.location || postVM.hideLocation)
-            continue;
-        
-        MapPin *pin = [MapPin createPinFromPostVM:postVM];
-        
-        [self.mapView addAnnotation:pin];
-    }
 }
 
 - (double) checkLatitude:(double)latitude {
