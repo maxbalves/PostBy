@@ -168,7 +168,6 @@
     // Sanity check must be done so that latitude nor longitude
     // are out of bounds due to innacuracy errors.
     double bottomLeftLat = [self checkLatitude:(latitude - latDelta)];
-    NSLog(@"bottom left latitude %f", bottomLeftLat);
     double bottomLeftLong = [self checkLongitude:(longitude - longDelta)];
     double topRightLat = [self checkLatitude:(latitude + latDelta)];
     double topRightLong = [self checkLongitude:(longitude + longDelta)];

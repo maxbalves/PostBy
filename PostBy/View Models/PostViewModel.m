@@ -22,22 +22,41 @@
     if (!self)
         return nil; // failure
     
-    _post = post;
+    self.post = post;
     
+    [self setPropertiesFromPost:post];
+    
+    // Likes - Default
+    self.isLiked = NO;
+    self.likeCountStr = [NSString stringWithFormat:@"%@", post.likeCount];
+    self.likeButtonImg = [UIImage systemImageNamed:@"arrow.up.circle"];
+    
+    // Dislikes - Default
+    self.isDisliked = NO;
+    self.dislikeCountStr = [NSString stringWithFormat:@"%@", post.dislikeCount];
+    self.dislikeButtonImg = [UIImage systemImageNamed:@"arrow.down.circle"];
+    
+    [self checkIfLiked];
+    [self checkIfDisliked];
+    
+    return self;
+}
+
+- (void) setPropertiesFromPost:(Post *)post {
     if (post.hideProfilePic) {
-        _profilePicUrl = nil;
+        self.profilePicUrl = nil;
     } else {
         PFFileObject *profilePicObj = post.author[@"profilePicture"];
-        _profilePicUrl = [NSURL URLWithString:profilePicObj.url];
+        self.profilePicUrl = [NSURL URLWithString:profilePicObj.url];
     }
     
     if (post.hideUsername) {
-        _username = @" ";
+        self.username = @" ";
     } else {
-        _username = post.author.username;
+        self.username = post.author.username;
     }
     
-    _postText = post.postText;
+    self.postText = post.postText;
     
     // Format and set createdAtString
     NSDateFormatter *formatter = [NSDateFormatter new];
@@ -49,33 +68,20 @@
     formatter.dateStyle = NSDateFormatterShortStyle;
     formatter.timeStyle = NSDateFormatterShortStyle;
     
-    _postDate = [formatter stringFromDate:post.createdAt];
+    self.postDate = [formatter stringFromDate:post.createdAt];
     
     // Create short date for time since post creation
-    _postShortDate = post.createdAt.shortTimeAgoSinceNow;
+    self.postShortDate = post.createdAt.shortTimeAgoSinceNow;
     
     // Latitude & Longitude
-    _latitude = post.location.latitude;
-    _longitude = post.location.longitude;
+    self.latitude = post.location.latitude;
+    self.longitude = post.location.longitude;
     
     // Edit / Remove / Location buttons
-    _isAuthor = [post.author.username isEqualToString:PFUser.currentUser.username];
-    _hideLocation = !post.location || post.hideLocation;
-    
-    // Likes - Default
-    _isLiked = NO;
-    _likeCountStr = [NSString stringWithFormat:@"%@", post.likeCount];
-    _likeButtonImg = [UIImage systemImageNamed:@"arrow.up.circle"];
-    
-    // Dislikes - Default
-    _isDisliked = NO;
-    _dislikeCountStr = [NSString stringWithFormat:@"%@", post.dislikeCount];
-    _dislikeButtonImg = [UIImage systemImageNamed:@"arrow.down.circle"];
-    
-    [self checkIfLiked];
-    [self checkIfDisliked];
-    
-    return self;
+    self.isAuthor = [post.author.username isEqualToString:PFUser.currentUser.username];
+    self.hideLocation = !post.location || post.hideLocation;
+    self.hideUsername = post.hideUsername;
+    self.hideProfilePic = post.hideProfilePic;
 }
 
 - (void) reloadLikeDislikeData {
@@ -188,6 +194,31 @@
     }
     
     [self.post delete];
+}
+
+- (void) updateWithText:(NSString *)newPostText hideLocation:(BOOL)hideLocation hideUsername:(BOOL)hideUsername hideProfilePic:(BOOL)hideProfilePic {
+    NSString *oldPostText = self.post.postText;
+    BOOL oldHideLocation = self.post.hideLocation;
+    BOOL oldHideUsername = self.post.hideUsername;
+    BOOL oldHideProfilePic = self.post.hideProfilePic;
+    
+    self.post.postText = newPostText;
+    self.post.hideLocation = hideLocation;
+    self.post.hideUsername = hideUsername;
+    self.post.hideProfilePic = hideProfilePic;
+    
+    NSError *__autoreleasing  _Nullable * _Nullable error = nil;
+    [self.post save:error];
+    
+    if (error) {
+        self.post.postText = oldPostText;
+        self.post.hideLocation = oldHideLocation;
+        self.post.hideUsername = oldHideUsername;
+        self.post.hideProfilePic = oldHideProfilePic;
+    } else {
+        [self setPropertiesFromPost:self.post];
+        [self reloadLikeDislikeData];
+    }
 }
 
 + (NSArray *)postVMsWithArray:(NSArray *)posts {

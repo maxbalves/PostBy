@@ -9,6 +9,7 @@
 #import "GlobalVars.h"
 
 // View Controllers
+#import "ComposeViewController.h"
 #import "DetailsViewController.h"
 #import "MapViewController.h"
 
@@ -36,6 +37,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setUpUI];
+}
+
+- (void) setUpUI {
     self.usernameLabel.text = self.postVM.username;
     self.postTextLabel.text = self.postVM.postText;
     self.postDateLabel.text = self.postVM.postDate;
@@ -79,6 +84,10 @@
 
 - (void) didLoadLikeDislikeData {
     [self refreshLikeDislikeUI];
+}
+
+- (void) didUpdatePost {
+    [self setUpUI];
 }
 
 - (void) refreshLikeDislikeUI {
@@ -155,9 +164,8 @@
 }
 
 - (IBAction)editPost:(id)sender {
-    // TODO: Implement EDIT feature
+    [self performSegueWithIdentifier:@"EditPostSegue" sender:self.postVM];
 }
-
 
 - (IBAction)showPostLocation:(id)sender {
     [self performSegueWithIdentifier:@"DetailsShowMap" sender:self.postVM];
@@ -167,6 +175,9 @@
     if ([segue.identifier isEqualToString:@"DetailsShowMap"]) {
         MapViewController *mapVC = [segue destinationViewController];
         mapVC.postVMtoShow = sender;
+    } else if ([segue.identifier isEqualToString:@"EditPostSegue"]) {
+        ComposeViewController *composeVC = [segue destinationViewController];
+        composeVC.postVMToUpdate = sender;
     }
 }
 

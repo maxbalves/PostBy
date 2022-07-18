@@ -40,6 +40,10 @@
     [self refreshCell];
 }
 
+- (void) didUpdatePost {
+    [self refreshCell];
+}
+
 - (void) refreshCell {
     self.usernameLabel.text = self.postVM.username;
     self.postTextLabel.text = self.postVM.postText;
