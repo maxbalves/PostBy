@@ -23,11 +23,18 @@
 @property (strong, nonatomic) IBOutlet UIButton *numPostsShownButton;
 
 @property (strong, nonatomic) NSArray *postVMsArray;
+@property (nonatomic) int POSTS_SHOWN_LIMIT;
 @property (nonatomic) int MAX_POSTS_SHOWN;
 @property (nonatomic) int ADDITIONAL_POSTS;
 
 @property (nonatomic) double CLOSE_ZOOM;
 @property (nonatomic) double MEDIUM_ZOOM;
+
+@property (nonatomic) double LATITUDE_MAX;
+@property (nonatomic) double LATITUDE_MIN;
+
+@property (nonatomic) double LONGITUDE_MAX;
+@property (nonatomic) double LONGITUDE_MIN;
 
 @end
 
@@ -35,6 +42,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Latitude & longitude boundaries
+    self.LATITUDE_MAX = 90.0;
+    self.LATITUDE_MIN = -90.0;
+    self.LONGITUDE_MAX = 180.0;
+    self.LONGITUDE_MIN = -180.0;
     
     // Set span values to use (smaller value == closer zoom)
     self.CLOSE_ZOOM = 0.01;
@@ -64,6 +77,7 @@
         self.mapView.showsUserLocation = YES;
     }
     
+    self.POSTS_SHOWN_LIMIT = 100;
     self.MAX_POSTS_SHOWN = 10;
     self.ADDITIONAL_POSTS = 5;
     
@@ -73,6 +87,8 @@
 
 - (IBAction)increaseMaxPostsTap:(id)sender {
     self.MAX_POSTS_SHOWN += self.ADDITIONAL_POSTS;
+    if (self.MAX_POSTS_SHOWN > self.POSTS_SHOWN_LIMIT)
+        self.MAX_POSTS_SHOWN = self.POSTS_SHOWN_LIMIT;
     [self updateNumPostsShownButton];
 }
 
@@ -164,18 +180,18 @@
 }
 
 - (double) checkLatitude:(double)latitude {
-    if (latitude < -90.0)
-        return -90.0;
-    if (latitude > 90.0)
-        return 90.0;
+    if (latitude < self.LATITUDE_MIN)
+        return self.LATITUDE_MIN;
+    if (latitude > self.LATITUDE_MAX)
+        return self.LATITUDE_MAX;
     return latitude;
 }
 
 - (double) checkLongitude:(double)longitude {
-    if (longitude < -180.0)
-        return -180.0;
-    if (longitude > 180.0)
-        return 180.0;
+    if (longitude < self.LONGITUDE_MIN)
+        return self.LONGITUDE_MIN;
+    if (longitude > self.LONGITUDE_MAX)
+        return self.LONGITUDE_MAX;
     return longitude;
 }
 

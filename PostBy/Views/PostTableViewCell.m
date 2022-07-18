@@ -5,6 +5,9 @@
 //  Created by Max Bagatini Alves on 7/6/22.
 //
 
+// Global Variables
+#import "GlobalVars.h"
+
 // Views
 #import "PostTableViewCell.h"
 
@@ -37,6 +40,10 @@
     [self refreshCell];
 }
 
+- (void) didUpdatePost {
+    [self refreshCell];
+}
+
 - (void) refreshCell {
     self.usernameLabel.text = self.postVM.username;
     self.postTextLabel.text = self.postVM.postText;
@@ -45,7 +52,7 @@
     if (self.postVM.profilePicUrl != nil) {
         [self.profilePicture setImageWithURL:self.postVM.profilePicUrl];
     } else {
-        [self.profilePicture setImage:[UIImage imageNamed:@"profile_tab.png"]];
+        [self.profilePicture setImage:[UIImage imageNamed:DEFAULT_PROFILE_PIC]];
     }
     
     [self refreshLikeDislikeUI];

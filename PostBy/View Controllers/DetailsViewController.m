@@ -5,7 +5,11 @@
 //  Created by Max Bagatini Alves on 7/5/22.
 //
 
+// Global Variables
+#import "GlobalVars.h"
+
 // View Controllers
+#import "ComposeViewController.h"
 #import "DetailsViewController.h"
 #import "MapViewController.h"
 
@@ -33,6 +37,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setUpUI];
+}
+
+- (void) setUpUI {
     self.usernameLabel.text = self.postVM.username;
     self.postTextLabel.text = self.postVM.postText;
     self.postDateLabel.text = self.postVM.postDate;
@@ -41,7 +49,7 @@
     if (self.postVM.profilePicUrl != nil) {
         [self.profilePicture setImageWithURL:self.postVM.profilePicUrl];
     } else {
-        [self.profilePicture setImage:[UIImage imageNamed:@"profile_tab.png"]];
+        [self.profilePicture setImage:[UIImage imageNamed:DEFAULT_PROFILE_PIC]];
     }
     
     [self refreshLikeDislikeUI];
@@ -76,6 +84,10 @@
 
 - (void) didLoadLikeDislikeData {
     [self refreshLikeDislikeUI];
+}
+
+- (void) didUpdatePost {
+    [self setUpUI];
 }
 
 - (void) refreshLikeDislikeUI {
@@ -152,9 +164,8 @@
 }
 
 - (IBAction)editPost:(id)sender {
-    // TODO: Implement EDIT feature
+    [self performSegueWithIdentifier:@"EditPostSegue" sender:self.postVM];
 }
-
 
 - (IBAction)showPostLocation:(id)sender {
     [self performSegueWithIdentifier:@"DetailsShowMap" sender:self.postVM];
@@ -164,6 +175,9 @@
     if ([segue.identifier isEqualToString:@"DetailsShowMap"]) {
         MapViewController *mapVC = [segue destinationViewController];
         mapVC.postVMtoShow = sender;
+    } else if ([segue.identifier isEqualToString:@"EditPostSegue"]) {
+        ComposeViewController *composeVC = [segue destinationViewController];
+        composeVC.postVMToUpdate = sender;
     }
 }
 
