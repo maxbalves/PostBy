@@ -29,12 +29,24 @@
 @property (nonatomic) double CLOSE_ZOOM;
 @property (nonatomic) double MEDIUM_ZOOM;
 
+@property (nonatomic) double LATITUDE_MAX;
+@property (nonatomic) double LATITUDE_MIN;
+
+@property (nonatomic) double LONGITUDE_MAX;
+@property (nonatomic) double LONGITUDE_MIN;
+
 @end
 
 @implementation MapViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Latitude & longitude boundaries
+    self.LATITUDE_MAX = 90.0;
+    self.LATITUDE_MIN = -90.0;
+    self.LONGITUDE_MAX = 180.0;
+    self.LONGITUDE_MIN = -180.0;
     
     // Set span values to use (smaller value == closer zoom)
     self.CLOSE_ZOOM = 0.01;
@@ -152,6 +164,7 @@
     // Sanity check must be done so that latitude nor longitude
     // are out of bounds due to innacuracy errors.
     double bottomLeftLat = [self checkLatitude:(latitude - latDelta)];
+    NSLog(@"bottom left latitude %f", bottomLeftLat);
     double bottomLeftLong = [self checkLongitude:(longitude - longDelta)];
     double topRightLat = [self checkLatitude:(latitude + latDelta)];
     double topRightLong = [self checkLongitude:(longitude + longDelta)];
@@ -164,18 +177,18 @@
 }
 
 - (double) checkLatitude:(double)latitude {
-    if (latitude < -90.0)
-        return -90.0;
-    if (latitude > 90.0)
-        return 90.0;
+    if (latitude < self.LATITUDE_MIN)
+        return self.LATITUDE_MIN;
+    if (latitude > self.LATITUDE_MAX)
+        return self.LATITUDE_MAX;
     return latitude;
 }
 
 - (double) checkLongitude:(double)longitude {
-    if (longitude < -180.0)
-        return -180.0;
-    if (longitude > 180.0)
-        return 180.0;
+    if (longitude < self.LONGITUDE_MIN)
+        return self.LONGITUDE_MIN;
+    if (longitude > self.LONGITUDE_MAX)
+        return self.LONGITUDE_MAX;
     return longitude;
 }
 
