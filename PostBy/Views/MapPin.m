@@ -5,6 +5,9 @@
 //  Created by Max Bagatini Alves on 7/7/22.
 //
 
+// Global Variables
+#import "GlobalVars.h"
+
 // Views
 #import "MapPin.h"
 
@@ -41,7 +44,7 @@
     resizeImageView.contentMode = UIViewContentModeScaleAspectFill;
     
     if (url == nil) {
-        [resizeImageView setImage:[UIImage imageNamed:@"profile_tab.png"]];
+        [resizeImageView setImage:[UIImage imageNamed:DEFAULT_PROFILE_PIC]];
     } else {
         [resizeImageView setImageWithURL:url];
     }

@@ -5,6 +5,9 @@
 //  Created by Max Bagatini Alves on 7/5/22.
 //
 
+// Global Variables
+#import "GlobalVars.h"
+
 // View Controllers
 #import "LoginViewController.h"
 
@@ -42,7 +45,7 @@
     }
     
     // set default profile picture
-    UIImage *img = [UIImage imageNamed:@"profile_tab.png"];
+    UIImage *img = [UIImage imageNamed:DEFAULT_PROFILE_PIC];
     NSData *img_data = UIImagePNGRepresentation(img);
     PFFileObject *profilePicture = [PFFileObject fileObjectWithName:@"profilePicture.png" data:img_data];
     
