@@ -23,6 +23,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *numPostsShownButton;
 
 @property (strong, nonatomic) NSArray *postVMsArray;
+@property (nonatomic) int POSTS_SHOWN_LIMIT;
 @property (nonatomic) int MAX_POSTS_SHOWN;
 @property (nonatomic) int ADDITIONAL_POSTS;
 
@@ -76,6 +77,7 @@
         self.mapView.showsUserLocation = YES;
     }
     
+    self.POSTS_SHOWN_LIMIT = 100;
     self.MAX_POSTS_SHOWN = 10;
     self.ADDITIONAL_POSTS = 5;
     
@@ -85,6 +87,8 @@
 
 - (IBAction)increaseMaxPostsTap:(id)sender {
     self.MAX_POSTS_SHOWN += self.ADDITIONAL_POSTS;
+    if (self.MAX_POSTS_SHOWN > self.POSTS_SHOWN_LIMIT)
+        self.MAX_POSTS_SHOWN = self.POSTS_SHOWN_LIMIT;
     [self updateNumPostsShownButton];
 }
 
