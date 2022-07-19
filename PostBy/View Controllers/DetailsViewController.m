@@ -25,6 +25,9 @@
 
 @interface DetailsViewController ()
 
+@property (strong, nonatomic) NSString *EDIT_SEGUE;
+@property (strong, nonatomic) NSString *MAP_SEGUE;
+
 @end
 
 @implementation DetailsViewController
@@ -36,6 +39,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.EDIT_SEGUE = @"EditPostSegue";
+    self.MAP_SEGUE = @"DetailsShowMap";
     
     [self setUpUI];
 }
@@ -186,11 +192,11 @@
 }
 
 - (IBAction)editPost:(id)sender {
-    [self performSegueWithIdentifier:@"EditPostSegue" sender:self.postVM];
+    [self performSegueWithIdentifier:self.EDIT_SEGUE sender:self.postVM];
 }
 
 - (IBAction)showPostLocation:(id)sender {
-    [self performSegueWithIdentifier:@"DetailsShowMap" sender:self.postVM];
+    [self performSegueWithIdentifier:self.MAP_SEGUE sender:self.postVM];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -202,10 +208,10 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"DetailsShowMap"]) {
+    if ([segue.identifier isEqualToString:self.MAP_SEGUE]) {
         MapViewController *mapVC = [segue destinationViewController];
         mapVC.postVMtoShow = sender;
-    } else if ([segue.identifier isEqualToString:@"EditPostSegue"]) {
+    } else if ([segue.identifier isEqualToString:self.EDIT_SEGUE]) {
         ComposeViewController *composeVC = [segue destinationViewController];
         composeVC.postVMToUpdate = sender;
     }
