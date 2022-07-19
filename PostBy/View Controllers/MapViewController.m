@@ -15,14 +15,14 @@
 // Views
 #import "MapPin.h"
 
-@interface MapViewController () <CLLocationManagerDelegate, MKMapViewDelegate>
+@interface MapViewController () <CLLocationManagerDelegate, MKMapViewDelegate, DetailsViewControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (nonatomic) BOOL didZoomOnUser;
 @property (strong, nonatomic) IBOutlet UIButton *numPostsShownButton;
 
-@property (strong, nonatomic) NSArray *postVMsArray;
+@property (strong, nonatomic) NSMutableArray *postVMsArray;
 @property (nonatomic) int POSTS_SHOWN_LIMIT;
 @property (nonatomic) int MAX_POSTS_SHOWN;
 @property (nonatomic) int ADDITIONAL_POSTS;
@@ -251,10 +251,43 @@
     NSLog(@"Error: %@", error.localizedDescription);
 }
 
+- (void) accessedBadPostVM:(PostViewModel *)postVM {
+    NSInteger count = [self.postVMsArray count];
+    for (NSInteger index = (count - 1); index >= 0; index--) {
+        PostViewModel *p = self.postVMsArray[index];
+        if ([p.post.objectId isEqualToString:postVM.post.objectId]) {
+            [self.postVMsArray removeObjectAtIndex:index];
+        }
+    }
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    [self updateNumPostsShownButton];
+    [self addAnnotationsFromPosts];
+}
+
+- (void) updatePostVMWith:(PostViewModel *)updatedVM {
+    NSInteger count = [self.postVMsArray count];
+    for (NSInteger index = (count - 1); index >= 0; index--) {
+        PostViewModel *p = self.postVMsArray[index];
+        if ([p.post.objectId isEqualToString:updatedVM.post.objectId]) {
+            p.post = updatedVM.post;
+            [p setPropertiesFromPost:p.post];
+            
+            // Likes / Dislikes
+            p.isLiked = updatedVM.isLiked;
+            p.isDisliked = updatedVM.isDisliked;
+            [p reloadLikeDislikeData];
+        }
+    }
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    [self updateNumPostsShownButton];
+    [self addAnnotationsFromPosts];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"MapShowDetails"]) {
         DetailsViewController *detailsVC = [segue destinationViewController];
         MapPin *pin = sender;
+        detailsVC.delegate = self;
         detailsVC.postVM = pin.postVM;
     }
 }

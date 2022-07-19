@@ -221,7 +221,7 @@
     }
 }
 
-+ (NSArray *)postVMsWithArray:(NSArray *)posts {
++ (NSMutableArray *)postVMsWithArray:(NSArray *)posts {
     NSMutableArray *postVMsArray = [NSMutableArray new];
     for (Post *post in posts) {
         PostViewModel *postVM = [[PostViewModel alloc] initWithPost:post];

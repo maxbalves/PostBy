@@ -22,7 +22,7 @@
 // Scene Delegate
 #import "SceneDelegate.h"
 
-@interface HomeViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface HomeViewController () <UITableViewDelegate, UITableViewDataSource, DetailsViewControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *sortControl;
 @property (nonatomic) int NEWEST_SORT;
@@ -32,8 +32,8 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
-@property (strong, nonatomic) NSArray *postVMsArray;
-@property (strong, nonatomic) NSArray *sortedPostVMsArray;
+@property (strong, nonatomic) NSMutableArray *postVMsArray;
+@property (strong, nonatomic) NSMutableArray *sortedPostVMsArray;
 
 @property (nonatomic) int MAX_POSTS_SHOWN;
 @property (nonatomic) int ADDITIONAL_POSTS;
@@ -64,9 +64,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    self.postVMsArray = @[];
     [self.tableView reloadData];
-    [self refreshPosts];
 }
 
 - (void)refreshPosts {
@@ -101,7 +99,7 @@
 }
 
 - (void) createTrendingArray {
-    self.sortedPostVMsArray = [self.postVMsArray sortedArrayUsingComparator:^NSComparisonResult(PostViewModel *obj1, PostViewModel *obj2) {
+    self.sortedPostVMsArray = (NSMutableArray *)[self.postVMsArray sortedArrayUsingComparator:^NSComparisonResult(PostViewModel *obj1, PostViewModel *obj2) {
         if (obj1.post.likeCount.intValue == obj2.post.likeCount.intValue)
             return obj1.post.dislikeCount.intValue > obj2.post.dislikeCount.intValue;
         return obj1.post.likeCount.intValue < obj2.post.likeCount.intValue;
@@ -167,12 +165,41 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+- (void) accessedBadPostVM:(PostViewModel *)postVM {
+    NSInteger count = [self.postVMsArray count];
+    for (NSInteger index = (count - 1); index >= 0; index--) {
+        PostViewModel *p = self.postVMsArray[index];
+        if ([p.post.objectId isEqualToString:postVM.post.objectId]) {
+            [self.postVMsArray removeObjectAtIndex:index];
+        }
+    }
+    [self.tableView reloadData];
+}
+
+- (void) updatePostVMWith:(PostViewModel *)updatedVM {
+    NSInteger count = [self.postVMsArray count];
+    for (NSInteger index = (count - 1); index >= 0; index--) {
+        PostViewModel *p = self.postVMsArray[index];
+        if ([p.post.objectId isEqualToString:updatedVM.post.objectId]) {
+            p.post = updatedVM.post;
+            [p setPropertiesFromPost:p.post];
+            
+            // Likes / Dislikes
+            p.isLiked = updatedVM.isLiked;
+            p.isDisliked = updatedVM.isDisliked;
+            [p reloadLikeDislikeData];
+        }
+    }
+    [self.tableView reloadData];
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"HomeShowDetails"]) {
         DetailsViewController *detailsVC = [segue destinationViewController];
+        detailsVC.delegate = self;
         detailsVC.postVM = self.postVMsArray[[self.tableView indexPathForCell:sender].row];
     }
 }

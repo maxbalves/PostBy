@@ -75,9 +75,27 @@
     // fetch data asynchronously
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
-            self.postVM = [PostViewModel postVMsWithArray:posts][0];
+            if (posts.count > 0) {
+                // TODO: Copy data over without resetting like/dislike button if not necessary
+                // This will prevent the button from flashing when the page appears
+                self.postVM = [PostViewModel postVMsWithArray:posts][0];
+            } else {
+                NSString *title = @"Post Not Found";
+                NSString *message = @"It's possible the post you are trying to access was deleted or invalid.";
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
+
+                // create an Okay action
+                UIAlertAction *okayAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [self.delegate accessedBadPostVM:self.postVM];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+                // add the OK action to the alert controller
+                [alert addAction:okayAction];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+            }
         } else {
-            NSLog(@"%@", error.localizedDescription);
+            NSLog(@"Error: %@", error.localizedDescription);
         }
     }];
 }
@@ -153,6 +171,10 @@
     [self setButtonsUserInteractionTo:NO];
     [self.postVM deletePost];
     [self setButtonsUserInteractionTo:YES];
+    
+    // This is called to remove the post from map or timeline
+    [self.delegate accessedBadPostVM:self.postVM];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -169,6 +191,14 @@
 
 - (IBAction)showPostLocation:(id)sender {
     [self performSegueWithIdentifier:@"DetailsShowMap" sender:self.postVM];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    if (self.isMovingFromParentViewController) {
+        [self.delegate updatePostVMWith:self.postVM];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
