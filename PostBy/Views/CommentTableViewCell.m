@@ -8,6 +8,9 @@
 // View
 #import "CommentTableViewCell.h"
 
+// Global Variables
+#import "GlobalVars.h"
+
 // Frameworks
 #import "UIImageView+AFNetworking.h"
 
@@ -25,8 +28,13 @@
     _commentVM = commentVM;
     self.username.text = commentVM.username;
     self.commentText.text = commentVM.commentText;
-    [self.profilePic setImageWithURL:commentVM.profilePicUrl];
     self.commentDate.text = commentVM.commentShortDate;
+    
+    if (commentVM.profilePicUrl != nil) {
+        [self.profilePic setImageWithURL:commentVM.profilePicUrl];
+    } else {
+        [self.profilePic setImage:[UIImage imageNamed:DEFAULT_PROFILE_PIC]];
+    }
 }
 
 @end

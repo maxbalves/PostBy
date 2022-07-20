@@ -5,6 +5,9 @@
 //  Created by Max Bagatini Alves on 7/5/22.
 //
 
+// Models
+#import "Comment.h"
+
 // View Controllers
 #import "ComposeViewController.h"
 
@@ -41,6 +44,8 @@
 }
 
 - (void)setUpUI {
+    self.postTextField.text = @"";
+    
     if (self.postVMToUpdate != nil) {
         self.postTextField.text = self.postVMToUpdate.postText;
         if (self.postVMToUpdate.hideLocation)
@@ -49,8 +54,12 @@
             [self hideUsernameTapped:nil];
         if (self.postVMToUpdate.hideProfilePic)
             [self hideProfilePicTapped:nil];
-    } else {
-        self.postTextField.text = @"";
+    } else if (self.postVMToComment != nil){
+        // Comments will have no location, so no need to show that option
+        self.hideLocationButton.hidden = YES;
+        [self.postButton setTitle:@"Comment" forState:UIControlStateNormal];
+        [self.postButton setTitle:@"Comment" forState:UIControlStateSelected];
+        [self.postButton setTitle:@"Comment" forState:UIControlStateHighlighted];
     }
     
     // Setting up the border of our UITextView
@@ -75,9 +84,27 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void) commentOnPost {
+    self.postButton.userInteractionEnabled = NO;
+    
+    NSString *newComment = self.postTextField.text;
+    BOOL newHideProfilePic = self.hideProfilePicButton.isChecked;
+    BOOL newHideUsername = self.hideUsernameButton.isChecked;
+    
+    [Comment commentWithText:newComment onPost:self.postVMToComment.post hideUsername:newHideUsername hideProfilePic:newHideProfilePic withCompletion:^(BOOL succeeded, NSError * _Nullable error) {
+        self.postButton.userInteractionEnabled = YES;
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+}
+
 - (IBAction)sendPost:(id)sender {
     if (self.postVMToUpdate != nil) {
         [self updatePost];
+        return;
+    }
+    
+    if (self.postVMToComment != nil) {
+        [self commentOnPost];
         return;
     }
     

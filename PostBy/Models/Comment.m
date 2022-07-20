@@ -24,6 +24,18 @@
 }
 
 + (void)commentWithText:(NSString *)text onPost:(Post *)post hideUsername:(BOOL)hideUsername hideProfilePic:(BOOL)hideProfilePic withCompletion:(PFBooleanResultBlock)completion {
+    // construct query to check if post exists
+    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    [query whereKey:@"objectId" equalTo:post.objectId];
+
+    // fetch data
+    NSArray *result = [query findObjects];
+    
+    if (result.count == 0) {
+        completion(NO, nil);
+        return;
+    }
+    
     Comment *newComment = [Comment new];
     newComment.post = post;
     newComment.author = [PFUser currentUser];

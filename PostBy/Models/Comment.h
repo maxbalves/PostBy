@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL hideUsername;
 @property (nonatomic) BOOL hideProfilePic;
 
-+ (void)commentWithText:(NSString *)text onPost:(NSString *)postId hideUsername:(BOOL)hideUsername hideProfilePic:(BOOL)hideProfilePic withCompletion:(PFBooleanResultBlock)completion;
++ (void)commentWithText:(NSString *)text onPost:(Post *)post hideUsername:(BOOL)hideUsername hideProfilePic:(BOOL)hideProfilePic withCompletion:(PFBooleanResultBlock)completion;
 
 @end
 
