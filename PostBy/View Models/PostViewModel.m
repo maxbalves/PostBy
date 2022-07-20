@@ -144,33 +144,19 @@
             if (posts.count > 0) {
                 // Update queried post to reflect local post
                 Post *queriedPost = posts[0];
-                [self resetParsePostToLocalPost:queriedPost];
                 
                 // Update our post to be the queried post without the like/dislike as DB
                 self.post = queriedPost;
+                [self resetParsePostToLocalPost];
                 
                 [PFUser.currentUser save];
                 [self.post save];
                 
                 // Perform action based on local post
                 if ([action isEqualToString:@"like"]) {
-                    if (self.isLiked) {
-                        [self unlikePost];
-                    } else {
-                        [self likePost];
-                        if (self.isDisliked) {
-                            [self undislikePost];
-                        }
-                    }
+                    [self likeAction];
                 } else if ([action isEqualToString:@"dislike"]) {
-                    if (self.isDisliked) {
-                        [self undislikePost];
-                    } else {
-                        [self dislikePost];
-                        if (self.isLiked) {
-                            [self unlikePost];
-                        }
-                    }
+                    [self dislikeAction];
                 }
                 [self saveAndRefresh];
             } else {
@@ -183,44 +169,59 @@
     }];
 }
 
-- (void) resetParsePostToLocalPost:(Post *)queriedPost {
+- (void) likeAction {
+    if (self.isLiked) {
+        [self unlikePost];
+    } else {
+        [self likePost];
+        if (self.isDisliked) {
+            [self undislikePost];
+        }
+    }
+}
+
+- (void) dislikeAction {
+    if (self.isDisliked) {
+        [self undislikePost];
+    } else {
+        [self dislikePost];
+        if (self.isLiked) {
+            [self unlikePost];
+        }
+    }
+}
+
+- (void) resetParsePostToLocalPost {
     [PFUser.currentUser fetch];
-    PFRelation *queriedPostLikesRelation = [queriedPost relationForKey:@"likes"];
+    
+    PFRelation *queriedPostLikesRelation = [self.post relationForKey:@"likes"];
     PFQuery *checkIfLikedQuery = [queriedPostLikesRelation query];
     [checkIfLikedQuery whereKey:@"objectId" equalTo:PFUser.currentUser.objectId];
     NSArray *likedResult = [checkIfLikedQuery findObjects];
     
-    PFRelation *queriedPostDislikesRelation = [queriedPost relationForKey:@"dislikes"];
+    PFRelation *queriedPostDislikesRelation = [self.post relationForKey:@"dislikes"];
     PFQuery *checkIfDislikedQuery = [queriedPostDislikesRelation query];
     [checkIfDislikedQuery whereKey:@"objectId" equalTo:PFUser.currentUser.objectId];
     NSArray *dislikedResult = [checkIfDislikedQuery findObjects];
     
     // Check if not liked
     if (self.isLiked && likedResult.count == 0) {
-        queriedPost.likeCount = @(queriedPost.likeCount.intValue + 1);
-        [[queriedPost relationForKey:@"likes"] addObject:PFUser.currentUser];
-        [[PFUser.currentUser relationForKey:@"likes"] addObject:queriedPost];
+        [self likePost];
     }
     
     // Check if not disliked
     if (self.isDisliked && dislikedResult.count == 0) {
-        queriedPost.dislikeCount = @(queriedPost.dislikeCount.intValue + 1);
-        [[queriedPost relationForKey:@"dislikes"] addObject:PFUser.currentUser];
-        [[PFUser.currentUser relationForKey:@"dislikes"] addObject:queriedPost];
+        [self dislikePost];
     }
     
     // Check if not unliked
     if (!self.isLiked && likedResult.count > 0) {
-        queriedPost.likeCount = @(queriedPost.likeCount.intValue - 1);
-        [[queriedPost relationForKey:@"likes"] removeObject:PFUser.currentUser];
-        [[PFUser.currentUser relationForKey:@"likes"] removeObject:queriedPost];
+        [self unlikePost];
     }
     
     // Check if not undisliked
     if (!self.isDisliked && dislikedResult.count > 0) {
-        queriedPost.dislikeCount = @(queriedPost.dislikeCount.intValue - 1);
-        [[queriedPost relationForKey:@"dislikes"] removeObject:PFUser.currentUser];
-        [[PFUser.currentUser relationForKey:@"dislikes"] removeObject:queriedPost];
+        [self undislikePost];
     }
 }
 
