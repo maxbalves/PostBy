@@ -352,7 +352,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RTc-0P-wfx">
-                                <rect key="frame" x="113" y="205.66666666666666" width="98" height="31"/>
+                                <rect key="frame" x="113" y="210.66666666666666" width="98" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="arrow.up.circle" catalog="system" title="999999"/>
                                 <connections>
@@ -360,7 +360,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YF2-51-Tig">
-                                <rect key="frame" x="211" y="205.66666666666666" width="98" height="31"/>
+                                <rect key="frame" x="211" y="210.66666666666666" width="98" height="31"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="arrow.down.circle" catalog="system" title="999999"/>
                                 <connections>
@@ -401,10 +401,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="7qh-Do-WwC">
-                                <rect key="frame" x="0.0" y="251.66666666666669" width="390" height="592.33333333333326"/>
+                                <rect key="frame" x="0.0" y="249.66666666666669" width="390" height="594.33333333333326"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="180" id="JIW-pg-Obj" customClass="CommentTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentTableViewCell" rowHeight="180" id="JIW-pg-Obj" customClass="CommentTableViewCell">
                                         <rect key="frame" x="0.0" y="44.666666030883789" width="390" height="180"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JIW-pg-Obj" id="cq7-Ql-W11">
@@ -461,24 +461,33 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g3i-iu-6m1">
+                                <rect key="frame" x="66.666666666666671" y="210.66666666666666" width="46.333333333333329" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="arrowshape.turn.up.left" catalog="system" title=""/>
+                                <connections>
+                                    <action selector="commentButtonTap:" destination="huZ-5l-SlD" eventType="touchUpInside" id="Rv2-iQ-lZh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="CrP-1Q-LJp"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="CrP-1Q-LJp" firstAttribute="trailing" secondItem="BuS-7T-BJ8" secondAttribute="trailing" constant="30" id="0PR-sb-4qx"/>
+                            <constraint firstItem="RTc-0P-wfx" firstAttribute="leading" secondItem="g3i-iu-6m1" secondAttribute="trailing" id="0pW-Wg-r5b"/>
                             <constraint firstItem="XLU-7k-8LH" firstAttribute="top" secondItem="BuS-7T-BJ8" secondAttribute="bottom" constant="8" id="1d2-2i-gf7"/>
                             <constraint firstItem="lms-04-2L7" firstAttribute="top" secondItem="CrP-1Q-LJp" secondAttribute="top" id="4Ad-ME-USr"/>
                             <constraint firstItem="XLU-7k-8LH" firstAttribute="leading" secondItem="x88-ia-L85" secondAttribute="trailing" constant="8" symbolic="YES" id="5DA-HB-52E"/>
                             <constraint firstItem="YF2-51-Tig" firstAttribute="centerY" secondItem="RTc-0P-wfx" secondAttribute="centerY" id="6pQ-IL-EU5"/>
                             <constraint firstItem="YF2-51-Tig" firstAttribute="leading" secondItem="RTc-0P-wfx" secondAttribute="trailing" id="9Jk-Cw-iP5"/>
-                            <constraint firstItem="RTc-0P-wfx" firstAttribute="top" secondItem="ZEr-wS-nmu" secondAttribute="bottom" constant="15" id="AFC-lN-7md"/>
                             <constraint firstItem="ZEr-wS-nmu" firstAttribute="top" secondItem="XLU-7k-8LH" secondAttribute="bottom" constant="8" id="DbO-fW-lSE"/>
+                            <constraint firstItem="RTc-0P-wfx" firstAttribute="leading" secondItem="ZEr-wS-nmu" secondAttribute="leading" id="DoU-3Z-wgs"/>
                             <constraint firstItem="BuS-7T-BJ8" firstAttribute="top" secondItem="x88-ia-L85" secondAttribute="top" id="DtH-Aa-OzE"/>
                             <constraint firstItem="CrP-1Q-LJp" firstAttribute="trailing" secondItem="XLU-7k-8LH" secondAttribute="trailing" constant="15" id="HPr-FT-pfJ"/>
                             <constraint firstAttribute="bottom" secondItem="7qh-Do-WwC" secondAttribute="bottom" id="JXV-vi-mFZ"/>
                             <constraint firstItem="hcv-5a-kmW" firstAttribute="top" secondItem="CrP-1Q-LJp" secondAttribute="top" id="M4E-X3-NSc"/>
+                            <constraint firstItem="RTc-0P-wfx" firstAttribute="top" secondItem="ZEr-wS-nmu" secondAttribute="bottom" constant="20" id="Myv-ax-Kq0"/>
                             <constraint firstItem="x88-ia-L85" firstAttribute="leading" secondItem="CrP-1Q-LJp" secondAttribute="leading" constant="15" id="NSg-Mi-pGt"/>
-                            <constraint firstItem="RTc-0P-wfx" firstAttribute="leading" secondItem="XLU-7k-8LH" secondAttribute="leading" id="OV7-98-6sf"/>
                             <constraint firstItem="7qh-Do-WwC" firstAttribute="leading" secondItem="CrP-1Q-LJp" secondAttribute="leading" id="QrU-DD-e74"/>
                             <constraint firstItem="CrP-1Q-LJp" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="YF2-51-Tig" secondAttribute="trailing" constant="15" id="RNN-zR-9xS"/>
                             <constraint firstItem="CrP-1Q-LJp" firstAttribute="trailing" secondItem="ZEr-wS-nmu" secondAttribute="trailing" constant="15" id="Sl8-eG-L1g"/>
@@ -489,8 +498,9 @@
                             <constraint firstItem="lms-04-2L7" firstAttribute="leading" secondItem="CrP-1Q-LJp" secondAttribute="leading" constant="15" id="lV1-Jn-MSm"/>
                             <constraint firstItem="CrP-1Q-LJp" firstAttribute="trailing" secondItem="7qh-Do-WwC" secondAttribute="trailing" id="nLC-FC-trA"/>
                             <constraint firstItem="CrP-1Q-LJp" firstAttribute="trailing" secondItem="iOM-4V-Jxw" secondAttribute="trailing" constant="15" id="nNB-jx-oK2"/>
-                            <constraint firstItem="7qh-Do-WwC" firstAttribute="top" secondItem="RTc-0P-wfx" secondAttribute="bottom" constant="15" id="tb1-3q-epj"/>
+                            <constraint firstItem="7qh-Do-WwC" firstAttribute="top" secondItem="RTc-0P-wfx" secondAttribute="bottom" constant="8" id="tb1-3q-epj"/>
                             <constraint firstItem="iOM-4V-Jxw" firstAttribute="top" secondItem="CrP-1Q-LJp" secondAttribute="top" id="wPv-4H-Uri"/>
+                            <constraint firstItem="RTc-0P-wfx" firstAttribute="centerY" secondItem="g3i-iu-6m1" secondAttribute="centerY" id="zeJ-Q8-9hg"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="wJa-gj-RMc"/>
@@ -751,6 +761,7 @@
         <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
         <image name="arrow.down.circle" catalog="system" width="128" height="121"/>
         <image name="arrow.up.circle" catalog="system" width="128" height="121"/>
+        <image name="arrowshape.turn.up.left" catalog="system" width="128" height="106"/>
         <image name="checkmark.circle.fill" catalog="system" width="128" height="121"/>
         <image name="circle" catalog="system" width="128" height="121"/>
         <image name="gearshape" catalog="system" width="128" height="121"/>
