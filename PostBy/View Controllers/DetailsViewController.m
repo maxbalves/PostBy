@@ -25,6 +25,9 @@
 
 @interface DetailsViewController ()
 
+@property (strong, nonatomic) NSString *EDIT_SEGUE;
+@property (strong, nonatomic) NSString *MAP_SEGUE;
+
 @end
 
 @implementation DetailsViewController
@@ -36,6 +39,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.EDIT_SEGUE = @"EditPostSegue";
+    self.MAP_SEGUE = @"DetailsShowMap";
     
     [self setUpUI];
 }
@@ -75,19 +81,46 @@
     // fetch data asynchronously
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
-            self.postVM = [PostViewModel postVMsWithArray:posts][0];
+            if (posts.count > 0) {
+                // TODO: Copy data over without resetting like/dislike button if not necessary
+                // This will prevent the button from flashing when the page appears
+                self.postVM = [PostViewModel postVMsWithArray:posts][0];
+            } else {
+                [self invalidPostAlert];
+            }
         } else {
-            NSLog(@"%@", error.localizedDescription);
+            NSLog(@"Error: %@", error.localizedDescription);
         }
     }];
 }
 
+- (void) invalidPostAlert {
+    NSString *title = @"Post Not Found";
+    NSString *message = @"It's possible the post you are trying to access was deleted or invalid.";
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
+
+    // create an Okay action
+    UIAlertAction *okayAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.delegate accessedBadPostVM:self.postVM];
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    // add the OK action to the alert controller
+    [alert addAction:okayAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 - (void) didLoadLikeDislikeData {
+    [self setButtonsUserInteractionTo:YES];
     [self refreshLikeDislikeUI];
 }
 
 - (void) didUpdatePost {
     [self setUpUI];
+}
+
+- (void) postNotFound:(PostViewModel *)postVM {
+    [self invalidPostAlert];
 }
 
 - (void) refreshLikeDislikeUI {
@@ -111,25 +144,17 @@
 }
 
 - (IBAction)likeButtonTap:(id)sender {
-    self.likeButton.userInteractionEnabled = NO;
-    self.dislikeButton.userInteractionEnabled = NO;
+    [self setButtonsUserInteractionTo:NO];
     
     [self.postVM likeButtonTap];
     [self refreshLikeDislikeUI];
-    
-    self.likeButton.userInteractionEnabled = YES;
-    self.dislikeButton.userInteractionEnabled = YES;
 }
 
 - (IBAction)dislikeButtonTap:(id)sender {
-    self.likeButton.userInteractionEnabled = NO;
-    self.dislikeButton.userInteractionEnabled = NO;
+    [self setButtonsUserInteractionTo:NO];
     
     [self.postVM dislikeButtonTap];
     [self refreshLikeDislikeUI];
-    
-    self.likeButton.userInteractionEnabled = YES;
-    self.dislikeButton.userInteractionEnabled = YES;
 }
 
 - (IBAction)deleteButtonTap:(id)sender {
@@ -153,6 +178,10 @@
     [self setButtonsUserInteractionTo:NO];
     [self.postVM deletePost];
     [self setButtonsUserInteractionTo:YES];
+    
+    // This is called to remove the post from map or timeline
+    [self.delegate accessedBadPostVM:self.postVM];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -164,18 +193,26 @@
 }
 
 - (IBAction)editPost:(id)sender {
-    [self performSegueWithIdentifier:@"EditPostSegue" sender:self.postVM];
+    [self performSegueWithIdentifier:self.EDIT_SEGUE sender:self.postVM];
 }
 
 - (IBAction)showPostLocation:(id)sender {
-    [self performSegueWithIdentifier:@"DetailsShowMap" sender:self.postVM];
+    [self performSegueWithIdentifier:self.MAP_SEGUE sender:self.postVM];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    if (self.isMovingFromParentViewController) {
+        [self.delegate updatePostVMWith:self.postVM];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"DetailsShowMap"]) {
+    if ([segue.identifier isEqualToString:self.MAP_SEGUE]) {
         MapViewController *mapVC = [segue destinationViewController];
         mapVC.postVMtoShow = sender;
-    } else if ([segue.identifier isEqualToString:@"EditPostSegue"]) {
+    } else if ([segue.identifier isEqualToString:self.EDIT_SEGUE]) {
         ComposeViewController *composeVC = [segue destinationViewController];
         composeVC.postVMToUpdate = sender;
     }

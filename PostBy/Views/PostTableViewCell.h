@@ -13,7 +13,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol PostTableViewCellDelegate <NSObject>
+
+- (void) cellWithBadPostVM:(PostViewModel *)postVM;
+
+@end
+
 @interface PostTableViewCell : UITableViewCell <PostViewModelDelegate>
+
+@property (nonatomic, weak) id<PostTableViewCellDelegate> delegate;
 
 @property (strong, nonatomic) PostViewModel *postVM;
 

@@ -27,7 +27,6 @@
     [super setSelected:selected animated:animated];
 }
 
-
 - (void) setPostVM:(PostViewModel *)postVM {
     postVM.delegate = self;
     
@@ -42,6 +41,10 @@
 
 - (void) didUpdatePost {
     [self refreshCell];
+}
+
+- (void) postNotFound:(id)postVM {
+    [self.delegate cellWithBadPostVM:postVM];
 }
 
 - (void) refreshCell {
@@ -59,6 +62,8 @@
 }
 
 - (void) refreshLikeDislikeUI {
+    [self enableButtonInteraction:YES];
+    
     // Like
     [self.likeButton setTitle:self.postVM.likeCountStr forState:UIControlStateNormal];
     [self.likeButton setTitle:self.postVM.likeCountStr forState:UIControlStateHighlighted];
@@ -79,25 +84,20 @@
 }
 
 - (IBAction)likeButtonTap:(id)sender {
-    self.likeButton.userInteractionEnabled = NO;
-    self.dislikeButton.userInteractionEnabled = NO;
+    [self enableButtonInteraction:NO];
     
     [self.postVM likeButtonTap];
-    [self refreshLikeDislikeUI];
-    
-    self.likeButton.userInteractionEnabled = YES;
-    self.dislikeButton.userInteractionEnabled = YES;
 }
 
 - (IBAction)dislikeButtonTap:(id)sender {
-    self.likeButton.userInteractionEnabled = NO;
-    self.dislikeButton.userInteractionEnabled = NO;
+    [self enableButtonInteraction:NO];
     
     [self.postVM dislikeButtonTap];
-    [self refreshLikeDislikeUI];
-    
-    self.likeButton.userInteractionEnabled = YES;
-    self.dislikeButton.userInteractionEnabled = YES;
+}
+
+- (void) enableButtonInteraction:(BOOL)value {
+    self.likeButton.userInteractionEnabled = value;
+    self.dislikeButton.userInteractionEnabled = value;
 }
 
 @end

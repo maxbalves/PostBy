@@ -13,7 +13,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol DetailsViewControllerDelegate <NSObject>
+
+- (void) accessedBadPostVM:(PostViewModel *)postVM;
+
+- (void) updatePostVMWith:(PostViewModel *)updatedVM;
+
+@end
+
 @interface DetailsViewController : UIViewController <PostViewModelDelegate>
+
+@property (nonatomic, weak) id<DetailsViewControllerDelegate> delegate;
 
 @property (strong, nonatomic) PostViewModel *postVM;
 

@@ -13,11 +13,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class PostViewModel;
+
 @protocol PostViewModelDelegate <NSObject>
 
 - (void) didLoadLikeDislikeData;
 
 - (void) didUpdatePost;
+
+- (void) postNotFound:(PostViewModel *)postVM;
 
 @end
 
@@ -49,6 +53,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL isLiked;
 @property (nonatomic) BOOL isDisliked;
 
+- (void) setPropertiesFromPost:(Post *)post;
+
+- (void) reloadLikeDislikeData;
+
 - (void) likeButtonTap;
 
 - (void) dislikeButtonTap;
@@ -57,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) updateWithText:(NSString *)newPostText hideLocation:(BOOL)hideLocation hideUsername:(BOOL)hideUsername hideProfilePic:(BOOL)hideProfilePic;
 
-+ (NSArray *)postVMsWithArray:(NSArray *)posts;
++ (NSMutableArray *)postVMsWithArray:(NSArray *)posts;
 
 @end
 

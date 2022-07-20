@@ -72,7 +72,7 @@
     [self.postVMToUpdate.delegate didUpdatePost];
     
     self.postButton.userInteractionEnabled = YES;
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)sendPost:(id)sender {
