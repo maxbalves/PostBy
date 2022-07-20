@@ -22,7 +22,7 @@
 // Scene Delegate
 #import "SceneDelegate.h"
 
-@interface HomeViewController () <UITableViewDelegate, UITableViewDataSource, DetailsViewControllerDelegate>
+@interface HomeViewController () <UITableViewDelegate, UITableViewDataSource, DetailsViewControllerDelegate, PostTableViewCellDelegate>
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *sortControl;
 @property (nonatomic) int NEWEST_SORT;
@@ -131,6 +131,8 @@
         cell.postVM = self.sortedPostVMsArray[indexPath.row];
     }
     
+    cell.delegate = self;
+    
     return cell;
 }
 
@@ -161,6 +163,21 @@
     
     // add the OK action to the alert controller
     [alert addAction:tryAgainAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void) cellWithBadPostVM:(PostViewModel *)postVM {
+    NSString *title = @"Post Not Found";
+    NSString *message = @"It's possible the post you are trying to access was deleted or invalid.";
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
+
+    // create an Okay action
+    UIAlertAction *okayAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self accessedBadPostVM:postVM];
+    }];
+    // add the OK action to the alert controller
+    [alert addAction:okayAction];
     
     [self presentViewController:alert animated:YES completion:nil];
 }

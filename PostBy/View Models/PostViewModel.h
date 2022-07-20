@@ -13,11 +13,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class PostViewModel;
+
 @protocol PostViewModelDelegate <NSObject>
 
 - (void) didLoadLikeDislikeData;
 
 - (void) didUpdatePost;
+
+- (void) postNotFound:(PostViewModel *)postVM;
 
 @end
 

@@ -125,29 +125,103 @@
 }
 
 - (void) likeButtonTap {
-    if (self.isLiked) {
-        [self unlikePost];
-    } else {
-        [self likePost];
-        if (self.isDisliked) {
-            [self undislikePost];
-        }
-    }
-    
-    [self saveAndRefresh];
+    [self interactWithPostBy:@"like"];
 }
 
 - (void) dislikeButtonTap {
-    if (self.isDisliked) {
-        [self undislikePost];
-    } else {
-        [self dislikePost];
-        if (self.isLiked) {
-            [self unlikePost];
+    [self interactWithPostBy:@"dislike"];
+}
+
+- (void) interactWithPostBy:(NSString *)action {
+    // construct query
+    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    [query includeKeys:@[@"author"]];
+    [query whereKey:@"objectId" equalTo:self.post.objectId];
+
+    // fetch data asynchronously
+    [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
+        if (posts != nil) {
+            if (posts.count > 0) {
+                // Update queried post to reflect local post
+                Post *queriedPost = posts[0];
+                [self resetParsePostToLocalPost:queriedPost];
+                
+                // Update our post to be the queried post without the like/dislike as DB
+                self.post = queriedPost;
+                
+                [PFUser.currentUser save];
+                [self.post save];
+                
+                // Perform action based on local post
+                if ([action isEqualToString:@"like"]) {
+                    if (self.isLiked) {
+                        [self unlikePost];
+                    } else {
+                        [self likePost];
+                        if (self.isDisliked) {
+                            [self undislikePost];
+                        }
+                    }
+                } else if ([action isEqualToString:@"dislike"]) {
+                    if (self.isDisliked) {
+                        [self undislikePost];
+                    } else {
+                        [self dislikePost];
+                        if (self.isLiked) {
+                            [self unlikePost];
+                        }
+                    }
+                }
+                [self saveAndRefresh];
+            } else {
+                // Invalid / Deleted Post
+                [self.delegate postNotFound:self];
+            }
+        } else {
+            NSLog(@"Error: %@", error.localizedDescription);
         }
+    }];
+}
+
+- (void) resetParsePostToLocalPost:(Post *)queriedPost {
+    [PFUser.currentUser fetch];
+    PFRelation *queriedPostLikesRelation = [queriedPost relationForKey:@"likes"];
+    PFQuery *checkIfLikedQuery = [queriedPostLikesRelation query];
+    [checkIfLikedQuery whereKey:@"objectId" equalTo:PFUser.currentUser.objectId];
+    NSArray *likedResult = [checkIfLikedQuery findObjects];
+    
+    PFRelation *queriedPostDislikesRelation = [queriedPost relationForKey:@"dislikes"];
+    PFQuery *checkIfDislikedQuery = [queriedPostDislikesRelation query];
+    [checkIfDislikedQuery whereKey:@"objectId" equalTo:PFUser.currentUser.objectId];
+    NSArray *dislikedResult = [checkIfDislikedQuery findObjects];
+    
+    // Check if not liked
+    if (self.isLiked && likedResult.count == 0) {
+        queriedPost.likeCount = @(queriedPost.likeCount.intValue + 1);
+        [[queriedPost relationForKey:@"likes"] addObject:PFUser.currentUser];
+        [[PFUser.currentUser relationForKey:@"likes"] addObject:queriedPost];
     }
     
-    [self saveAndRefresh];
+    // Check if not disliked
+    if (self.isDisliked && dislikedResult.count == 0) {
+        queriedPost.dislikeCount = @(queriedPost.dislikeCount.intValue + 1);
+        [[queriedPost relationForKey:@"dislikes"] addObject:PFUser.currentUser];
+        [[PFUser.currentUser relationForKey:@"dislikes"] addObject:queriedPost];
+    }
+    
+    // Check if not unliked
+    if (!self.isLiked && likedResult.count > 0) {
+        queriedPost.likeCount = @(queriedPost.likeCount.intValue - 1);
+        [[queriedPost relationForKey:@"likes"] removeObject:PFUser.currentUser];
+        [[PFUser.currentUser relationForKey:@"likes"] removeObject:queriedPost];
+    }
+    
+    // Check if not undisliked
+    if (!self.isDisliked && dislikedResult.count > 0) {
+        queriedPost.dislikeCount = @(queriedPost.dislikeCount.intValue - 1);
+        [[queriedPost relationForKey:@"dislikes"] removeObject:PFUser.currentUser];
+        [[PFUser.currentUser relationForKey:@"dislikes"] removeObject:queriedPost];
+    }
 }
 
 - (void) likePost {
@@ -183,6 +257,7 @@
         [PFUser.currentUser saveInBackground];
     }];
     [self reloadLikeDislikeData];
+    [self.delegate didLoadLikeDislikeData];
 }
 
 - (void) deletePost {

@@ -86,19 +86,7 @@
                 // This will prevent the button from flashing when the page appears
                 self.postVM = [PostViewModel postVMsWithArray:posts][0];
             } else {
-                NSString *title = @"Post Not Found";
-                NSString *message = @"It's possible the post you are trying to access was deleted or invalid.";
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
-
-                // create an Okay action
-                UIAlertAction *okayAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [self.delegate accessedBadPostVM:self.postVM];
-                    [self.navigationController popViewControllerAnimated:YES];
-                }];
-                // add the OK action to the alert controller
-                [alert addAction:okayAction];
-                
-                [self presentViewController:alert animated:YES completion:nil];
+                [self invalidPostAlert];
             }
         } else {
             NSLog(@"Error: %@", error.localizedDescription);
@@ -106,12 +94,33 @@
     }];
 }
 
+- (void) invalidPostAlert {
+    NSString *title = @"Post Not Found";
+    NSString *message = @"It's possible the post you are trying to access was deleted or invalid.";
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
+
+    // create an Okay action
+    UIAlertAction *okayAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.delegate accessedBadPostVM:self.postVM];
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    // add the OK action to the alert controller
+    [alert addAction:okayAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 - (void) didLoadLikeDislikeData {
+    [self setButtonsUserInteractionTo:YES];
     [self refreshLikeDislikeUI];
 }
 
 - (void) didUpdatePost {
     [self setUpUI];
+}
+
+- (void) postNotFound:(PostViewModel *)postVM {
+    [self invalidPostAlert];
 }
 
 - (void) refreshLikeDislikeUI {
@@ -135,25 +144,17 @@
 }
 
 - (IBAction)likeButtonTap:(id)sender {
-    self.likeButton.userInteractionEnabled = NO;
-    self.dislikeButton.userInteractionEnabled = NO;
+    [self setButtonsUserInteractionTo:NO];
     
     [self.postVM likeButtonTap];
     [self refreshLikeDislikeUI];
-    
-    self.likeButton.userInteractionEnabled = YES;
-    self.dislikeButton.userInteractionEnabled = YES;
 }
 
 - (IBAction)dislikeButtonTap:(id)sender {
-    self.likeButton.userInteractionEnabled = NO;
-    self.dislikeButton.userInteractionEnabled = NO;
+    [self setButtonsUserInteractionTo:NO];
     
     [self.postVM dislikeButtonTap];
     [self refreshLikeDislikeUI];
-    
-    self.likeButton.userInteractionEnabled = YES;
-    self.dislikeButton.userInteractionEnabled = YES;
 }
 
 - (IBAction)deleteButtonTap:(id)sender {
