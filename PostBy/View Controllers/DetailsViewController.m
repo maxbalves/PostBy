@@ -14,6 +14,7 @@
 #import "MapViewController.h"
 
 // View Model
+#import "CommentViewModel.h"
 #import "PostViewModel.h"
 
 // Frameworks
@@ -27,6 +28,9 @@
 
 @property (strong, nonatomic) NSString *EDIT_SEGUE;
 @property (strong, nonatomic) NSString *MAP_SEGUE;
+
+@property (strong, nonatomic) IBOutlet UITableView *commentsTableView;
+@property (strong, nonatomic) NSMutableArray *commentVMsArray;
 
 @end
 

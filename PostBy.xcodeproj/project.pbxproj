@@ -25,6 +25,9 @@
 		CD0490D82874B79A0072A7A3 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490D72874B79A0072A7A3 /* ComposeViewController.m */; };
 		CD0490DB2874B7D30072A7A3 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490DA2874B7D30072A7A3 /* DetailsViewController.m */; };
 		CD0490DE2874B8010072A7A3 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490DD2874B8010072A7A3 /* SettingsViewController.m */; };
+		CD1E45CD28886A7700B3558D /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1E45CC28886A7700B3558D /* Comment.m */; };
+		CD1E45D0288870AA00B3558D /* CommentViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1E45CF288870AA00B3558D /* CommentViewModel.m */; };
+		CD1E45D32888773E00B3558D /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1E45D22888773E00B3558D /* CommentTableViewCell.m */; };
 		CD1F4D342874DCFD00D9254F /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1F4D332874DCFD00D9254F /* Post.m */; };
 		CD1F4D372875F29A00D9254F /* PostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1F4D362875F29A00D9254F /* PostTableViewCell.m */; };
 		CD44A43D287DD07300359A48 /* PostViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CD44A43C287DD07300359A48 /* PostViewModel.m */; };
@@ -88,6 +91,12 @@
 		CD0490DA2874B7D30072A7A3 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
 		CD0490DC2874B8010072A7A3 /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		CD0490DD2874B8010072A7A3 /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		CD1E45CB28886A7700B3558D /* Comment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		CD1E45CC28886A7700B3558D /* Comment.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		CD1E45CE288870AA00B3558D /* CommentViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommentViewModel.h; sourceTree = "<group>"; };
+		CD1E45CF288870AA00B3558D /* CommentViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommentViewModel.m; sourceTree = "<group>"; };
+		CD1E45D12888773E00B3558D /* CommentTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommentTableViewCell.h; sourceTree = "<group>"; };
+		CD1E45D22888773E00B3558D /* CommentTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommentTableViewCell.m; sourceTree = "<group>"; };
 		CD1F4D322874DCFD00D9254F /* Post.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
 		CD1F4D332874DCFD00D9254F /* Post.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
 		CD1F4D352875F29A00D9254F /* PostTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PostTableViewCell.h; sourceTree = "<group>"; };
@@ -234,6 +243,8 @@
 				CD6800B7287795BC0012EC21 /* MapPin.m */,
 				CD1F4D352875F29A00D9254F /* PostTableViewCell.h */,
 				CD1F4D362875F29A00D9254F /* PostTableViewCell.m */,
+				CD1E45D12888773E00B3558D /* CommentTableViewCell.h */,
+				CD1E45D22888773E00B3558D /* CommentTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -243,6 +254,8 @@
 			children = (
 				CD44A43B287DD07300359A48 /* PostViewModel.h */,
 				CD44A43C287DD07300359A48 /* PostViewModel.m */,
+				CD1E45CE288870AA00B3558D /* CommentViewModel.h */,
+				CD1E45CF288870AA00B3558D /* CommentViewModel.m */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -250,6 +263,8 @@
 		CD0490CC2874B6E00072A7A3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				CD1E45CB28886A7700B3558D /* Comment.h */,
+				CD1E45CC28886A7700B3558D /* Comment.m */,
 				CD1F4D322874DCFD00D9254F /* Post.h */,
 				CD1F4D332874DCFD00D9254F /* Post.m */,
 			);
@@ -518,13 +533,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD6800B8287795BC0012EC21 /* MapPin.m in Sources */,
+				CD1E45D32888773E00B3558D /* CommentTableViewCell.m in Sources */,
 				CD0490CF2874B7490072A7A3 /* LoginViewController.m in Sources */,
 				CD0490942874AC5D0072A7A3 /* AppDelegate.m in Sources */,
 				CD44A43D287DD07300359A48 /* PostViewModel.m in Sources */,
 				CD5195EC287F319400BA8B43 /* CheckBox.m in Sources */,
 				CD0490D22874B7640072A7A3 /* MapViewController.m in Sources */,
 				CD0490DE2874B8010072A7A3 /* SettingsViewController.m in Sources */,
+				CD1E45CD28886A7700B3558D /* Comment.m in Sources */,
 				CD0490A52874AC5E0072A7A3 /* main.m in Sources */,
+				CD1E45D0288870AA00B3558D /* CommentViewModel.m in Sources */,
 				CD1F4D342874DCFD00D9254F /* Post.m in Sources */,
 				CD0490D82874B79A0072A7A3 /* ComposeViewController.m in Sources */,
 				CDB5BDA62885CD07003C498D /* GlobalVars.m in Sources */,
