@@ -145,7 +145,7 @@ App allows users to see and create posts for their timeline. Each timeline will 
 | Property       | Type            | Description                                 |
 | -------------- | --------------- | ------------------------------------------- |
 | objectId       | String          | unique id for the comment (default field)   |
-| postId         | Pointer to Post | post where the comment was done on          |
+| post           | Pointer to Post | post where the comment was done on          |
 | author         | Pointer to User | comment author                              |
 | text           | String          | comment text by author                      |
 | hideUsername   | Boolean         | Should username be hidden or not            |
