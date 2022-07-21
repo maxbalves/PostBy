@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface ComposeViewController : UIViewController
 
 @property (strong, nonatomic) PostViewModel *postVMToUpdate;
+@property (strong, nonatomic) PostViewModel *postVMToComment;
 
 @end
 

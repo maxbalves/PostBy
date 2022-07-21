@@ -13,7 +13,11 @@
 #import "DetailsViewController.h"
 #import "MapViewController.h"
 
+// Views
+#import "CommentTableViewCell.h"
+
 // View Model
+#import "CommentViewModel.h"
 #import "PostViewModel.h"
 
 // Frameworks
@@ -23,10 +27,17 @@
 // Scene Delegate
 #import "SceneDelegate.h"
 
-@interface DetailsViewController ()
+@interface DetailsViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (strong, nonatomic) NSString *EDIT_SEGUE;
 @property (strong, nonatomic) NSString *MAP_SEGUE;
+@property (strong, nonatomic) NSString *COMMENT_SEGUE;
+
+@property (strong, nonatomic) IBOutlet UITableView *commentsTableView;
+@property (strong, nonatomic) NSMutableArray *commentVMsArray;
+
+@property (nonatomic) int MAX_COMMENTS_SHOWN;
+@property (nonatomic) int ADDITIONAL_COMMENTS;
 
 @end
 
@@ -42,8 +53,19 @@
     
     self.EDIT_SEGUE = @"EditPostSegue";
     self.MAP_SEGUE = @"DetailsShowMap";
+    self.COMMENT_SEGUE = @"CommentPostSegue";
     
     [self setUpUI];
+    
+    self.commentsTableView.dataSource = self;
+    self.commentsTableView.delegate = self;
+    
+    self.MAX_COMMENTS_SHOWN = 8;
+    self.ADDITIONAL_COMMENTS = 8;
+    
+    // Create border to show separation from post
+    self.commentsTableView.layer.borderColor = [[UIColor grayColor] CGColor];
+    self.commentsTableView.layer.borderWidth = 0.5;
 }
 
 - (void) setUpUI {
@@ -70,6 +92,19 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     [self queryPostWithObjectId:self.postVM.post.objectId];
+    [self queryComments];
+}
+
+- (void) queryComments {
+    PFRelation *postCommentsRelation = [self.postVM.post relationForKey:@"comments"];
+    PFQuery *query =[postCommentsRelation query];
+    [query includeKeys:@[@"author", @"post"]];
+    [query orderByDescending:@"createdAt"];
+    [query setLimit:self.MAX_COMMENTS_SHOWN];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        self.commentVMsArray = [CommentViewModel commentVMsWithArray:objects];
+        [self.commentsTableView reloadData];
+    }];
 }
 
 - (void) queryPostWithObjectId:(NSString *)objectId {
@@ -208,6 +243,35 @@
     }
 }
 
+- (IBAction)commentButtonTap:(id)sender {
+    [self performSegueWithIdentifier:self.COMMENT_SEGUE sender:self.postVM];
+}
+
+- (CommentTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CommentTableViewCell *cell = [self.commentsTableView dequeueReusableCellWithIdentifier:@"CommentTableViewCell" forIndexPath:indexPath];
+    
+    cell.commentVM = self.commentVMsArray[indexPath.row];
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.commentVMsArray.count;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Prevents cell from having gray background due to being selected
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+// Infinite scrolling
+- (void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row + 1 == self.commentVMsArray.count && self.commentVMsArray.count == self.MAX_COMMENTS_SHOWN) {
+        self.MAX_COMMENTS_SHOWN += self.ADDITIONAL_COMMENTS;
+        [self queryComments];
+    }
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:self.MAP_SEGUE]) {
         MapViewController *mapVC = [segue destinationViewController];
@@ -215,7 +279,11 @@
     } else if ([segue.identifier isEqualToString:self.EDIT_SEGUE]) {
         ComposeViewController *composeVC = [segue destinationViewController];
         composeVC.postVMToUpdate = sender;
+    } else if ([segue.identifier isEqualToString:self.COMMENT_SEGUE]) {
+        ComposeViewController *composeVC = [segue destinationViewController];
+        composeVC.postVMToComment = sender;
     }
 }
 
 @end
+
