@@ -9,7 +9,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol SettingsViewControllerDelegate <NSObject>
+
+- (void) refreshPosts;
+
+@end
+
 @interface SettingsViewController : UIViewController
+
+@property (nonatomic, weak) id<SettingsViewControllerDelegate> delegate;
 
 @end
 

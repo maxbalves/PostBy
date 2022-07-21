@@ -310,7 +310,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="gearshape" catalog="system"/>
                                 <connections>
-                                    <segue destination="BTW-Z5-PLK" kind="show" id="BNF-6P-iYo"/>
+                                    <segue destination="BTW-Z5-PLK" kind="show" identifier="HomeToSettings" id="2FM-09-VCE"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -522,7 +522,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UwC-Cr-xmI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="830.76923076923072" y="1724.6445497630332"/>
+            <point key="canvasLocation" x="831" y="1725"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="c3p-Eq-rZG">
@@ -712,7 +712,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uxA-U7-Xum" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1182" y="1725"/>
+            <point key="canvasLocation" x="-118" y="1725"/>
         </scene>
         <!--Home-->
         <scene sceneID="W3m-Tj-d7i">

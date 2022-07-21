@@ -211,7 +211,10 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
 
     // create OK action
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        // Refresh timeline to remove any deleted data
+        [self.delegate refreshPosts];
+    }];
     
     // add the OK action to the alert controller
     [alert addAction:okAction];
