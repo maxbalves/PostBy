@@ -224,6 +224,15 @@
     
     [imageView setImage:mapPin.profilePic]; // set the image into the callout imageview
 
+    // Animate pins
+    
+    // Make pins have no size
+    annotationView.transform = CGAffineTransformMakeScale(0.0, 0.0);
+    [UIView animateWithDuration:0.3 animations:^{
+        // Increase pin size with animation
+        annotationView.transform = CGAffineTransformMakeScale(1.0, 1.0);
+    }];
+    
     return annotationView;
 }
 
