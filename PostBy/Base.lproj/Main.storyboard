@@ -674,10 +674,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U7x-CX-ebi">
-                                <rect key="frame" x="133.66666666666666" y="700" width="122.99999999999997" height="31"/>
+                                <rect key="frame" x="118.66666666666669" y="700" width="153" height="31"/>
                                 <color key="tintColor" systemColor="systemPinkColor"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Delete Account">
+                                <buttonConfiguration key="configuration" style="filled" title="Delete Chosen Data">
                                     <color key="baseBackgroundColor" systemColor="systemPinkColor"/>
                                 </buttonConfiguration>
                                 <connections>
