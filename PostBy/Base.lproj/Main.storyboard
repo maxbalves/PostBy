@@ -310,7 +310,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="gearshape" catalog="system"/>
                                 <connections>
-                                    <segue destination="BTW-Z5-PLK" kind="show" id="BNF-6P-iYo"/>
+                                    <segue destination="BTW-Z5-PLK" kind="show" identifier="HomeToSettings" id="2FM-09-VCE"/>
                                 </connections>
                             </button>
                         </barButtonItem>
@@ -522,7 +522,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UwC-Cr-xmI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="830.76923076923072" y="1724.6445497630332"/>
+            <point key="canvasLocation" x="831" y="1725"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="c3p-Eq-rZG">
@@ -674,10 +674,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U7x-CX-ebi">
-                                <rect key="frame" x="133.66666666666666" y="700" width="122.99999999999997" height="31"/>
+                                <rect key="frame" x="118.66666666666669" y="700" width="153" height="31"/>
                                 <color key="tintColor" systemColor="systemPinkColor"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Delete Account">
+                                <buttonConfiguration key="configuration" style="filled" title="Delete Chosen Data">
                                     <color key="baseBackgroundColor" systemColor="systemPinkColor"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -712,7 +712,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uxA-U7-Xum" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1182" y="1725"/>
+            <point key="canvasLocation" x="-118" y="1725"/>
         </scene>
         <!--Home-->
         <scene sceneID="W3m-Tj-d7i">

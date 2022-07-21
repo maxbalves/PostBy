@@ -9,6 +9,7 @@
 #import "DetailsViewController.h"
 #import "HomeViewController.h"
 #import "LoginViewController.h"
+#import "SettingsViewController.h"
 
 // Frameworks
 @import Parse;
@@ -22,7 +23,7 @@
 // Scene Delegate
 #import "SceneDelegate.h"
 
-@interface HomeViewController () <UITableViewDelegate, UITableViewDataSource, DetailsViewControllerDelegate, PostTableViewCellDelegate>
+@interface HomeViewController () <UITableViewDelegate, UITableViewDataSource, DetailsViewControllerDelegate, PostTableViewCellDelegate, SettingsViewControllerDelegate>
 
 @property (strong, nonatomic) IBOutlet UISegmentedControl *sortControl;
 @property (nonatomic) int NEWEST_SORT;
@@ -218,6 +219,9 @@
         DetailsViewController *detailsVC = [segue destinationViewController];
         detailsVC.delegate = self;
         detailsVC.postVM = self.postVMsArray[[self.tableView indexPathForCell:sender].row];
+    } else if ([segue.identifier isEqualToString:@"HomeToSettings"]) {
+        SettingsViewController *settingsVC = [segue destinationViewController];
+        settingsVC.delegate = self;
     }
 }
 

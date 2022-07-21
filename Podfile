@@ -7,6 +7,7 @@ target 'PostBy' do
   pod 'Parse'
   pod 'AFNetworking'
   pod 'DateTools'
+  pod 'CCDropDownMenus'
 
   # Pods for PostBy
 
