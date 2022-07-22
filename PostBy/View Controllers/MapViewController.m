@@ -87,8 +87,11 @@
 
 - (IBAction)increaseMaxPostsTap:(id)sender {
     self.MAX_POSTS_SHOWN += self.ADDITIONAL_POSTS;
-    if (self.MAX_POSTS_SHOWN > self.POSTS_SHOWN_LIMIT)
+    if (self.MAX_POSTS_SHOWN > self.POSTS_SHOWN_LIMIT) {
+        [self showOkAlertWithTitle:@"Map Pin Limit" Message:@"A maximum of 100 posts can be displayed at a time."];
+        
         self.MAX_POSTS_SHOWN = self.POSTS_SHOWN_LIMIT;
+    }
     [self updateNumPostsShownButton];
 }
 
@@ -290,6 +293,17 @@
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self updateNumPostsShownButton];
     [self addAnnotationsFromPosts];
+}
+
+- (void) showOkAlertWithTitle:(NSString *)title Message:(NSString *)message {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleActionSheet)];
+    
+    // create an OK action
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    // add the OK action to the alert controller
+    [alert addAction:okAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
