@@ -5,6 +5,9 @@
 //  Created by Max Bagatini Alves on 7/20/22.
 //
 
+// Global Variables
+#import "GlobalVars.h"
+
 // Models
 #import "Comment.h"
 
@@ -26,7 +29,7 @@
     self.commentText = comment.commentText;
     
     if (comment.hideUsername) {
-        self.username = @" ";
+        self.username = ANON_USERNAME;
     } else {
         self.username = comment.author.username;
     }
@@ -34,7 +37,7 @@
     if (comment.hideProfilePic) {
         self.profilePicUrl = nil;
     } else {
-        PFFileObject *profilePicObj = comment.author[@"profilePicture"];
+        PFFileObject *profilePicObj = comment.author[PROFILE_PIC_FIELD];
         self.profilePicUrl = [NSURL URLWithString:profilePicObj.url];
     }
     

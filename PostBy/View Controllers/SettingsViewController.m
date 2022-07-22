@@ -5,6 +5,9 @@
 //  Created by Max Bagatini Alves on 7/5/22.
 //
 
+// Global Variables
+#import "GlobalVars.h"
+
 // Models
 #import "Post.h"
 
@@ -30,15 +33,16 @@
 
 @property (nonatomic) int DEFAULT_IMAGE_SIZE;
 
-@property (nonatomic) int DELETE_LIKES;
-@property (nonatomic) int DELETE_DISLIKES;
-@property (nonatomic) int DELETE_POSTS;
-@property (nonatomic) int DELETE_COMMENTS;
-@property (nonatomic) int DELETE_ACCOUNT;
-@property (nonatomic) int INVALID_CHOICE;
-
 @property (nonatomic) int DELETE_CHOICE;
 
+typedef NS_ENUM(NSUInteger, MenuChoices) {
+    DELETE_LIKES,
+    DELETE_DISLIKES,
+    DELETE_POSTS,
+    DELETE_COMMENTS,
+    DELETE_ACCOUNT,
+    INVALID_CHOICE
+};
 
 @end
 
@@ -48,42 +52,33 @@
     [super viewDidLoad];
     
     self.DEFAULT_IMAGE_SIZE = 500;
-    
     self.usernameLabel.text = PFUser.currentUser.username;
     self.createdOnLabel.text = [self returnFormatedDateString:PFUser.currentUser.createdAt];
     
-    PFFileObject *profilePicObj = [PFUser.currentUser valueForKey:@"profilePicture"];;
+    PFFileObject *profilePicObj = [PFUser.currentUser valueForKey:PROFILE_PIC_FIELD];
     NSURL *url = [NSURL URLWithString:profilePicObj.url];
     [self.profilePicture setImageWithURL:url];
-    
-    self.INVALID_CHOICE = -1;
-    self.DELETE_CHOICE = self.INVALID_CHOICE;
+
+    self.DELETE_CHOICE = INVALID_CHOICE;
     [self createDropDown];
 }
 
 - (void)createDropDown {
-    CGFloat x = (CGRectGetWidth(self.view.frame)-240)/2;
-    CGFloat y = 300;
     CGFloat width = 240;
     CGFloat height = 37;
+    // We need to offset by the width/2 in order to centralize the menu
+    CGFloat x = (CGRectGetWidth(self.view.frame) / 2) - (width / 2);
+    CGFloat y = 300;
     CGRect frame = CGRectMake(x, y, width, height);
     ManaDropDownMenu *menu = [[ManaDropDownMenu alloc] initWithFrame:frame title:@"Choose data to delete"];
     menu.delegate = self;
     menu.textOfRows = @[@"Likes", @"Dislikes", @"Posts", @"Comments", @"Account"];
     menu.numberOfRows = menu.textOfRows.count;
     
-    menu.activeColor = [UIColor redColor];
-    menu.inactiveColor = [UIColor redColor];
+    menu.activeColor = [UIColor systemBlueColor];
+    menu.inactiveColor = [UIColor systemBlueColor];
     // Super light gray background
     menu.titleViewColor = [UIColor colorWithRed:(250/255.0) green:(250/255.0) blue:(250/255.0) alpha:1];
-    
-    // Indexes based on textOfRows
-    self.INVALID_CHOICE = -1;
-    self.DELETE_LIKES = 0;
-    self.DELETE_DISLIKES = 1;
-    self.DELETE_POSTS = 2;
-    self.DELETE_COMMENTS = 3;
-    self.DELETE_ACCOUNT = 4;
     
     [self.view addSubview:menu];
 }
@@ -153,16 +148,16 @@
     PFFileObject *newProfilePicture = [PFFileObject fileObjectWithName:@"profilePicture.png" data:newImageData];
     
     // Old Image
-    PFFileObject *oldProfilePicture = [PFUser.currentUser valueForKey:@"profilePicture"];
+    PFFileObject *oldProfilePicture = [PFUser.currentUser valueForKey:PROFILE_PIC_FIELD];
     
     // Change profile picture & save to Parse DB
-    [PFUser.currentUser setValue:newProfilePicture forKey:@"profilePicture"];
+    [PFUser.currentUser setValue:newProfilePicture forKey:PROFILE_PIC_FIELD];
     [PFUser.currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
             // change profile pic image view
             [self.profilePicture setImage:editedImage];
         } else {
-            [PFUser.currentUser setValue:oldProfilePicture forKey:@"profilePicture"];
+            [PFUser.currentUser setValue:oldProfilePicture forKey:PROFILE_PIC_FIELD];
             NSLog(@"Error: %@", error.localizedDescription);
         }
     }];
@@ -193,7 +188,7 @@
     // create Confirm action
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self deleteDataBasedOnChoice];
-        if (self.DELETE_CHOICE != self.INVALID_CHOICE)
+        if (self.DELETE_CHOICE != INVALID_CHOICE)
             [self promptOkAlertWithTitle:@"Done" Message:@"Deletion completed"];
     }];
     
@@ -223,23 +218,23 @@
 }
 
 - (void) deleteDataBasedOnChoice {
-    if (self.DELETE_CHOICE == self.DELETE_LIKES) {
+    if (self.DELETE_CHOICE == DELETE_LIKES) {
         [self deleteLikes];
         [PFUser.currentUser fetch];
-    } else if (self.DELETE_CHOICE == self.DELETE_DISLIKES) {
+    } else if (self.DELETE_CHOICE == DELETE_DISLIKES) {
         [self deleteDislikes];
         [PFUser.currentUser fetch];
-    } else if (self.DELETE_CHOICE == self.DELETE_POSTS) {
+    } else if (self.DELETE_CHOICE == DELETE_POSTS) {
         [self deletePosts];
         [PFUser.currentUser fetch];
-    } else if (self.DELETE_CHOICE == self.DELETE_COMMENTS) {
+    } else if (self.DELETE_CHOICE == DELETE_COMMENTS) {
         [self deleteComments];
         [PFUser.currentUser fetch];
-    } else if (self.DELETE_CHOICE == self.DELETE_ACCOUNT) {
+    } else if (self.DELETE_CHOICE == DELETE_ACCOUNT) {
         [self deleteAccount];
     } else {
         // Invalid choice
-        [self promptOkAlertWithTitle:@"Invalid Choice" Message:@"Please chose what to delete first."];
+        [self promptOkAlertWithTitle:@"Invalid Choice" Message:@"Please choose what to delete first."];
     }
 }
 
@@ -261,11 +256,11 @@
 
 - (void) deletePosts {
     // delete posts
-    PFRelation *postsRelation = [PFUser.currentUser relationForKey:@"posts"];
+    PFRelation *postsRelation = [PFUser.currentUser relationForKey:POSTS_RELATION];
     NSArray *userPosts = [[postsRelation query] findObjects];
     for (Post *post in userPosts) {
         // get & delete this post's comments
-        PFRelation *commentsRelation = [post relationForKey:@"comments"];
+        PFRelation *commentsRelation = [post relationForKey:COMMENTS_RELATION];
         NSArray *comments = [[commentsRelation query] findObjects];
         for (PFObject *comment in comments) {
             [comment delete];
@@ -276,14 +271,14 @@
 
 - (void) deleteLikes {
     // delete likes from user relation
-    PFRelation *likesRelation = [PFUser.currentUser relationForKey:@"likes"];
+    PFRelation *likesRelation = [PFUser.currentUser relationForKey:LIKES_RELATION];
     NSArray *likedPosts = [[likesRelation query] findObjects];
     for (Post *post in likedPosts) {
         // unlike the post
         post.likeCount = @(post.likeCount.intValue - 1);
         [likesRelation removeObject:post];
         // remove relation from post
-        PFRelation *postLikesRelation = [post relationForKey:@"likes"];
+        PFRelation *postLikesRelation = [post relationForKey:LIKES_RELATION];
         [postLikesRelation removeObject:PFUser.currentUser];
         [post save];
     }
@@ -292,14 +287,14 @@
 
 - (void) deleteDislikes {
     // delete dislikes
-    PFRelation *dislikesRelation = [PFUser.currentUser relationForKey:@"dislikes"];
+    PFRelation *dislikesRelation = [PFUser.currentUser relationForKey:DISLIKES_RELATION];
     NSArray *dislikedPosts = [[dislikesRelation query] findObjects];
     for (Post *post in dislikedPosts) {
         // unlike the post
         post.dislikeCount = @(post.dislikeCount.intValue - 1);
         [dislikesRelation removeObject:post];
         // remove relation from post
-        PFRelation *postDislikesRelation = [post relationForKey:@"dislikes"];
+        PFRelation *postDislikesRelation = [post relationForKey:DISLIKES_RELATION];
         [postDislikesRelation removeObject:PFUser.currentUser];
         [post save];
     }
@@ -308,7 +303,7 @@
 
 - (void) deleteComments {
     // delete comments
-    PFRelation *commentsRelation = [PFUser.currentUser relationForKey:@"comments"];
+    PFRelation *commentsRelation = [PFUser.currentUser relationForKey:COMMENTS_RELATION];
     NSArray *userComments = [[commentsRelation query] findObjects];
     for (PFObject *comment in userComments) {
         [comment delete];

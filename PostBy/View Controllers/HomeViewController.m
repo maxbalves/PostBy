@@ -5,6 +5,9 @@
 //  Created by Max Bagatini Alves on 7/5/22.
 //
 
+// Global Variables
+#import "GlobalVars.h"
+
 // View Controllers
 #import "DetailsViewController.h"
 #import "HomeViewController.h"
@@ -79,11 +82,11 @@
         }
         
         // construct query
-        PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+        PFQuery *query = [PFQuery queryWithClassName:POST_CLASS];
         query.limit = self.MAX_POSTS_SHOWN;
         [query orderByDescending:@"createdAt"];
-        [query includeKeys:@[@"author"]];
-        [query whereKey:@"location" nearGeoPoint:geoPoint withinMiles:self.QUERY_MILE_RADIUS];
+        [query includeKey:AUTHOR_FIELD];
+        [query whereKey:LOCATION_FIELD nearGeoPoint:geoPoint withinMiles:self.QUERY_MILE_RADIUS];
 
         // fetch data asynchronously
         [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {

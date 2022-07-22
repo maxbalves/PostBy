@@ -5,6 +5,9 @@
 //  Created by Max Bagatini Alves on 7/5/22.
 //
 
+// Global Variables
+#import "GlobalVars.h"
+
 // Frameworks
 @import MapKit;
 
@@ -87,8 +90,11 @@
 
 - (IBAction)increaseMaxPostsTap:(id)sender {
     self.MAX_POSTS_SHOWN += self.ADDITIONAL_POSTS;
-    if (self.MAX_POSTS_SHOWN > self.POSTS_SHOWN_LIMIT)
+    if (self.MAX_POSTS_SHOWN > self.POSTS_SHOWN_LIMIT) {
+        [self showOkAlertWithTitle:@"Map Pin Limit" Message:@"A maximum of 100 posts can be displayed at a time."];
+        
         self.MAX_POSTS_SHOWN = self.POSTS_SHOWN_LIMIT;
+    }
     [self updateNumPostsShownButton];
 }
 
@@ -122,14 +128,14 @@
 
 - (void)refreshPostsInside:(NSArray *)areaRect {
     // construct query
-    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    PFQuery *query = [PFQuery queryWithClassName:POST_CLASS];
     query.limit = self.MAX_POSTS_SHOWN;
     [query orderByDescending:@"createdAt"];
-    [query includeKeys:@[@"author"]];
+    [query includeKey:AUTHOR_FIELD];
     
     PFGeoPoint *bottomLeft = areaRect[0];
     PFGeoPoint *topRight = areaRect[1];
-    [query whereKey:@"location" withinGeoBoxFromSouthwest:bottomLeft toNortheast:topRight];
+    [query whereKey:LOCATION_FIELD withinGeoBoxFromSouthwest:bottomLeft toNortheast:topRight];
     [query whereKey:@"hideLocation" equalTo:@NO];
     
     // fetch data asynchronously
@@ -228,7 +234,8 @@
     
     // Make pins have no size
     annotationView.transform = CGAffineTransformMakeScale(0.0, 0.0);
-    [UIView animateWithDuration:0.3 animations:^{
+    double durationInSeconds = 0.3;
+    [UIView animateWithDuration:durationInSeconds animations:^{
         // Increase pin size with animation
         annotationView.transform = CGAffineTransformMakeScale(1.0, 1.0);
     }];
@@ -290,6 +297,17 @@
     [self.mapView removeAnnotations:self.mapView.annotations];
     [self updateNumPostsShownButton];
     [self addAnnotationsFromPosts];
+}
+
+- (void) showOkAlertWithTitle:(NSString *)title Message:(NSString *)message {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleActionSheet)];
+    
+    // create an OK action
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    // add the OK action to the alert controller
+    [alert addAction:okAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
