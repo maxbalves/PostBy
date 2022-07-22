@@ -49,7 +49,7 @@
     NSData *img_data = UIImagePNGRepresentation(img);
     PFFileObject *profilePicture = [PFFileObject fileObjectWithName:@"profilePicture.png" data:img_data];
     
-    [newUser setValue:profilePicture forKey:@"profilePicture"];
+    [newUser setValue:profilePicture forKey:PROFILE_PIC_FIELD];
 
     // call sign up function on object
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * error) {
@@ -94,15 +94,15 @@
 }
 
 - (void) showAlertWithTitle:(NSString *)title message:(NSString *)message {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
 
     // create an OK action
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     
     // add the OK action to the alert controller
     [alert addAction:okAction];
     
-    [self presentViewController:alert animated:YES completion:^{}];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void) presentHome {

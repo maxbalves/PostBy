@@ -96,9 +96,9 @@
 }
 
 - (void) queryComments {
-    PFRelation *postCommentsRelation = [self.postVM.post relationForKey:@"comments"];
+    PFRelation *postCommentsRelation = [self.postVM.post relationForKey:COMMENTS_RELATION];
     PFQuery *query =[postCommentsRelation query];
-    [query includeKeys:@[@"author", @"post"]];
+    [query includeKeys:@[AUTHOR_FIELD, POST_FIELD]];
     [query orderByDescending:@"createdAt"];
     [query setLimit:self.MAX_COMMENTS_SHOWN];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
@@ -109,8 +109,8 @@
 
 - (void) queryPostWithObjectId:(NSString *)objectId {
     // construct query
-    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
-    [query includeKeys:@[@"author"]];
+    PFQuery *query = [PFQuery queryWithClassName:POST_CLASS];
+    [query includeKey:AUTHOR_FIELD];
     [query whereKey:@"objectId" equalTo:objectId];
 
     // fetch data asynchronously
@@ -195,7 +195,7 @@
 - (IBAction)deleteButtonTap:(id)sender {
     NSString *title = @"Post Deletion";
     NSString *message = @"Are you sure you want to delete this post?";
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
 
     // create an Confirm action
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Confirm" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {[self deletePost];}];

@@ -5,6 +5,9 @@
 //  Created by Max Bagatini Alves on 7/12/22.
 //
 
+// Global Variables
+#import "GlobalVars.h"
+
 // Frameworks
 #import "DateTools.h"
 @import Parse;
@@ -46,12 +49,12 @@
     if (post.hideProfilePic) {
         self.profilePicUrl = nil;
     } else {
-        PFFileObject *profilePicObj = post.author[@"profilePicture"];
+        PFFileObject *profilePicObj = post.author[PROFILE_PIC_FIELD];
         self.profilePicUrl = [NSURL URLWithString:profilePicObj.url];
     }
     
     if (post.hideUsername) {
-        self.username = @" ";
+        self.username = ANON_USERNAME;
     } else {
         self.username = post.author.username;
     }
@@ -103,7 +106,7 @@
 }
 
 - (void) checkIfLiked {
-    PFRelation *userLikes = [PFUser.currentUser relationForKey:@"likes"];
+    PFRelation *userLikes = [PFUser.currentUser relationForKey:LIKES_RELATION];
     PFQuery *checkIfLiked = [userLikes query];
     [checkIfLiked whereKey:@"objectId" equalTo:self.post.objectId];
     [checkIfLiked findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
@@ -114,7 +117,7 @@
 }
 
 - (void) checkIfDisliked {
-    PFRelation *userDislikes = [PFUser.currentUser relationForKey:@"dislikes"];
+    PFRelation *userDislikes = [PFUser.currentUser relationForKey:DISLIKES_RELATION];
     PFQuery *checkIfDisliked = [userDislikes query];
     [checkIfDisliked whereKey:@"objectId" equalTo:self.post.objectId];
     [checkIfDisliked findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
@@ -134,8 +137,8 @@
 
 - (void) interactWithPostBy:(NSString *)action {
     // construct query
-    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
-    [query includeKeys:@[@"author"]];
+    PFQuery *query = [PFQuery queryWithClassName:POST_CLASS];
+    [query includeKey:AUTHOR_FIELD];
     [query whereKey:@"objectId" equalTo:self.post.objectId];
 
     // fetch data asynchronously
@@ -194,12 +197,12 @@
 - (void) resetParsePostToLocalPost {
     [PFUser.currentUser fetch];
     
-    PFRelation *queriedPostLikesRelation = [self.post relationForKey:@"likes"];
+    PFRelation *queriedPostLikesRelation = [self.post relationForKey:LIKES_RELATION];
     PFQuery *checkIfLikedQuery = [queriedPostLikesRelation query];
     [checkIfLikedQuery whereKey:@"objectId" equalTo:PFUser.currentUser.objectId];
     NSArray *likedResult = [checkIfLikedQuery findObjects];
     
-    PFRelation *queriedPostDislikesRelation = [self.post relationForKey:@"dislikes"];
+    PFRelation *queriedPostDislikesRelation = [self.post relationForKey:DISLIKES_RELATION];
     PFQuery *checkIfDislikedQuery = [queriedPostDislikesRelation query];
     [checkIfDislikedQuery whereKey:@"objectId" equalTo:PFUser.currentUser.objectId];
     NSArray *dislikedResult = [checkIfDislikedQuery findObjects];
@@ -228,29 +231,29 @@
 - (void) likePost {
     self.isLiked = YES;
     self.post.likeCount = @(self.post.likeCount.intValue + 1);
-    [[self.post relationForKey:@"likes"] addObject:PFUser.currentUser];
-    [[PFUser.currentUser relationForKey:@"likes"] addObject:self.post];
+    [[self.post relationForKey:LIKES_RELATION] addObject:PFUser.currentUser];
+    [[PFUser.currentUser relationForKey:LIKES_RELATION] addObject:self.post];
 }
 
 - (void) unlikePost {
     self.isLiked = NO;
     self.post.likeCount = @(self.post.likeCount.intValue - 1);
-    [[self.post relationForKey:@"likes"] removeObject:PFUser.currentUser];
-    [[PFUser.currentUser relationForKey:@"likes"] removeObject:self.post];
+    [[self.post relationForKey:LIKES_RELATION] removeObject:PFUser.currentUser];
+    [[PFUser.currentUser relationForKey:LIKES_RELATION] removeObject:self.post];
 }
 
 - (void) dislikePost {
     self.isDisliked = YES;
     self.post.dislikeCount = @(self.post.dislikeCount.intValue + 1);
-    [[self.post relationForKey:@"dislikes"] addObject:PFUser.currentUser];
-    [[PFUser.currentUser relationForKey:@"dislikes"] addObject:self.post];
+    [[self.post relationForKey:DISLIKES_RELATION] addObject:PFUser.currentUser];
+    [[PFUser.currentUser relationForKey:DISLIKES_RELATION] addObject:self.post];
 }
 
 - (void) undislikePost {
     self.isDisliked = NO;
     self.post.dislikeCount = @(self.post.dislikeCount.intValue - 1);
-    [[self.post relationForKey:@"dislikes"] removeObject:PFUser.currentUser];
-    [[PFUser.currentUser relationForKey:@"dislikes"] removeObject:self.post];
+    [[self.post relationForKey:DISLIKES_RELATION] removeObject:PFUser.currentUser];
+    [[PFUser.currentUser relationForKey:DISLIKES_RELATION] removeObject:self.post];
 }
 
 - (void) saveAndRefresh {
@@ -263,7 +266,7 @@
 
 - (void) deletePost {
     // Delete comments
-    PFRelation *commentsRelation = [self.post relationForKey:@"comments"];
+    PFRelation *commentsRelation = [self.post relationForKey:COMMENTS_RELATION];
     NSArray *comments = [[commentsRelation query] findObjects];
     for (PFObject *comment in comments) {
         [comment delete];

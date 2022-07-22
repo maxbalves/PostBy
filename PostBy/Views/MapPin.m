@@ -31,7 +31,7 @@
     pin.postVM = postVM;
     
     // Default every pin's image to be 50 x 50
-    CGSize pinImgSize = CGSizeMake(50, 50);
+    CGSize pinImgSize = CGSizeMake(PIN_IMG_SIZE, PIN_IMG_SIZE);
     pin.profilePic = [pin resizeImageWithUrl:postVM.profilePicUrl withSize:pinImgSize];
     
     pin.coordinate = CLLocationCoordinate2DMake(postVM.latitude, postVM.longitude);

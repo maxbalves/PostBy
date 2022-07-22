@@ -136,13 +136,10 @@
 
 - (void) showAlertWithTitle:(NSString *)title message:(NSString *)message {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
-
     // create an OK action
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-    
     // add the OK action to the alert controller
     [alert addAction:okAction];
-    
     [self presentViewController:alert animated:YES completion:nil];
 }
 

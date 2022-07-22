@@ -5,6 +5,9 @@
 //  Created by Max Bagatini Alves on 7/5/22.
 //
 
+// Global Variables
+#import "GlobalVars.h"
+
 // Frameworks
 @import MapKit;
 
@@ -125,14 +128,14 @@
 
 - (void)refreshPostsInside:(NSArray *)areaRect {
     // construct query
-    PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+    PFQuery *query = [PFQuery queryWithClassName:POST_CLASS];
     query.limit = self.MAX_POSTS_SHOWN;
     [query orderByDescending:@"createdAt"];
-    [query includeKeys:@[@"author"]];
+    [query includeKey:AUTHOR_FIELD];
     
     PFGeoPoint *bottomLeft = areaRect[0];
     PFGeoPoint *topRight = areaRect[1];
-    [query whereKey:@"location" withinGeoBoxFromSouthwest:bottomLeft toNortheast:topRight];
+    [query whereKey:LOCATION_FIELD withinGeoBoxFromSouthwest:bottomLeft toNortheast:topRight];
     [query whereKey:@"hideLocation" equalTo:@NO];
     
     // fetch data asynchronously
@@ -231,7 +234,8 @@
     
     // Make pins have no size
     annotationView.transform = CGAffineTransformMakeScale(0.0, 0.0);
-    [UIView animateWithDuration:0.3 animations:^{
+    double durationInSeconds = 0.3;
+    [UIView animateWithDuration:durationInSeconds animations:^{
         // Increase pin size with animation
         annotationView.transform = CGAffineTransformMakeScale(1.0, 1.0);
     }];
