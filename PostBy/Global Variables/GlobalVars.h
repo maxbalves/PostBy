@@ -9,7 +9,8 @@
 
 extern NSString *const DEFAULT_PROFILE_PIC;
 
-extern NSInteger const PIN_IMG_SIZE;
+extern NSInteger const PIN_IMG_WIDTH;
+extern NSInteger const PIN_IMG_HEIGHT;
 
 // Parse Related Variables
 extern NSString *const POST_CLASS;

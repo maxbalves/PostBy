@@ -13,7 +13,8 @@
 
 NSString *const DEFAULT_PROFILE_PIC = @"profile_tab.png";
 
-NSInteger const PIN_IMG_SIZE = 50;
+NSInteger const PIN_IMG_WIDTH = 50;
+NSInteger const PIN_IMG_HEIGHT = 50;
 
 // Parse Related Variables
 NSString *const POST_CLASS = @"Post";
