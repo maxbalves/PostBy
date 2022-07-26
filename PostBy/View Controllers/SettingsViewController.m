@@ -281,6 +281,17 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
         [post save];
     }
     [PFUser.currentUser save];
+    
+    /* TODO: Fix CloudCode for deleteLikes (not saving User's "likes" relation)
+     NSDictionary *params = @{
+         @"likesRelationName" : LIKES_RELATION
+     };
+     [PFCloud callFunctionInBackground:@"deleteLikes" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+         if (error) {
+             NSLog(@"Error: %@", error.localizedDescription);
+         }
+     }];
+     */
 }
 
 - (void) deleteDislikes {
@@ -301,11 +312,14 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 
 - (void) deleteComments {
     // delete comments
-    PFRelation *commentsRelation = [PFUser.currentUser relationForKey:COMMENTS_RELATION];
-    NSArray *userComments = [[commentsRelation query] findObjects];
-    for (PFObject *comment in userComments) {
-        [comment delete];
-    }
+    NSDictionary *params = @{
+        @"commentsRelationName" : COMMENTS_RELATION
+    };
+    [PFCloud callFunctionInBackground:@"deleteComments" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
 }
 
 - (void) logoutUser {
