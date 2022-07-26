@@ -31,12 +31,10 @@
     pin.postVM = postVM;
     
     CGSize pinImgSize;
-    if (PIN_IMG_WIDTH != PIN_IMG_HEIGHT) {
-        double size = MIN(PIN_IMG_WIDTH, PIN_IMG_HEIGHT);
-        pinImgSize = CGSizeMake(size, size);
-    } else {
-        pinImgSize = CGSizeMake(PIN_IMG_WIDTH, PIN_IMG_HEIGHT);
-    }
+    double width = MIN(PIN_IMG_WIDTH, PIN_IMG_HEIGHT);
+    double height = MIN(PIN_IMG_WIDTH, PIN_IMG_HEIGHT);
+    pinImgSize = CGSizeMake(width, height);
+    
     pin.profilePic = [pin resizeImageWithUrl:postVM.profilePicUrl withSize:pinImgSize];
     
     pin.coordinate = CLLocationCoordinate2DMake(postVM.latitude, postVM.longitude);
