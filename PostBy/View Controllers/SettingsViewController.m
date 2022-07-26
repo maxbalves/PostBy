@@ -239,8 +239,15 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 }
 
 - (void) deleteAccount {
-    /* TODO: Create CloudCode for this function
-    [PFCloud callFunctionInBackground:@"deleteAccount" withParameters:nil block:^(id  _Nullable object, NSError * _Nullable error) {
+    // Delete user's posts, comments, likes, dislikes, and account
+    NSDictionary *params = @{
+        @"postsRelationName" : POSTS_RELATION,
+        @"commentsRelationName" : COMMENTS_RELATION,
+        @"likesRelationName" : LIKES_RELATION,
+        @"dislikesRelationName" : DISLIKES_RELATION,
+        @"useMasterKey" : @true
+    };
+    [PFCloud callFunctionInBackground:@"deleteAccount" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
         } else {
@@ -248,22 +255,6 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
             [self logoutUser];
         }
     }];
-     */
-    /* OLD!
-    [self deletePosts];
-    
-    [self deleteLikes];
-    
-    [self deleteDislikes];
-    
-    [self deleteComments];
-    
-    // delete account
-    [PFUser.currentUser delete];
-    
-    // log out
-    [self logoutUser];
-     */
 }
 
 - (void) deletePosts {
