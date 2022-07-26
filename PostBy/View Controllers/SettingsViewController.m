@@ -239,6 +239,17 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 }
 
 - (void) deleteAccount {
+    /* TODO: Create CloudCode for this function
+    [PFCloud callFunctionInBackground:@"deleteAccount" withParameters:nil block:^(id  _Nullable object, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        } else {
+            // Log user out if successfully deleted everything
+            [self logoutUser];
+        }
+    }];
+     */
+    /* OLD!
     [self deletePosts];
     
     [self deleteLikes];
@@ -252,6 +263,7 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
     
     // log out
     [self logoutUser];
+     */
 }
 
 - (void) deletePosts {
@@ -269,29 +281,15 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 
 - (void) deleteLikes {
     // delete likes from user relation
-    PFRelation *likesRelation = [PFUser.currentUser relationForKey:LIKES_RELATION];
-    NSArray *likedPosts = [[likesRelation query] findObjects];
-    for (Post *post in likedPosts) {
-        // unlike the post
-        post.likeCount = @(post.likeCount.intValue - 1);
-        [likesRelation removeObject:post];
-        // remove relation from post
-        PFRelation *postLikesRelation = [post relationForKey:LIKES_RELATION];
-        [postLikesRelation removeObject:PFUser.currentUser];
-        [post save];
-    }
-    [PFUser.currentUser save];
-    
-    /* TODO: Fix CloudCode for deleteLikes (not saving User's "likes" relation)
      NSDictionary *params = @{
-         @"likesRelationName" : LIKES_RELATION
+         @"likesRelationName" : LIKES_RELATION,
+         @"useMasterKey" : @true
      };
      [PFCloud callFunctionInBackground:@"deleteLikes" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
          if (error) {
              NSLog(@"Error: %@", error.localizedDescription);
          }
      }];
-     */
 }
 
 - (void) deleteDislikes {
@@ -308,6 +306,17 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
         [post save];
     }
     [PFUser.currentUser save];
+    
+    /* TODO: Fix CloudCode for deleteDislikes (not saving User's "dislikes" relation)
+     NSDictionary *params = @{
+         @"dislikesRelationName" : DISLIKES_RELATION
+     };
+     [PFCloud callFunctionInBackground:@"deleteDislikes" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+         if (error) {
+             NSLog(@"Error: %@", error.localizedDescription);
+         }
+     }];
+     */
 }
 
 - (void) deleteComments {
