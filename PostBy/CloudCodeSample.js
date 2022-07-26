@@ -79,3 +79,38 @@ Parse.Cloud.define("deleteAccount", async (request) => {
   // delete account
   await user.destroy({useMasterKey : true});
 });
+
+// Delete Old Posts - Cron Job
+Parse.Cloud.job("removeOldPosts", async (request) => {
+  let date = new Date();
+  let timeNow = date.getTime();
+  // Posts updatedAt older than: 2 days
+  // 2 (days) * 24 (hours) * 60 (minutes) * 60 (seconds) * 1000 (milliseconds)
+  let intervalOfTime = 2 * 24 * 60 * 60 * 1000;
+  let timeThen = timeNow - intervalOfTime;
+  
+  // Limit date
+  let queryDate = new Date();
+  queryDate.setTime(timeThen);
+  
+  // Query object
+  let Post = Parse.Object.extend("Post");
+  let query = new Parse.Query(Post);
+  
+  // Query posts last modified more than 1 minute ago
+  query.lessThanOrEqualTo("updatedAt", queryDate);
+  
+  const results = await query.find({useMasterKey : true});
+  
+  // Loop through and delete posts + their comments
+  for (const post of results) {
+    let commentsRelation = post.relation(request.params.commentsRelationName);
+    let commentsResult = await commentsRelation.query().find();
+    for (const comment of commentsResult) {
+      comment.destroy();
+    }
+    post.destroy();
+  }
+  
+  return("Successfully retrieved " + results.length + " old posts.");
+});

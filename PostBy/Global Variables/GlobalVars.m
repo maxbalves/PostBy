@@ -32,3 +32,5 @@ NSString *const COMMENTS_RELATION = @"comments";
 NSString *const LIKES_RELATION = @"likes";
 NSString *const DISLIKES_RELATION = @"dislikes";
 
+// !IMPORTANT: Any changes made to fields here will need to be manually done in Parse Server's Background Jobs
+// For example, in removeOldPosts job, we will need to manually update the COMMENTS_RELATION if there are any changes
