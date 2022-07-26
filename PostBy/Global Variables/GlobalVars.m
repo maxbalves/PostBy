@@ -25,7 +25,7 @@ NSString *const ANON_USERNAME = @" ";
 NSString *const AUTHOR_FIELD = @"author";
 NSString *const LOCATION_FIELD = @"location";
 NSString *const POST_FIELD = @"post";
-NSString *const PROFILE_PIC_FIELD = @"profilePic";
+NSString *const PROFILE_PIC_FIELD = @"profilePicture";
 
 NSString *const POSTS_RELATION = @"posts";
 NSString *const COMMENTS_RELATION = @"comments";

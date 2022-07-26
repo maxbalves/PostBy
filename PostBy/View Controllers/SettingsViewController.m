@@ -239,75 +239,73 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 }
 
 - (void) deleteAccount {
-    [self deletePosts];
-    
-    [self deleteLikes];
-    
-    [self deleteDislikes];
-    
-    [self deleteComments];
-    
-    // delete account
-    [PFUser.currentUser delete];
-    
-    // log out
-    [self logoutUser];
+    // Delete user's posts, comments, likes, dislikes, and account
+    NSDictionary *params = @{
+        @"postsRelationName" : POSTS_RELATION,
+        @"commentsRelationName" : COMMENTS_RELATION,
+        @"likesRelationName" : LIKES_RELATION,
+        @"dislikesRelationName" : DISLIKES_RELATION,
+        @"useMasterKey" : @true
+    };
+    [PFCloud callFunctionInBackground:@"deleteAccount" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        } else {
+            // Log user out if successfully deleted everything
+            [self logoutUser];
+        }
+    }];
 }
 
 - (void) deletePosts {
     // delete posts
-    PFRelation *postsRelation = [PFUser.currentUser relationForKey:POSTS_RELATION];
-    NSArray *userPosts = [[postsRelation query] findObjects];
-    for (Post *post in userPosts) {
-        // get & delete this post's comments
-        PFRelation *commentsRelation = [post relationForKey:COMMENTS_RELATION];
-        NSArray *comments = [[commentsRelation query] findObjects];
-        for (PFObject *comment in comments) {
-            [comment delete];
+    NSDictionary *params = @{
+        @"postsRelationName" : POSTS_RELATION,
+        @"commentsRelationName" : COMMENTS_RELATION
+    };
+    [PFCloud callFunctionInBackground:@"deletePosts" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
         }
-        [post delete];
-    }
+    }];
 }
 
 - (void) deleteLikes {
     // delete likes from user relation
-    PFRelation *likesRelation = [PFUser.currentUser relationForKey:LIKES_RELATION];
-    NSArray *likedPosts = [[likesRelation query] findObjects];
-    for (Post *post in likedPosts) {
-        // unlike the post
-        post.likeCount = @(post.likeCount.intValue - 1);
-        [likesRelation removeObject:post];
-        // remove relation from post
-        PFRelation *postLikesRelation = [post relationForKey:LIKES_RELATION];
-        [postLikesRelation removeObject:PFUser.currentUser];
-        [post save];
-    }
-    [PFUser.currentUser save];
+     NSDictionary *params = @{
+         @"likesRelationName" : LIKES_RELATION,
+         @"useMasterKey" : @true
+     };
+     [PFCloud callFunctionInBackground:@"deleteLikes" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+         if (error) {
+             NSLog(@"Error: %@", error.localizedDescription);
+         }
+     }];
 }
 
 - (void) deleteDislikes {
     // delete dislikes
-    PFRelation *dislikesRelation = [PFUser.currentUser relationForKey:DISLIKES_RELATION];
-    NSArray *dislikedPosts = [[dislikesRelation query] findObjects];
-    for (Post *post in dislikedPosts) {
-        // unlike the post
-        post.dislikeCount = @(post.dislikeCount.intValue - 1);
-        [dislikesRelation removeObject:post];
-        // remove relation from post
-        PFRelation *postDislikesRelation = [post relationForKey:DISLIKES_RELATION];
-        [postDislikesRelation removeObject:PFUser.currentUser];
-        [post save];
-    }
-    [PFUser.currentUser save];
+     NSDictionary *params = @{
+         @"dislikesRelationName" : DISLIKES_RELATION,
+         @"useMasterKey" : @true
+     };
+     [PFCloud callFunctionInBackground:@"deleteDislikes" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+         if (error) {
+             NSLog(@"Error: %@", error.localizedDescription);
+         }
+     }];
 }
 
 - (void) deleteComments {
     // delete comments
-    PFRelation *commentsRelation = [PFUser.currentUser relationForKey:COMMENTS_RELATION];
-    NSArray *userComments = [[commentsRelation query] findObjects];
-    for (PFObject *comment in userComments) {
-        [comment delete];
-    }
+    NSDictionary *params = @{
+        @"commentsRelationName" : COMMENTS_RELATION
+    };
+    [PFCloud callFunctionInBackground:@"deleteComments" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
 }
 
 - (void) logoutUser {
