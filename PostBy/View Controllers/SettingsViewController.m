@@ -294,29 +294,15 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 
 - (void) deleteDislikes {
     // delete dislikes
-    PFRelation *dislikesRelation = [PFUser.currentUser relationForKey:DISLIKES_RELATION];
-    NSArray *dislikedPosts = [[dislikesRelation query] findObjects];
-    for (Post *post in dislikedPosts) {
-        // unlike the post
-        post.dislikeCount = @(post.dislikeCount.intValue - 1);
-        [dislikesRelation removeObject:post];
-        // remove relation from post
-        PFRelation *postDislikesRelation = [post relationForKey:DISLIKES_RELATION];
-        [postDislikesRelation removeObject:PFUser.currentUser];
-        [post save];
-    }
-    [PFUser.currentUser save];
-    
-    /* TODO: Fix CloudCode for deleteDislikes (not saving User's "dislikes" relation)
      NSDictionary *params = @{
-         @"dislikesRelationName" : DISLIKES_RELATION
+         @"dislikesRelationName" : DISLIKES_RELATION,
+         @"useMasterKey" : @true
      };
      [PFCloud callFunctionInBackground:@"deleteDislikes" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
          if (error) {
              NSLog(@"Error: %@", error.localizedDescription);
          }
      }];
-     */
 }
 
 - (void) deleteComments {
