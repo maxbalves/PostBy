@@ -256,17 +256,15 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 
 - (void) deletePosts {
     // delete posts
-    PFRelation *postsRelation = [PFUser.currentUser relationForKey:POSTS_RELATION];
-    NSArray *userPosts = [[postsRelation query] findObjects];
-    for (Post *post in userPosts) {
-        // get & delete this post's comments
-        PFRelation *commentsRelation = [post relationForKey:COMMENTS_RELATION];
-        NSArray *comments = [[commentsRelation query] findObjects];
-        for (PFObject *comment in comments) {
-            [comment delete];
+    NSDictionary *params = @{
+        @"postsRelationName" : POSTS_RELATION,
+        @"commentsRelationName" : COMMENTS_RELATION
+    };
+    [PFCloud callFunctionInBackground:@"deletePosts" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
         }
-        [post delete];
-    }
+    }];
 }
 
 - (void) deleteLikes {
