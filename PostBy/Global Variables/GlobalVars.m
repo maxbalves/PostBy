@@ -11,6 +11,9 @@
 // Frameworks
 #import <Foundation/Foundation.h>
 
+// !IMPORTANT: Any changes made to fields below will need to be manually done in Parse Server's Background Jobs
+// For example, in removeOldPosts job, we will need to manually update the COMMENTS_RELATION if there are any changes
+
 NSString *const DEFAULT_PROFILE_PIC = @"profile_tab.png";
 
 NSInteger const PIN_IMG_WIDTH = 50;
@@ -31,6 +34,3 @@ NSString *const POSTS_RELATION = @"posts";
 NSString *const COMMENTS_RELATION = @"comments";
 NSString *const LIKES_RELATION = @"likes";
 NSString *const DISLIKES_RELATION = @"dislikes";
-
-// !IMPORTANT: Any changes made to fields here will need to be manually done in Parse Server's Background Jobs
-// For example, in removeOldPosts job, we will need to manually update the COMMENTS_RELATION if there are any changes
