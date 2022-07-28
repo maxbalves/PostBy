@@ -51,7 +51,9 @@
     
     NSString *title = [NSString stringWithFormat:@"Your %@", self.data[@"navTitle"]];
     [self.navBar setTitle:title];
-    
+}
+
+- (void) viewDidAppear:(BOOL)animated {
     [self queryData];
 }
 
@@ -61,6 +63,7 @@
     [query setLimit:self.MAX_DATA_SHOWN];
     [query orderByDescending:@"createdAt"];
     [query includeKey:@"author"];
+
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (self.showComments) {
             self.arrayOfData = [CommentViewModel commentVMsWithArray:objects];
