@@ -36,8 +36,6 @@
     } else {
         [self.profilePicture setImageWithURL:commentVM.profilePicUrl];
     }
-    
-    // TODO: set more specific properties (if any)
 }
 
 - (void) setPostVM:(PostViewModel *)postVM {
@@ -52,8 +50,6 @@
     } else {
         [self.profilePicture setImageWithURL:postVM.profilePicUrl];
     }
-    
-    // TODO: set more specific properties (if any)
 }
 
 

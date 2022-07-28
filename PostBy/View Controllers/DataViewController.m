@@ -123,11 +123,11 @@
             PostViewModel *postVM = self.arrayOfData[indexPath.row];
             [postVM likeButtonTap];
         } else if ([relation isEqualToString:DISLIKES_RELATION]) {
-            //undislike post
+            // undislike post
             PostViewModel *postVM = self.arrayOfData[indexPath.row];
             [postVM dislikeButtonTap];
         } else if ([relation isEqualToString:COMMENTS_RELATION]) {
-            //delete comment
+            // delete comment
             CommentViewModel *commentVM = self.arrayOfData[indexPath.row];
             [commentVM deleteComment];
         } else if ([relation isEqualToString:POSTS_RELATION]) {
