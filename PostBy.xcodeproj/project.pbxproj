@@ -25,6 +25,8 @@
 		CD0490D82874B79A0072A7A3 /* ComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490D72874B79A0072A7A3 /* ComposeViewController.m */; };
 		CD0490DB2874B7D30072A7A3 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490DA2874B7D30072A7A3 /* DetailsViewController.m */; };
 		CD0490DE2874B8010072A7A3 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0490DD2874B8010072A7A3 /* SettingsViewController.m */; };
+		CD04FE832891C0420090C507 /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CD04FE822891C0420090C507 /* DataViewController.m */; };
+		CD04FE862891F1EB0090C507 /* DataTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD04FE852891F1EB0090C507 /* DataTableViewCell.m */; };
 		CD1E45CD28886A7700B3558D /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1E45CC28886A7700B3558D /* Comment.m */; };
 		CD1E45D0288870AA00B3558D /* CommentViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1E45CF288870AA00B3558D /* CommentViewModel.m */; };
 		CD1E45D32888773E00B3558D /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CD1E45D22888773E00B3558D /* CommentTableViewCell.m */; };
@@ -91,6 +93,10 @@
 		CD0490DA2874B7D30072A7A3 /* DetailsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
 		CD0490DC2874B8010072A7A3 /* SettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		CD0490DD2874B8010072A7A3 /* SettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		CD04FE812891C0420090C507 /* DataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataViewController.h; sourceTree = "<group>"; };
+		CD04FE822891C0420090C507 /* DataViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataViewController.m; sourceTree = "<group>"; };
+		CD04FE842891F1EB0090C507 /* DataTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataTableViewCell.h; sourceTree = "<group>"; };
+		CD04FE852891F1EB0090C507 /* DataTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataTableViewCell.m; sourceTree = "<group>"; };
 		CD1E45CB28886A7700B3558D /* Comment.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
 		CD1E45CC28886A7700B3558D /* Comment.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
 		CD1E45CE288870AA00B3558D /* CommentViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommentViewModel.h; sourceTree = "<group>"; };
@@ -220,6 +226,8 @@
 			children = (
 				CD0490D62874B79A0072A7A3 /* ComposeViewController.h */,
 				CD0490D72874B79A0072A7A3 /* ComposeViewController.m */,
+				CD04FE812891C0420090C507 /* DataViewController.h */,
+				CD04FE822891C0420090C507 /* DataViewController.m */,
 				CD0490D92874B7D30072A7A3 /* DetailsViewController.h */,
 				CD0490DA2874B7D30072A7A3 /* DetailsViewController.m */,
 				CD0490D32874B7780072A7A3 /* HomeViewController.h */,
@@ -239,12 +247,14 @@
 			children = (
 				CD5195EA287F319400BA8B43 /* CheckBox.h */,
 				CD5195EB287F319400BA8B43 /* CheckBox.m */,
+				CD1E45D12888773E00B3558D /* CommentTableViewCell.h */,
+				CD1E45D22888773E00B3558D /* CommentTableViewCell.m */,
+				CD04FE842891F1EB0090C507 /* DataTableViewCell.h */,
+				CD04FE852891F1EB0090C507 /* DataTableViewCell.m */,
 				CD6800B6287795BC0012EC21 /* MapPin.h */,
 				CD6800B7287795BC0012EC21 /* MapPin.m */,
 				CD1F4D352875F29A00D9254F /* PostTableViewCell.h */,
 				CD1F4D362875F29A00D9254F /* PostTableViewCell.m */,
-				CD1E45D12888773E00B3558D /* CommentTableViewCell.h */,
-				CD1E45D22888773E00B3558D /* CommentTableViewCell.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -535,6 +545,7 @@
 				CD6800B8287795BC0012EC21 /* MapPin.m in Sources */,
 				CD1E45D32888773E00B3558D /* CommentTableViewCell.m in Sources */,
 				CD0490CF2874B7490072A7A3 /* LoginViewController.m in Sources */,
+				CD04FE862891F1EB0090C507 /* DataTableViewCell.m in Sources */,
 				CD0490942874AC5D0072A7A3 /* AppDelegate.m in Sources */,
 				CD44A43D287DD07300359A48 /* PostViewModel.m in Sources */,
 				CD5195EC287F319400BA8B43 /* CheckBox.m in Sources */,
@@ -542,6 +553,7 @@
 				CD0490DE2874B8010072A7A3 /* SettingsViewController.m in Sources */,
 				CD1E45CD28886A7700B3558D /* Comment.m in Sources */,
 				CD0490A52874AC5E0072A7A3 /* main.m in Sources */,
+				CD04FE832891C0420090C507 /* DataViewController.m in Sources */,
 				CD1E45D0288870AA00B3558D /* CommentViewModel.m in Sources */,
 				CD1F4D342874DCFD00D9254F /* Post.m in Sources */,
 				CD0490D82874B79A0072A7A3 /* ComposeViewController.m in Sources */,

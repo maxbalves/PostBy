@@ -49,6 +49,15 @@
     return self;
 }
 
+- (void) deleteComment {
+    // Delete comment from user's COMMENTS_RELATION
+    PFRelation *relation = [PFUser.currentUser relationForKey:COMMENTS_RELATION];
+    [relation removeObject:self.comment];
+    [PFUser.currentUser saveInBackground];
+    
+    [self.comment delete];
+}
+
 + (NSMutableArray *) commentVMsWithArray:(NSArray *)comments {
     NSMutableArray *commentVMsArray = [NSMutableArray new];
     for (Comment *comment in comments) {

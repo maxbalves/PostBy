@@ -269,8 +269,19 @@
     PFRelation *commentsRelation = [self.post relationForKey:COMMENTS_RELATION];
     NSArray *comments = [[commentsRelation query] findObjects];
     for (PFObject *comment in comments) {
+        // Remove comment from author's relation to prevent hidden data left behind
+        PFUser *author = comment[AUTHOR_FIELD];
+        PFRelation *authorCommentsRelation = [author relationForKey:COMMENTS_RELATION];
+        [authorCommentsRelation removeObject:comment];
+        [author saveInBackground];
+        
         [comment delete];
     }
+    
+    // Delete Post from currentUser's relation otherwise Parse will leave hidden data behind
+    PFRelation *postsRelation = [PFUser.currentUser relationForKey:POSTS_RELATION];
+    [postsRelation removeObject:self.post];
+    [PFUser.currentUser saveInBackground];
     
     [self.post delete];
 }
