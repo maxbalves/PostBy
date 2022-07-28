@@ -44,10 +44,10 @@ App allows users to see and create posts for their timeline. Each timeline will 
 * Users can choose privacy settings
     * Hide location, username, or profile picture.
 * Users can like or dislike posts
-    * Posts that have a great dislike to like ratio are auto removed
 * Users can comment on posts
 * As user zooms out, pins are grouped for better display
 * Old posts are automatically removed from the database.
+* Users can see specific likes/dislikes/posts/comments made by them
 
 ### 2. Screen Archetypes
 
@@ -64,7 +64,7 @@ App allows users to see and create posts for their timeline. Each timeline will 
 * Map screen
     * Users can access a map that shows all posts’ locations
     * As user zooms out, pins are grouped for better display
-    * Clicking on a link displays a post's details
+    * Clicking on a pin displays a post's details
     * Users can manage the number of posts displayed at once on the map
 * Post Detail screen
     * Users can like or dislike post
@@ -74,7 +74,10 @@ App allows users to see and create posts for their timeline. Each timeline will 
 * Settings Screen
     * Users can delete account
     * Users can set a profile picture
-    * Users can set persistant privacy settings
+    * Users can access Data Screen
+* Data Screen
+    * Users are able to see all their likes, dislikes, comments, and posts
+    * Users can swipe and delete them
 
 
 
@@ -101,8 +104,10 @@ App allows users to see and create posts for their timeline. Each timeline will 
    => Home Screen (go back)
    => Map Screen (shows post location)
    => Create/Compose Screen (edit post)
+* Settings Screen
+   => Data Screen
 
-## Wireframes
+## Wireframes (not updated to newest screens)
 <img src="https://github.com/maxbalves/PostBy/blob/main/HandWireframe.png?raw=true" width=600>
 
 ## Schema 
@@ -159,22 +164,23 @@ App allows users to see and create posts for their timeline. Each timeline will 
     - (Create/POST) Create a new user
 - Home/Timeline screen
     - (Read/GET) Get posts for timeline
-    - (Create/POST) Create new dislike on post
-    - (Create/POST) Create new comment on post
+    - (Create/POST) Create new like/dislike on post
     - (Delete) Delete like/dislike on post
 - Create/Compose post screen
     - (Create/POST) Create new post
 - Map screen
     - (Read/GET) Get posts for map
 - Post Detail screen
-    - (Create/POST) Create new like on post
-    - (Create/POST) Create new dislike on post
+    - (Create/POST) Create new like/dislike on post
     - (Create/POST) Create new comment on post
-    - (Update/PUT) Update own post
+    - (Update/PUT) Edit own post
     - (Delete) Delete dislike/like on post
     - (Delete) Delete post
 - Settings Screen
     - (Delete) Delete account, posts, data, etc...
+- Data Screen
+    - (Read/GET) Get user's likes/dislikes/comments/posts
+    - (Delete) Delete specific like/dislike/comment/post
 
 ## Difficult/Ambiguous Technical Problems
 - Complex data models that implement relations in order for faster retrieval and deletion of data
@@ -184,9 +190,10 @@ App allows users to see and create posts for their timeline. Each timeline will 
     - User <-> Comments
     - other examples can be found in Schema above...
 - Privacy concern handling
-    - Users can hide location, username, and profile picture on their posts
-    - They also have the option to change those decisions later on
-    - Users can delete all of their data (posts, likes, dislikes, comments, and account) through the settings page
+    - Users can hide location, username, and profile picture on their posts and comments
+    - They also have the option to change those decisions later on (except comments)
+    - Users can delete all of their data (posts, likes, dislikes, comments, and account) through the Settings Screen
+    - Users can delete specific data from Data Screen
 - Filter and ranking features for posts
     - Only posts within a 5-mile radius are queried for timeline
     - When the map is refreshed, a rectangle based on the southwest and northeast coordinates of the map that the user sees is created to query posts only within that area
@@ -197,3 +204,7 @@ App allows users to see and create posts for their timeline. Each timeline will 
         - Then, through maps, the user dislikes the same post by going to its details screen
         - Back in home page, the user then unlikes the same post again (which is not updated)
         - Result: the post locally will be disliked and will overwrite the previous choice that was stored in Parse. The most updated post will now be disliked too.
+- Usage of CloudCode
+    - Code for data deletion was migrated to Parse Server through CloudCode in JavaScript
+        - No matter how many operations a CloudCode function performs, it will only consume one request
+    - CloudJob was created and set up as a Cron Job in order to automatically delete old posts
