@@ -17,6 +17,7 @@
 #import "UIImageView+AFNetworking.h"
 
 // View Controllers
+#import "DataViewController.h"
 #import "LoginViewController.h"
 #import "SettingsViewController.h"
 
@@ -68,7 +69,7 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
     CGFloat height = 37;
     // We need to offset by the width/2 in order to centralize the menu
     CGFloat x = (CGRectGetWidth(self.view.frame) / 2) - (width / 2);
-    CGFloat y = 300;
+    CGFloat y = 450;
     CGRect frame = CGRectMake(x, y, width, height);
     ManaDropDownMenu *menu = [[ManaDropDownMenu alloc] initWithFrame:frame title:@"Choose data to delete"];
     menu.delegate = self;
@@ -315,6 +316,50 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
         SceneDelegate *mySceneDelegate = (SceneDelegate *) UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
         mySceneDelegate.window.rootViewController = loginVC;
     }];
+}
+
+- (IBAction)viewPostsTap:(id)sender {
+    NSDictionary *data = @{
+        @"navTitle" : @"Posts",
+        @"relation" : POSTS_RELATION
+    };
+    
+    [self performSegueWithIdentifier:@"SettingsShowData" sender:data];
+}
+
+- (IBAction)viewCommentsTap:(id)sender {
+    NSDictionary *data = @{
+        @"navTitle" : @"Comments",
+        @"relation" : COMMENTS_RELATION
+    };
+    
+    [self performSegueWithIdentifier:@"SettingsShowData" sender:data];
+}
+
+- (IBAction)viewLikesTap:(id)sender {
+    NSDictionary *data = @{
+        @"navTitle" : @"Likes",
+        @"relation" : LIKES_RELATION
+    };
+    
+    [self performSegueWithIdentifier:@"SettingsShowData" sender:data];
+}
+
+- (IBAction)viewDislikesTap:(id)sender {
+    NSDictionary *data = @{
+        @"navTitle" : @"Dislikes",
+        @"relation" : DISLIKES_RELATION
+    };
+    
+    [self performSegueWithIdentifier:@"SettingsShowData" sender:data];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"SettingsShowData"]) {
+        DataViewController *dataVC = [segue destinationViewController];
+        NSDictionary *data = sender;
+        dataVC.data = data;
+    }
 }
 
 @end
