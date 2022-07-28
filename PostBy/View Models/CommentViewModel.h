@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL hideUsername;
 @property (nonatomic) BOOL hideProfilePic;
 
+- (void) deleteComment;
+
 + (NSMutableArray *)commentVMsWithArray:(NSArray *)comments;
 
 @end

@@ -764,7 +764,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Rfe-bZ-u66">
-                                <rect key="frame" x="0.0" y="88" width="390" height="673"/>
+                                <rect key="frame" x="0.0" y="126.66666666666669" width="390" height="634.33333333333326"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="DataTableViewCell" rowHeight="160" id="0ue-84-OPE" customClass="DataTableViewCell">
@@ -824,12 +824,21 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe left to delete" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zC9-6B-2Dg">
+                                <rect key="frame" x="15" y="96" width="360" height="15.666666666666671"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="J8v-qd-ePm"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="J8v-qd-ePm" firstAttribute="bottom" secondItem="Rfe-bZ-u66" secondAttribute="bottom" id="7KP-bL-pCX"/>
-                            <constraint firstItem="Rfe-bZ-u66" firstAttribute="top" secondItem="J8v-qd-ePm" secondAttribute="top" id="S9G-zo-Hf5"/>
+                            <constraint firstItem="zC9-6B-2Dg" firstAttribute="top" secondItem="J8v-qd-ePm" secondAttribute="top" constant="8" id="BoO-2x-66n"/>
+                            <constraint firstItem="Rfe-bZ-u66" firstAttribute="top" secondItem="zC9-6B-2Dg" secondAttribute="bottom" constant="15" id="OnB-Bl-qWn"/>
+                            <constraint firstItem="J8v-qd-ePm" firstAttribute="trailing" secondItem="zC9-6B-2Dg" secondAttribute="trailing" constant="15" id="PYD-aH-a8E"/>
+                            <constraint firstItem="zC9-6B-2Dg" firstAttribute="leading" secondItem="J8v-qd-ePm" secondAttribute="leading" constant="15" id="oo7-qs-Vvl"/>
                             <constraint firstItem="J8v-qd-ePm" firstAttribute="trailing" secondItem="Rfe-bZ-u66" secondAttribute="trailing" id="uA2-NS-Fxo"/>
                             <constraint firstItem="Rfe-bZ-u66" firstAttribute="leading" secondItem="J8v-qd-ePm" secondAttribute="leading" id="w7f-wj-hA6"/>
                         </constraints>
@@ -842,7 +851,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nri-hD-sb4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-118" y="2436"/>
+            <point key="canvasLocation" x="-118.46153846153845" y="2435.5450236966822"/>
         </scene>
         <!--Home-->
         <scene sceneID="W3m-Tj-d7i">

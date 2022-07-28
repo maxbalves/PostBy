@@ -26,7 +26,7 @@
 @property (strong, nonatomic) IBOutlet UINavigationItem *navBar;
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSArray *arrayOfData;
+@property (strong, nonatomic) NSMutableArray *arrayOfData;
 @property (nonatomic) BOOL showComments;
 @property (nonatomic) BOOL showPosts;
 
@@ -59,6 +59,7 @@
     PFRelation *relation = [PFUser.currentUser relationForKey:self.data[@"relation"]];
     PFQuery *query = [relation query];
     [query setLimit:self.MAX_DATA_SHOWN];
+    [query orderByDescending:@"createdAt"];
     [query includeKey:@"author"];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (self.showComments) {
@@ -115,19 +116,28 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Perform the real delete action here. Note: you may need to check editing style
-    //   if you do not perform delete only.
-    NSLog(@"Deleted row.");
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSString *relation = self.data[@"relation"];
+        if ([relation isEqualToString:LIKES_RELATION]) {
+            // unlike post
+            PostViewModel *postVM = self.arrayOfData[indexPath.row];
+            [postVM likeButtonTap];
+        } else if ([relation isEqualToString:DISLIKES_RELATION]) {
+            //undislike post
+            PostViewModel *postVM = self.arrayOfData[indexPath.row];
+            [postVM dislikeButtonTap];
+        } else if ([relation isEqualToString:COMMENTS_RELATION]) {
+            //delete comment
+            CommentViewModel *commentVM = self.arrayOfData[indexPath.row];
+            [commentVM deleteComment];
+        } else if ([relation isEqualToString:POSTS_RELATION]) {
+            // delete post (+ comments in it)
+            PostViewModel *postVM = self.arrayOfData[indexPath.row];
+            [postVM deletePost];
+        }
+        [self.arrayOfData removeObjectAtIndex:indexPath.row];
+        [self.tableView reloadData];
+    }
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

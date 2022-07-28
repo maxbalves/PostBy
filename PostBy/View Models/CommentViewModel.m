@@ -49,6 +49,10 @@
     return self;
 }
 
+- (void) deleteComment {
+    [self.comment delete];
+}
+
 + (NSMutableArray *) commentVMsWithArray:(NSArray *)comments {
     NSMutableArray *commentVMsArray = [NSMutableArray new];
     for (Comment *comment in comments) {
