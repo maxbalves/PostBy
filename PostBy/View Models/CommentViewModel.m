@@ -50,17 +50,19 @@
 }
 
 - (void) deleteComment {
-    // Delete comment from user's COMMENTS_RELATION
-    PFRelation *userRelation = [PFUser.currentUser relationForKey:COMMENTS_RELATION];
-    [userRelation removeObject:self.comment];
-    [PFUser.currentUser saveInBackground];
+    NSDictionary *params = @{
+        @"commentId" : self.comment.objectId,
+        @"commentClassName" : COMMENT_CLASS,
+        @"commentsRelationName" : COMMENTS_RELATION,
+        @"postField" : POST_FIELD,
+        @"useMasterKey" : @true
+    };
     
-    // Delete comment from post's COMMENTS_RELATION
-    PFRelation *postRelation = [self.comment.post relationForKey:COMMENTS_RELATION];
-    [postRelation removeObject:self.comment];
-    [self.comment.post saveInBackground];
-    
-    [self.comment deleteInBackground];
+    [PFCloud callFunctionInBackground:@"deleteComment" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
 }
 
 + (NSMutableArray *) commentVMsWithArray:(NSArray *)comments {

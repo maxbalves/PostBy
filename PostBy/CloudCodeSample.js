@@ -1,3 +1,25 @@
+// Delete specific comment
+Parse.Cloud.define("deleteComment", async (request) => {
+  const query = new Parse.Query(request.params.commentClassName);
+  query.equalTo("objectId", request.params.commentId);
+  
+  const comment = await query.first();
+  const currentUser = request.user;
+  const post = comment.get(request.params.postField);
+  
+  // Delete comment from user's COMMENTS_RELATION
+  const userRelation = currentUser.relation(request.params.commentsRelationName);
+  userRelation.remove(comment);
+  currentUser.save(null, {useMasterKey : true});
+  
+  // Delete comment from post's COMMENTS_RELATION
+  const postRelation = post.relation(request.params.commentsRelationName);
+  postRelation.remove(comment);
+  post.save();
+  
+  comment.destroy();
+});
+
 // Delete the user's posts & comments under it
 Parse.Cloud.define("deletePosts", async (request) => {
   const currentUser = request.user;
@@ -79,6 +101,7 @@ Parse.Cloud.define("deleteAccount", async (request) => {
   // delete account
   await user.destroy({useMasterKey : true});
 });
+
 
 // Delete Old Posts - Cron Job
 Parse.Cloud.job("removeOldPosts", async (request) => {
