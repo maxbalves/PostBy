@@ -16,6 +16,7 @@
 #import "Post.h"
 
 // View Model
+#import "CommentViewModel.h"
 #import "PostViewModel.h"
 
 @implementation PostViewModel
@@ -275,7 +276,7 @@
         [authorCommentsRelation removeObject:comment];
         [author saveInBackground];
         
-        [comment delete];
+        [comment deleteInBackground];
     }
     
     // Delete Post from currentUser's relation otherwise Parse will leave hidden data behind
@@ -283,7 +284,37 @@
     [postsRelation removeObject:self.post];
     [PFUser.currentUser saveInBackground];
     
-    [self.post delete];
+    // Sadly, because Parse leaves data about the relations behind even after objects
+    // are deleted, we need to manually remove relation between a user and this post,
+    // whether it's dislike or like.
+    // This will be very ugly and doesn't work if there are more than 1000 users, as that's
+    // Parse Query's limit. A more in-depth solution would require complex writing of CloudCode and recursion probably :(
+    
+    // Like:
+    PFRelation *postLikesRelation = [self.post relationForKey:LIKES_RELATION];
+    PFQuery *postLikesQuery = [postLikesRelation query];
+    [postLikesQuery setLimit:1000];
+    [postLikesQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        for (PFUser *user in objects) {
+            PFRelation *userLikes = [user relationForKey:LIKES_RELATION];
+            [userLikes removeObject:self.post];
+            [user saveInBackground];
+        }
+    }];
+    
+    // Dislike:
+    PFRelation *postDislikesRelation = [self.post relationForKey:DISLIKES_RELATION];
+    PFQuery *postDislikesQuery = [postDislikesRelation query];
+    [postDislikesQuery setLimit:1000];
+    [postDislikesQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        for (PFUser *user in objects) {
+            PFRelation *userDislikes = [user relationForKey:DISLIKES_RELATION];
+            [userDislikes removeObject:self.post];
+            [user saveInBackground];
+        }
+    }];
+    
+    [self.post deleteInBackground];
 }
 
 - (void) updateWithText:(NSString *)newPostText hideLocation:(BOOL)hideLocation hideUsername:(BOOL)hideUsername hideProfilePic:(BOOL)hideProfilePic {
