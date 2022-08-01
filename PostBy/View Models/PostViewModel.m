@@ -16,6 +16,7 @@
 #import "Post.h"
 
 // View Model
+#import "CommentViewModel.h"
 #import "PostViewModel.h"
 
 @implementation PostViewModel
@@ -265,25 +266,24 @@
 }
 
 - (void) deletePost {
-    // Delete comments
-    PFRelation *commentsRelation = [self.post relationForKey:COMMENTS_RELATION];
-    NSArray *comments = [[commentsRelation query] findObjects];
-    for (PFObject *comment in comments) {
-        // Remove comment from author's relation to prevent hidden data left behind
-        PFUser *author = comment[AUTHOR_FIELD];
-        PFRelation *authorCommentsRelation = [author relationForKey:COMMENTS_RELATION];
-        [authorCommentsRelation removeObject:comment];
-        [author saveInBackground];
-        
-        [comment delete];
-    }
-    
-    // Delete Post from currentUser's relation otherwise Parse will leave hidden data behind
-    PFRelation *postsRelation = [PFUser.currentUser relationForKey:POSTS_RELATION];
-    [postsRelation removeObject:self.post];
-    [PFUser.currentUser saveInBackground];
-    
-    [self.post delete];
+    NSDictionary *params = @{
+        @"postId" : self.post.objectId,
+        @"likesRelationName" : LIKES_RELATION,
+        @"dislikesRelationName" : DISLIKES_RELATION,
+        @"commentClassName" : COMMENT_CLASS,
+        @"commentsRelationName" : COMMENTS_RELATION,
+        @"postClassName" : POST_CLASS,
+        @"postsRelationName" : POSTS_RELATION,
+        @"postField" : POST_FIELD,
+        @"authorField" : AUTHOR_FIELD,
+        @"useMasterKey" : @true
+    };
+
+    [PFCloud callFunctionInBackground:@"deletePost" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"Error: %@", error.localizedDescription);
+        }
+    }];
 }
 
 - (void) updateWithText:(NSString *)newPostText hideLocation:(BOOL)hideLocation hideUsername:(BOOL)hideUsername hideProfilePic:(BOOL)hideProfilePic {
