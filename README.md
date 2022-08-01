@@ -55,7 +55,7 @@ App allows users to see and create posts for their timeline. Each timeline will 
    * User can login
    * User can sign up
 * Home/Timeline screen
-    * Users can see post timeline and change the posts sorting
+    * Users can see post timeline
     * Users can like or dislike posts
     * Users can switch between Newest or Trending sort
 * Create/Compose post screen
@@ -77,7 +77,7 @@ App allows users to see and create posts for their timeline. Each timeline will 
     * Users can access Data Screen
 * Data Screen
     * Users are able to see all their likes, dislikes, comments, and posts
-    * Users can swipe and delete them
+    * Users can swipe to delete them
 
 
 
@@ -177,7 +177,7 @@ App allows users to see and create posts for their timeline. Each timeline will 
     - (Delete) Delete dislike/like on post
     - (Delete) Delete post
 - Settings Screen
-    - (Delete) Delete account, posts, data, etc...
+    - (Delete) Delete all likes, dislikes, posts, comments, or account
 - Data Screen
     - (Read/GET) Get user's likes/dislikes/comments/posts
     - (Delete) Delete specific like/dislike/comment/post
@@ -208,3 +208,22 @@ App allows users to see and create posts for their timeline. Each timeline will 
     - Code for data deletion was migrated to Parse Server through CloudCode in JavaScript
         - No matter how many operations a CloudCode function performs, it will only consume one request
     - CloudJob was created and set up as a Cron Job in order to automatically delete old posts
+
+## Future Improvements
+### Query Limit
+One of Parse's limitations is that queries contain a retrieval limit of 1000 objects, even if code is done through CloudCode in Parse Server. This creates a bottleneck on how large data is handled. For example:
+- If a post with over 1000 likes is deleted, multiple queries will be needed to delete the likes, comments, and dislikes related to it. More specifically, the data will have to be deleted with multiple 1000 quieres at a time.
+
+For now, the app will assume that no query will ever need to account for 1000+ objects. However, for future improvement, the CloudCode functions could be altered to constantly query and delete until it retrieves 0 objects.
+
+### Like/Dislike Check
+One of the difficult/ambiguous technical problems is the handling of edge cases with Like/Dislike feature. As stated above, it's possible that the data of a post the user sees locally is no longer the most updated version of the post as in the Parse database.
+- The current solution queries the updated post on the database, overwrites it with the local changes, and saves it.
+
+For future improvent, a CloudCode function could be created and called to run the checks and return the correct, updated data of the post. The app will then only need to wait to update the data on the screen without worrying about the logic.
+
+### Map Design
+The use has the ability to see the location of posts on the map. The map allows the user to look freely on other areas outside of the 5-mile radius, instead of locking on the user's location.
+- Currently, the user has to manually move through the map and click a refresh button to see the posts in the area.
+
+For future improvement, the map could have an option to lock the view on the user's location and zoom closely. This would allow the user to see posts near them without needing to constantly adjust the map view.
