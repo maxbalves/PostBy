@@ -242,12 +242,17 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 - (void) deleteAccount {
     // Delete user's posts, comments, likes, dislikes, and account
     NSDictionary *params = @{
-        @"postsRelationName" : POSTS_RELATION,
-        @"commentsRelationName" : COMMENTS_RELATION,
         @"likesRelationName" : LIKES_RELATION,
         @"dislikesRelationName" : DISLIKES_RELATION,
+        @"commentClassName" : COMMENT_CLASS,
+        @"commentsRelationName" : COMMENTS_RELATION,
+        @"postClassName" : POST_CLASS,
+        @"postsRelationName" : POSTS_RELATION,
+        @"postField" : POST_FIELD,
+        @"authorField" : AUTHOR_FIELD,
         @"useMasterKey" : @true
     };
+    
     [PFCloud callFunctionInBackground:@"deleteAccount" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
@@ -261,9 +266,17 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 - (void) deletePosts {
     // delete posts
     NSDictionary *params = @{
+        @"likesRelationName" : LIKES_RELATION,
+        @"dislikesRelationName" : DISLIKES_RELATION,
+        @"commentClassName" : COMMENT_CLASS,
+        @"commentsRelationName" : COMMENTS_RELATION,
+        @"postClassName" : POST_CLASS,
         @"postsRelationName" : POSTS_RELATION,
-        @"commentsRelationName" : COMMENTS_RELATION
+        @"postField" : POST_FIELD,
+        @"authorField" : AUTHOR_FIELD,
+        @"useMasterKey" : @true
     };
+    
     [PFCloud callFunctionInBackground:@"deletePosts" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
@@ -277,6 +290,7 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
          @"likesRelationName" : LIKES_RELATION,
          @"useMasterKey" : @true
      };
+    
      [PFCloud callFunctionInBackground:@"deleteLikes" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
          if (error) {
              NSLog(@"Error: %@", error.localizedDescription);
@@ -290,6 +304,7 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
          @"dislikesRelationName" : DISLIKES_RELATION,
          @"useMasterKey" : @true
      };
+    
      [PFCloud callFunctionInBackground:@"deleteDislikes" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
          if (error) {
              NSLog(@"Error: %@", error.localizedDescription);
@@ -300,8 +315,12 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 - (void) deleteComments {
     // delete comments
     NSDictionary *params = @{
-        @"commentsRelationName" : COMMENTS_RELATION
+        @"commentsRelationName" : COMMENTS_RELATION,
+        @"commentClassName" : COMMENT_CLASS,
+        @"authorField" : AUTHOR_FIELD,
+        @"postField" : POST_FIELD
     };
+    
     [PFCloud callFunctionInBackground:@"deleteComments" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);

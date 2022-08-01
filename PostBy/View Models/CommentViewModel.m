@@ -55,6 +55,7 @@
         @"commentClassName" : COMMENT_CLASS,
         @"commentsRelationName" : COMMENTS_RELATION,
         @"postField" : POST_FIELD,
+        @"authorField" : AUTHOR_FIELD,
         @"useMasterKey" : @true
     };
     
