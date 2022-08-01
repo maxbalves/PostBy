@@ -211,10 +211,10 @@ App allows users to see and create posts for their timeline. Each timeline will 
 
 ## Future Improvements
 ### Query Limit
-One of Parse's limitations is that queries contain a retrieval limit of 1000 objects, even if code is done through CloudCode in Parse Server. This creates a bottleneck on how large data is handled. For example:
-- If a post with over 1000 likes is deleted, multiple queries will be needed to delete the likes, comments, and dislikes related to it. More specifically, the data will have to be deleted with multiple 1000 quieres at a time.
+Parse used to contain a retrieval limit of 1000 objects per query. However, that has since been removed. Although it solves many problems, it creates ambiguity.
+- No specific limit is stated for Parse Server, so it's impossible to know the limitations of Parse now
 
-For now, the app will assume that no query will ever need to account for 1000+ objects. However, for future improvement, the CloudCode functions could be altered to constantly query and delete until it retrieves 0 objects.
+For now, the app will offset these heavy queries to CloudCode and assume that it will be able to complete them, no matter the size. For future improvement, it would be smart to look in-depth into Parse Server's limit by reaching out to its developers, or perhaps considering other powerful servers.
 
 ### Like/Dislike Check
 One of the difficult/ambiguous technical problems is the handling of edge cases with Like/Dislike feature. As stated above, it's possible that the data of a post the user sees locally is no longer the most updated version of the post as in the Parse database.
