@@ -15,6 +15,7 @@
     self.checkedImg = [UIImage systemImageNamed:@"checkmark.circle.fill"];
     self.uncheckedImg = [UIImage systemImageNamed:@"circle"];
     
+    // Default
     self.isChecked = NO;
     [self updateButton];
 }

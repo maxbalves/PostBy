@@ -51,15 +51,15 @@
 
 - (void) deleteComment {
     NSDictionary *params = @{
-        @"commentId" : self.comment.objectId,
-        @"commentClassName" : COMMENT_CLASS,
-        @"commentsRelationName" : COMMENTS_RELATION,
-        @"postField" : POST_FIELD,
-        @"authorField" : AUTHOR_FIELD,
+        CLOUD_COMMENTID_FIELD : self.comment.objectId,
+        CLOUD_COMMENT_CLASS : COMMENT_CLASS,
+        CLOUD_COMMENTS_RELATION : COMMENTS_RELATION,
+        CLOUD_POST_FIELD: POST_FIELD,
+        CLOUD_AUTHOR_FIELD : AUTHOR_FIELD,
         @"useMasterKey" : @true
     };
     
-    [PFCloud callFunctionInBackground:@"deleteComment" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+    [PFCloud callFunctionInBackground:CLOUD_DELETE_COMMENT_FUNC withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
         }

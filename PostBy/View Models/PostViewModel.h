@@ -65,6 +65,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) updateWithText:(NSString *)newPostText hideLocation:(BOOL)hideLocation hideUsername:(BOOL)hideUsername hideProfilePic:(BOOL)hideProfilePic;
 
+- (instancetype) initWithPost:(Post *)post;
+
 + (NSMutableArray *)postVMsWithArray:(NSArray *)posts;
 
 @end

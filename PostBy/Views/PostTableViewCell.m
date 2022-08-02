@@ -29,7 +29,6 @@
 
 - (void) setPostVM:(PostViewModel *)postVM {
     postVM.delegate = self;
-    
     _postVM = postVM;
     
     [self refreshCell];
@@ -52,10 +51,10 @@
     self.postTextLabel.text = self.postVM.postText;
     self.shortDate.text = self.postVM.postShortDate;
     
-    if (self.postVM.profilePicUrl != nil) {
-        [self.profilePicture setImageWithURL:self.postVM.profilePicUrl];
-    } else {
+    if (self.postVM.profilePicUrl == nil) {
         [self.profilePicture setImage:[UIImage imageNamed:DEFAULT_PROFILE_PIC]];
+    } else {
+        [self.profilePicture setImageWithURL:self.postVM.profilePicUrl];
     }
     
     [self refreshLikeDislikeUI];
@@ -85,13 +84,11 @@
 
 - (IBAction)likeButtonTap:(id)sender {
     [self enableButtonInteraction:NO];
-    
     [self.postVM likeButtonTap];
 }
 
 - (IBAction)dislikeButtonTap:(id)sender {
     [self enableButtonInteraction:NO];
-    
     [self.postVM dislikeButtonTap];
 }
 

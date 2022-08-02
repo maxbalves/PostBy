@@ -681,7 +681,7 @@
                                     <color key="baseBackgroundColor" systemColor="systemPinkColor"/>
                                 </buttonConfiguration>
                                 <connections>
-                                    <action selector="promptAccountDeletion:" destination="BTW-Z5-PLK" eventType="touchUpInside" id="XGK-zo-pAe"/>
+                                    <action selector="promptDataDeletion:" destination="BTW-Z5-PLK" eventType="touchUpInside" id="qEe-IW-V8h"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xRL-65-PvL">

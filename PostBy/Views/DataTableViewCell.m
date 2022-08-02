@@ -27,6 +27,7 @@
 - (void) setCommentVM:(CommentViewModel *)commentVM {
     _commentVM = commentVM;
     
+    // Set up UI based on commentVM
     self.usernameLabel.text = commentVM.username;
     self.dateLabel.text = commentVM.commentShortDate;
     self.dataTextLabel.text = commentVM.commentText;
@@ -41,6 +42,7 @@
 - (void) setPostVM:(PostViewModel *)postVM {
     _postVM = postVM;
     
+    // Set up UI based on postVM
     self.usernameLabel.text = postVM.username;
     self.dateLabel.text = postVM.postShortDate;
     self.dataTextLabel.text = postVM.postText;

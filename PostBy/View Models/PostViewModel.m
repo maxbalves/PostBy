@@ -267,19 +267,19 @@
 
 - (void) deletePost {
     NSDictionary *params = @{
-        @"postId" : self.post.objectId,
-        @"likesRelationName" : LIKES_RELATION,
-        @"dislikesRelationName" : DISLIKES_RELATION,
-        @"commentClassName" : COMMENT_CLASS,
-        @"commentsRelationName" : COMMENTS_RELATION,
-        @"postClassName" : POST_CLASS,
-        @"postsRelationName" : POSTS_RELATION,
-        @"postField" : POST_FIELD,
-        @"authorField" : AUTHOR_FIELD,
+        CLOUD_POSTID_FIELD : self.post.objectId,
+        CLOUD_LIKES_RELATION : LIKES_RELATION,
+        CLOUD_DISLIKES_RELATION : DISLIKES_RELATION,
+        CLOUD_COMMENT_CLASS : COMMENT_CLASS,
+        CLOUD_COMMENTS_RELATION : COMMENTS_RELATION,
+        CLOUD_POST_CLASS : POST_CLASS,
+        CLOUD_POSTS_RELATION : POSTS_RELATION,
+        CLOUD_POST_FIELD : POST_FIELD,
+        CLOUD_AUTHOR_FIELD : AUTHOR_FIELD,
         @"useMasterKey" : @true
     };
 
-    [PFCloud callFunctionInBackground:@"deletePost" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+    [PFCloud callFunctionInBackground:CLOUD_DELETE_POST_FUNC withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
         }
@@ -301,6 +301,7 @@
     [self.post save:error];
     
     if (error) {
+        // If error, fall back to previous data
         self.post.postText = oldPostText;
         self.post.hideLocation = oldHideLocation;
         self.post.hideUsername = oldHideUsername;

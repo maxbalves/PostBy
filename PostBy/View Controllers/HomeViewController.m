@@ -60,6 +60,7 @@
     self.MAX_POSTS_SHOWN = 10;
     self.ADDITIONAL_POSTS = 10;
     
+    // Pull-to-refresh
     self.refreshControl = [UIRefreshControl new];
     [self.refreshControl addTarget:self action:@selector(refreshPosts) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
@@ -94,10 +95,10 @@
                 self.postVMsArray = [PostViewModel postVMsWithArray:posts];
                 [self createTrendingArray];
                 [self.tableView reloadData];
-                [self.refreshControl endRefreshing];
             } else {
                 NSLog(@"%@", error.localizedDescription);
             }
+            [self.refreshControl endRefreshing];
         }];
     }];
 }
@@ -119,7 +120,7 @@
 - (IBAction)logoutUser:(id)sender {
     // PFUser.current() will now be nil
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle:nil];
         LoginViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
         SceneDelegate *mySceneDelegate = (SceneDelegate *) UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
         mySceneDelegate.window.rootViewController = loginVC;
@@ -128,14 +129,13 @@
 
 - (PostTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     PostTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"PostTableViewCell" forIndexPath:indexPath];
+    cell.delegate = self;
     
     if (self.sortControl.selectedSegmentIndex == self.NEWEST_SORT) {
         cell.postVM = self.postVMsArray[indexPath.row];
     } else if (self.sortControl.selectedSegmentIndex == self.TRENDING_SORT) {
         cell.postVM = self.sortedPostVMsArray[indexPath.row];
     }
-    
-    cell.delegate = self;
     
     return cell;
 }
@@ -158,35 +158,31 @@
 }
 
 - (void) showAlertWithTitle:(NSString *)title message:(NSString *)message {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
-
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     // create a Try Again action
     UIAlertAction *tryAgainAction = [UIAlertAction actionWithTitle:@"Try Again" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self refreshPosts];
     }];
-    
-    // add the OK action to the alert controller
+    // add the Try Again action to the alert controller
     [alert addAction:tryAgainAction];
-    
     [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void) cellWithBadPostVM:(PostViewModel *)postVM {
     NSString *title = @"Post Not Found";
     NSString *message = @"It's possible the post you are trying to access was deleted or invalid.";
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
-
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     // create an Okay action
     UIAlertAction *okayAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self accessedBadPostVM:postVM];
     }];
     // add the OK action to the alert controller
     [alert addAction:okayAction];
-    
     [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void) accessedBadPostVM:(PostViewModel *)postVM {
+    // Find and remove bad postVM from array
     NSInteger count = [self.postVMsArray count];
     for (NSInteger index = (count - 1); index >= 0; index--) {
         PostViewModel *p = self.postVMsArray[index];
@@ -198,6 +194,7 @@
 }
 
 - (void) updatePostVMWith:(PostViewModel *)updatedVM {
+    // Find and update the postVM in the array
     NSInteger count = [self.postVMsArray count];
     for (NSInteger index = (count - 1); index >= 0; index--) {
         PostViewModel *p = self.postVMsArray[index];
@@ -216,7 +213,6 @@
 
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"HomeShowDetails"]) {
         DetailsViewController *detailsVC = [segue destinationViewController];

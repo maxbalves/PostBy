@@ -40,10 +40,13 @@
         return;
     }
     
+    // Create comment
     Comment *newComment = [Comment new];
     newComment.post = post;
     newComment.author = [PFUser currentUser];
     newComment.commentText = text;
+    
+    // Privacy Options
     newComment.hideUsername = hideUsername;
     newComment.hideProfilePic = hideProfilePic;
     

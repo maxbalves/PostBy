@@ -74,10 +74,10 @@
     self.postDateLabel.text = self.postVM.postDate;
     
     // Profile Picture
-    if (self.postVM.profilePicUrl != nil) {
-        [self.profilePicture setImageWithURL:self.postVM.profilePicUrl];
-    } else {
+    if (self.postVM.profilePicUrl == nil) {
         [self.profilePicture setImage:[UIImage imageNamed:DEFAULT_PROFILE_PIC]];
+    } else {
+        [self.profilePicture setImageWithURL:self.postVM.profilePicUrl];
     }
     
     [self refreshLikeDislikeUI];
@@ -96,11 +96,14 @@
 }
 
 - (void) queryComments {
+    // construct query
     PFRelation *postCommentsRelation = [self.postVM.post relationForKey:COMMENTS_RELATION];
     PFQuery *query =[postCommentsRelation query];
     [query includeKeys:@[AUTHOR_FIELD, POST_FIELD]];
     [query orderByDescending:@"createdAt"];
     [query setLimit:self.MAX_COMMENTS_SHOWN];
+    
+    // fetch data asynchronously
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         self.commentVMsArray = [CommentViewModel commentVMsWithArray:objects];
         [self.commentsTableView reloadData];
@@ -117,9 +120,7 @@
     [query findObjectsInBackgroundWithBlock:^(NSArray *posts, NSError *error) {
         if (posts != nil) {
             if (posts.count > 0) {
-                // TODO: Copy data over without resetting like/dislike button if not necessary
-                // This will prevent the button from flashing when the page appears
-                self.postVM = [PostViewModel postVMsWithArray:posts][0];
+                self.postVM = [[PostViewModel alloc] initWithPost:posts[0]];
             } else {
                 [self invalidPostAlert];
             }
@@ -132,7 +133,7 @@
 - (void) invalidPostAlert {
     NSString *title = @"Post Not Found";
     NSString *message = @"It's possible the post you are trying to access was deleted or invalid.";
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
 
     // create an Okay action
     UIAlertAction *okayAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -238,6 +239,7 @@
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
+    // Locally refreshes timeline/map with most updated version of post
     if (self.isMovingFromParentViewController) {
         [self.delegate updatePostVMWith:self.postVM];
     }

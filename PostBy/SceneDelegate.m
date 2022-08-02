@@ -5,6 +5,9 @@
 //  Created by Max Bagatini Alves on 7/5/22.
 //
 
+// Global Variables
+#import "GlobalVars.h"
+
 // Frameworks
 @import Parse;
 
@@ -23,7 +26,7 @@
     // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
     if (PFUser.currentUser) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle:nil];
         self.window.rootViewController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
         
         // Get the current user's most up to date data
