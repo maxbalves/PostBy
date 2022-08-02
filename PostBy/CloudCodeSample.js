@@ -1,5 +1,16 @@
+const DELETE_ACCOUNT_FUNC = "deleteAccount";
+const DELETE_COMMENT_FUNC = "deleteComment";
+const DELETE_COMMENTS_FUNC = "deleteComments";
+const DELETE_DISLIKES_FUNC = "deleteDislikes";
+const DELETE_LIKES_FUNC = "deleteLikes";
+const DELETE_POST_FUNC = "deletePost";
+const DELETE_POSTS_FUNC = "deletePosts";
+
+const COMMENTID_FIELD = "commentId";
+const POSTID_FIELD = "postId";
+
 // Delete user's likes
-Parse.Cloud.define("deleteLikes", async (request) => {
+Parse.Cloud.define(DELETE_LIKES_FUNC, async (request) => {
   // delete likes from user relation
   const currentUser = request.user;
   const likesRelation = currentUser.relation(request.params.likesRelationName);
@@ -22,7 +33,7 @@ Parse.Cloud.define("deleteLikes", async (request) => {
 });
 
 // Delete user's dislikes
-Parse.Cloud.define("deleteDislikes", async (request) => {
+Parse.Cloud.define(DELETE_DISLIKES_FUNC, async (request) => {
   // delete dislikes from user relation
   const currentUser = request.user;
   const dislikesRelation = currentUser.relation(request.params.dislikesRelationName);
@@ -45,7 +56,7 @@ Parse.Cloud.define("deleteDislikes", async (request) => {
 });
 
 // Delete specific post
-Parse.Cloud.define("deletePost", async (request) => {
+Parse.Cloud.define(DELETE_POST_FUNC, async (request) => {
   const query = new Parse.Query(request.params.postClassName);
   query.equalTo("objectId", request.params.postId);
   
@@ -60,8 +71,8 @@ Parse.Cloud.define("deletePost", async (request) => {
   const commentsResult = await commentsQuery.find();
   for (let i = 0; i < commentsResult.length; i++) {
     const comment = commentsResult[i];
-    request.params["commentId"] = comment.id;
-    Parse.Cloud.run("deleteComment", request.params);
+    request.params[COMMENTID_FIELD] = comment.id;
+    Parse.Cloud.run(DELETE_COMMENT_FUNC, request.params);
   }
   
   // Delete author's relation to post
@@ -98,7 +109,7 @@ Parse.Cloud.define("deletePost", async (request) => {
 });
 
 // Delete the user's posts & comments under it
-Parse.Cloud.define("deletePosts", async (request) => {
+Parse.Cloud.define(DELETE_POSTS_FUNC, async (request) => {
   const currentUser = request.user;
   const postsRelation = currentUser.relation(request.params.postsRelationName);
   const postsQuery = postsRelation.query();
@@ -107,13 +118,13 @@ Parse.Cloud.define("deletePosts", async (request) => {
   const postsResult = await postsQuery.find();
   for (let i = 0; i < postsResult.length; i++) {
     const post = postsResult[i];
-    request.params["postId"] = post.id;
-    Parse.Cloud.run("deletePost", request.params, {sessionToken : currentUser.getSessionToken()});
+    request.params[POSTID_FIELD] = post.id;
+    Parse.Cloud.run(DELETE_POST_FUNC, request.params, {sessionToken : currentUser.getSessionToken()});
   }
 });
 
 // Delete specific comment
-Parse.Cloud.define("deleteComment", async (request) => {
+Parse.Cloud.define(DELETE_COMMENT_FUNC, async (request) => {
   const query = new Parse.Query(request.params.commentClassName);
   query.equalTo("objectId", request.params.commentId);
   
@@ -135,7 +146,7 @@ Parse.Cloud.define("deleteComment", async (request) => {
 });
 
 // Delete user's comments
-Parse.Cloud.define("deleteComments", async (request) => {
+Parse.Cloud.define(DELETE_COMMENTS_FUNC, async (request) => {
   const currentUser = request.user;
   const commentsRelation = currentUser.relation(request.params.commentsRelationName);
   const commentsQuery = commentsRelation.query();
@@ -144,19 +155,19 @@ Parse.Cloud.define("deleteComments", async (request) => {
   const commentsResult = await commentsQuery.find();
   for (let i = 0; i < commentsResult.length; i++) {
     const comment = commentsResult[i];
-    request.params["commentId"] = comment.id;
-    Parse.Cloud.run("deleteComment", request.params, {sessionToken : currentUser.getSessionToken()});
+    request.params[COMMENTID_FIELD] = comment.id;
+    Parse.Cloud.run(DELETE_COMMENT_FUNC, request.params, {sessionToken : currentUser.getSessionToken()});
   }
 });
 
 // Delete all of user's data
-Parse.Cloud.define("deleteAccount", async (request) => {
+Parse.Cloud.define(DELETE_ACCOUNT_FUNC, async (request) => {
   const user = request.user;
   
-  await Parse.Cloud.run("deletePosts", request.params, {sessionToken : user.getSessionToken()});
-  await Parse.Cloud.run("deleteLikes", request.params, {sessionToken : user.getSessionToken()});
-  await Parse.Cloud.run("deleteDislikes", request.params, {sessionToken : user.getSessionToken()});
-  await Parse.Cloud.run("deleteComments", request.params, {sessionToken : user.getSessionToken()});
+  await Parse.Cloud.run(DELETE_POSTS_FUNC, request.params, {sessionToken : user.getSessionToken()});
+  await Parse.Cloud.run(DELETE_LIKES_FUNC, request.params, {sessionToken : user.getSessionToken()});
+  await Parse.Cloud.run(DELETE_DISLIKES_FUNC, request.params, {sessionToken : user.getSessionToken()});
+  await Parse.Cloud.run(DELETE_COMMENTS_FUNC, request.params, {sessionToken : user.getSessionToken()});
   
   // delete account
   await user.destroy({useMasterKey : true});
@@ -190,8 +201,8 @@ Parse.Cloud.job("removeOldPosts", async (request) => {
   
   // Loop through and delete posts + their comments
   for (const post of results) {
-    request.params["postId"] = post.id;
-    Parse.Cloud.run("deletePost", request.params);
+    request.params[POSTID_FIELD] = post.id;
+    Parse.Cloud.run(DELETE_POST_FUNC, request.params);
   }
   
   return("Successfully retrieved " + results.length + " old posts.");
