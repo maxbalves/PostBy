@@ -11,6 +11,9 @@
 // View Controllers
 #import "ComposeViewController.h"
 
+// Global Variables
+#import "GlobalVars.h"
+
 // Frameworks
 @import MapKit;
 @import Parse;
@@ -38,9 +41,6 @@
     [super viewDidLoad];
     
     [self setUpUI];
-    
-    // This is only used to ask the user for location access if they haven't given it yet
-    [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint * _Nullable geoPoint, NSError * _Nullable error) {}];
 }
 
 - (void)setUpUI {
@@ -57,9 +57,10 @@
     } else if (self.postVMToComment != nil){
         // Comments will have no location, so no need to show that option
         self.hideLocationButton.hidden = YES;
-        [self.postButton setTitle:@"Comment" forState:UIControlStateNormal];
-        [self.postButton setTitle:@"Comment" forState:UIControlStateSelected];
-        [self.postButton setTitle:@"Comment" forState:UIControlStateHighlighted];
+        NSString *buttonTitle = @"Comment";
+        [self.postButton setTitle:buttonTitle forState:UIControlStateNormal];
+        [self.postButton setTitle:buttonTitle forState:UIControlStateSelected];
+        [self.postButton setTitle:buttonTitle forState:UIControlStateHighlighted];
     }
     
     // Setting up the border of our UITextView
@@ -76,8 +77,10 @@
     BOOL newHideProfilePic = self.hideProfilePicButton.isChecked;
     BOOL newHideUsername = self.hideUsernameButton.isChecked;
     
+    // Update Parse and locally
     [self.postVMToUpdate updateWithText:newPostText hideLocation:newHideLocation hideUsername:newHideUsername hideProfilePic:newHideProfilePic];
     
+    // Refresh data shown on screen
     [self.postVMToUpdate.delegate didUpdatePost];
     
     self.postButton.userInteractionEnabled = YES;
@@ -135,7 +138,7 @@
 }
 
 - (void) showAlertWithTitle:(NSString *)title message:(NSString *)message {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     // create an OK action
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     // add the OK action to the alert controller
@@ -144,7 +147,7 @@
 }
 
 - (void) presentHome {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle:nil];
     UITabBarController *tabBarController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
     SceneDelegate *mySceneDelegate = (SceneDelegate *) UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
     mySceneDelegate.window.rootViewController = tabBarController;

@@ -40,7 +40,7 @@
     
     // validity check
     if ([self isBlankUsername:newUser.username password:newUser.password]) {
-        // stop function
+        // stop function if invalid
         return;
     }
     
@@ -95,18 +95,15 @@
 
 - (void) showAlertWithTitle:(NSString *)title message:(NSString *)message {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-
     // create an OK action
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
-    
     // add the OK action to the alert controller
     [alert addAction:okAction];
-    
     [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void) presentHome {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle:nil];
     UITabBarController *tabBarController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];
     SceneDelegate *mySceneDelegate = (SceneDelegate *) UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
     mySceneDelegate.window.rootViewController = tabBarController;

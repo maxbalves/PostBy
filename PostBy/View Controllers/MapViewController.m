@@ -39,12 +39,16 @@
 @property (nonatomic) double LONGITUDE_MAX;
 @property (nonatomic) double LONGITUDE_MIN;
 
+@property (strong, nonatomic) NSString *DETAILS_SEGUE;
+
 @end
 
 @implementation MapViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.DETAILS_SEGUE = @"MapShowDetails";
     
     // Latitude & longitude boundaries
     self.LATITUDE_MAX = 90.0;
@@ -53,7 +57,7 @@
     self.LONGITUDE_MIN = -180.0;
     
     // Set span values to use (smaller value == closer zoom)
-    self.CLOSE_ZOOM = 0.01;
+    self.CLOSE_ZOOM = 0.0025;
     self.MEDIUM_ZOOM = 0.1;
     
     // Default to Seattle - Coordinates
@@ -84,15 +88,13 @@
     self.MAX_POSTS_SHOWN = 10;
     self.ADDITIONAL_POSTS = 5;
     
-    NSArray *areaRect = [self getViewAreaFromMap];
-    [self refreshPostsInside:areaRect];
+    [self updateNumPostsShownButton];
 }
 
 - (IBAction)increaseMaxPostsTap:(id)sender {
     self.MAX_POSTS_SHOWN += self.ADDITIONAL_POSTS;
     if (self.MAX_POSTS_SHOWN > self.POSTS_SHOWN_LIMIT) {
         [self showOkAlertWithTitle:@"Map Pin Limit" Message:@"A maximum of 100 posts can be displayed at a time."];
-        
         self.MAX_POSTS_SHOWN = self.POSTS_SHOWN_LIMIT;
     }
     [self updateNumPostsShownButton];
@@ -156,7 +158,6 @@
             continue;
         
         MapPin *pin = [MapPin createPinFromPostVM:postVM];
-        
         [self.mapView addAnnotation:pin];
     }
 }
@@ -208,7 +209,7 @@
         return nil;
     }
     
-    // refer to this generic annotation as our more specific PhotoAnnotation
+    // refer to this generic annotation as our more specific MapPin
     MapPin *mapPin = (MapPin *)annotation;
     
     MKPinAnnotationView *annotationView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"Pin"];
@@ -229,10 +230,8 @@
     UIImageView *imageView = (UIImageView*)annotationView.leftCalloutAccessoryView;
     
     [imageView setImage:mapPin.profilePic]; // set the image into the callout imageview
-
-    // Animate pins
     
-    // Make pins have no size
+    // Make pins have no size and then animate
     annotationView.transform = CGAffineTransformMakeScale(0.0, 0.0);
     double durationInSeconds = 0.3;
     [UIView animateWithDuration:durationInSeconds animations:^{
@@ -245,7 +244,7 @@
 
 // When pin's button is clicked, perform segue to details page
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-    [self performSegueWithIdentifier:@"MapShowDetails" sender:view.annotation];
+    [self performSegueWithIdentifier:self.DETAILS_SEGUE sender:view.annotation];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
@@ -268,6 +267,7 @@
 }
 
 - (void) accessedBadPostVM:(PostViewModel *)postVM {
+    // Find and remove invalid postVM from array and map
     NSInteger count = [self.postVMsArray count];
     for (NSInteger index = (count - 1); index >= 0; index--) {
         PostViewModel *p = self.postVMsArray[index];
@@ -281,6 +281,7 @@
 }
 
 - (void) updatePostVMWith:(PostViewModel *)updatedVM {
+    // Find and update the postVM, then refresh map
     NSInteger count = [self.postVMsArray count];
     for (NSInteger index = (count - 1); index >= 0; index--) {
         PostViewModel *p = self.postVMsArray[index];
@@ -301,17 +302,15 @@
 
 - (void) showOkAlertWithTitle:(NSString *)title Message:(NSString *)message {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:(UIAlertControllerStyleActionSheet)];
-    
     // create an OK action
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     // add the OK action to the alert controller
     [alert addAction:okAction];
-    
     [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"MapShowDetails"]) {
+    if ([segue.identifier isEqualToString:self.DETAILS_SEGUE]) {
         DetailsViewController *detailsVC = [segue destinationViewController];
         MapPin *pin = sender;
         detailsVC.delegate = self;

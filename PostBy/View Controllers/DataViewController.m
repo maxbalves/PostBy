@@ -30,6 +30,9 @@
 @property (nonatomic) BOOL showComments;
 @property (nonatomic) BOOL showPosts;
 
+@property (strong, nonatomic) NSString *dataRelation;
+@property (strong, nonatomic) NSString *dataNavTitle;
+
 @property (nonatomic) int MAX_DATA_SHOWN;
 @property (nonatomic) int ADDITIONAL_DATA;
 
@@ -46,10 +49,13 @@
     self.MAX_DATA_SHOWN = 10;
     self.ADDITIONAL_DATA = 10;
     
-    self.showComments = [self shouldRelationShowComments:self.data[@"relation"]];
-    self.showPosts = [self shouldRelationShowPosts:self.data[@"relation"]];
+    self.dataRelation = self.data[@"relation"];
+    self.dataNavTitle = self.data[@"navTitle"];
     
-    NSString *title = [NSString stringWithFormat:@"Your %@", self.data[@"navTitle"]];
+    self.showComments = [self shouldRelationShowComments:self.dataRelation];
+    self.showPosts = [self shouldRelationShowPosts:self.dataRelation];
+    
+    NSString *title = [NSString stringWithFormat:@"Your %@", self.dataNavTitle];
     [self.navBar setTitle:title];
 }
 
@@ -58,11 +64,11 @@
 }
 
 - (void) queryData {
-    PFRelation *relation = [PFUser.currentUser relationForKey:self.data[@"relation"]];
+    PFRelation *relation = [PFUser.currentUser relationForKey:self.dataRelation];
     PFQuery *query = [relation query];
     [query setLimit:self.MAX_DATA_SHOWN];
     [query orderByDescending:@"createdAt"];
-    [query includeKey:@"author"];
+    [query includeKey:AUTHOR_FIELD];
 
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (self.showComments) {
@@ -114,26 +120,27 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+// Enable swipe actions
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Action after swiping to delete
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSString *relation = self.data[@"relation"];
-        if ([relation isEqualToString:LIKES_RELATION]) {
+        if ([self.dataRelation isEqualToString:LIKES_RELATION]) {
             // unlike post
             PostViewModel *postVM = self.arrayOfData[indexPath.row];
             [postVM likeButtonTap];
-        } else if ([relation isEqualToString:DISLIKES_RELATION]) {
+        } else if ([self.dataRelation isEqualToString:DISLIKES_RELATION]) {
             // undislike post
             PostViewModel *postVM = self.arrayOfData[indexPath.row];
             [postVM dislikeButtonTap];
-        } else if ([relation isEqualToString:COMMENTS_RELATION]) {
+        } else if ([self.dataRelation isEqualToString:COMMENTS_RELATION]) {
             // delete comment
             CommentViewModel *commentVM = self.arrayOfData[indexPath.row];
             [commentVM deleteComment];
-        } else if ([relation isEqualToString:POSTS_RELATION]) {
+        } else if ([self.dataRelation isEqualToString:POSTS_RELATION]) {
             // delete post (+ comments in it)
             PostViewModel *postVM = self.arrayOfData[indexPath.row];
             [postVM deletePost];

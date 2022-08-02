@@ -26,14 +26,16 @@
 
 - (void) setCommentVM:(CommentViewModel *)commentVM {
     _commentVM = commentVM;
+    
+    // Set up UI
     self.username.text = commentVM.username;
     self.commentText.text = commentVM.commentText;
     self.commentDate.text = commentVM.commentShortDate;
     
-    if (commentVM.profilePicUrl != nil) {
-        [self.profilePic setImageWithURL:commentVM.profilePicUrl];
-    } else {
+    if (commentVM.profilePicUrl == nil) {
         [self.profilePic setImage:[UIImage imageNamed:DEFAULT_PROFILE_PIC]];
+    } else {
+        [self.profilePic setImageWithURL:commentVM.profilePicUrl];
     }
 }
 

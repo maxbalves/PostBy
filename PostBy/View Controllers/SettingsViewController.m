@@ -45,12 +45,22 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
     INVALID_CHOICE
 };
 
+@property (strong, nonatomic) NSString *dataRelationField;
+@property (strong, nonatomic) NSString *dataNavTitleField;
+
+@property (strong, nonatomic) NSString *DATA_SEGUE;
+
 @end
 
 @implementation SettingsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.dataRelationField = @"relation";
+    self.dataNavTitleField = @"navTitle";
+    
+    self.DATA_SEGUE = @"SettingsShowData";
     
     self.DEFAULT_IMAGE_SIZE = 500;
     self.usernameLabel.text = PFUser.currentUser.username;
@@ -73,6 +83,7 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
     CGRect frame = CGRectMake(x, y, width, height);
     ManaDropDownMenu *menu = [[ManaDropDownMenu alloc] initWithFrame:frame title:@"Choose data to delete"];
     menu.delegate = self;
+    // Order based on enum above
     menu.textOfRows = @[@"Likes", @"Dislikes", @"Posts", @"Comments", @"Account"];
     menu.numberOfRows = menu.textOfRows.count;
     
@@ -99,7 +110,6 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
     formatter.timeStyle = NSDateFormatterNoStyle;
     
     NSString *date = [NSString stringWithFormat:@"Created at %@", [formatter stringFromDate:createdAt]];
-    
     return date;
 }
 
@@ -109,7 +119,7 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
     imagePickerVC.allowsEditing = YES;
     
     // Create alert for choosing Library or Camera or Cancel
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:(UIAlertControllerStyleActionSheet)];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
 
     // create Camera action
     UIAlertAction *cameraAction = [UIAlertAction actionWithTitle:@"Camera" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -181,7 +191,7 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
     return newImage;
 }
 
-- (IBAction)promptAccountDeletion:(id)sender {
+- (IBAction)promptDataDeletion:(id)sender {
     NSString *title = @"Delete Data";
     NSString *message = @"Are you sure you want to continue?";
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
@@ -242,18 +252,18 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 - (void) deleteAccount {
     // Delete user's posts, comments, likes, dislikes, and account
     NSDictionary *params = @{
-        @"likesRelationName" : LIKES_RELATION,
-        @"dislikesRelationName" : DISLIKES_RELATION,
-        @"commentClassName" : COMMENT_CLASS,
-        @"commentsRelationName" : COMMENTS_RELATION,
-        @"postClassName" : POST_CLASS,
-        @"postsRelationName" : POSTS_RELATION,
-        @"postField" : POST_FIELD,
-        @"authorField" : AUTHOR_FIELD,
+        CLOUD_LIKES_RELATION : LIKES_RELATION,
+        CLOUD_DISLIKES_RELATION : DISLIKES_RELATION,
+        CLOUD_COMMENT_CLASS : COMMENT_CLASS,
+        CLOUD_COMMENTS_RELATION : COMMENTS_RELATION,
+        CLOUD_POST_CLASS : POST_CLASS,
+        CLOUD_POSTS_RELATION : POSTS_RELATION,
+        CLOUD_POST_FIELD : POST_FIELD,
+        CLOUD_AUTHOR_FIELD : AUTHOR_FIELD,
         @"useMasterKey" : @true
     };
     
-    [PFCloud callFunctionInBackground:@"deleteAccount" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+    [PFCloud callFunctionInBackground:CLOUD_DELETE_ACCOUNT_FUNC withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
         } else {
@@ -266,18 +276,18 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 - (void) deletePosts {
     // delete posts
     NSDictionary *params = @{
-        @"likesRelationName" : LIKES_RELATION,
-        @"dislikesRelationName" : DISLIKES_RELATION,
-        @"commentClassName" : COMMENT_CLASS,
-        @"commentsRelationName" : COMMENTS_RELATION,
-        @"postClassName" : POST_CLASS,
-        @"postsRelationName" : POSTS_RELATION,
-        @"postField" : POST_FIELD,
-        @"authorField" : AUTHOR_FIELD,
+        CLOUD_LIKES_RELATION : LIKES_RELATION,
+        CLOUD_DISLIKES_RELATION : DISLIKES_RELATION,
+        CLOUD_COMMENT_CLASS : COMMENT_CLASS,
+        CLOUD_COMMENTS_RELATION : COMMENTS_RELATION,
+        CLOUD_POST_CLASS : POST_CLASS,
+        CLOUD_POSTS_RELATION : POSTS_RELATION,
+        CLOUD_POST_FIELD : POST_FIELD,
+        CLOUD_AUTHOR_FIELD : AUTHOR_FIELD,
         @"useMasterKey" : @true
     };
     
-    [PFCloud callFunctionInBackground:@"deletePosts" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+    [PFCloud callFunctionInBackground:CLOUD_DELETE_POSTS_FUNC withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
         }
@@ -287,11 +297,11 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 - (void) deleteLikes {
     // delete likes from user relation
      NSDictionary *params = @{
-         @"likesRelationName" : LIKES_RELATION,
+         CLOUD_LIKES_RELATION : LIKES_RELATION,
          @"useMasterKey" : @true
      };
     
-     [PFCloud callFunctionInBackground:@"deleteLikes" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+     [PFCloud callFunctionInBackground:CLOUD_DELETE_LIKES_FUNC withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
          if (error) {
              NSLog(@"Error: %@", error.localizedDescription);
          }
@@ -301,11 +311,11 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 - (void) deleteDislikes {
     // delete dislikes
      NSDictionary *params = @{
-         @"dislikesRelationName" : DISLIKES_RELATION,
+         CLOUD_DISLIKES_RELATION : DISLIKES_RELATION,
          @"useMasterKey" : @true
      };
     
-     [PFCloud callFunctionInBackground:@"deleteDislikes" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+     [PFCloud callFunctionInBackground:CLOUD_DELETE_DISLIKES_FUNC withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
          if (error) {
              NSLog(@"Error: %@", error.localizedDescription);
          }
@@ -315,13 +325,13 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 - (void) deleteComments {
     // delete comments
     NSDictionary *params = @{
-        @"commentsRelationName" : COMMENTS_RELATION,
-        @"commentClassName" : COMMENT_CLASS,
-        @"authorField" : AUTHOR_FIELD,
-        @"postField" : POST_FIELD
+        CLOUD_COMMENTS_RELATION : COMMENTS_RELATION,
+        CLOUD_COMMENT_CLASS : COMMENT_CLASS,
+        CLOUD_AUTHOR_FIELD : AUTHOR_FIELD,
+        CLOUD_POST_FIELD : POST_FIELD
     };
     
-    [PFCloud callFunctionInBackground:@"deleteComments" withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
+    [PFCloud callFunctionInBackground:CLOUD_DELETE_COMMENTS_FUNC withParameters:params block:^(id  _Nullable object, NSError * _Nullable error) {
         if (error) {
             NSLog(@"Error: %@", error.localizedDescription);
         }
@@ -330,7 +340,7 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 
 - (void) logoutUser {
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle:nil];
         LoginViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
         SceneDelegate *mySceneDelegate = (SceneDelegate *) UIApplication.sharedApplication.connectedScenes.allObjects.firstObject.delegate;
         mySceneDelegate.window.rootViewController = loginVC;
@@ -339,42 +349,42 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
 
 - (IBAction)viewPostsTap:(id)sender {
     NSDictionary *data = @{
-        @"navTitle" : @"Posts",
-        @"relation" : POSTS_RELATION
+        self.dataNavTitleField : @"Posts",
+        self.dataRelationField : POSTS_RELATION
     };
     
-    [self performSegueWithIdentifier:@"SettingsShowData" sender:data];
+    [self performSegueWithIdentifier:self.DATA_SEGUE sender:data];
 }
 
 - (IBAction)viewCommentsTap:(id)sender {
     NSDictionary *data = @{
-        @"navTitle" : @"Comments",
-        @"relation" : COMMENTS_RELATION
+        self.dataNavTitleField : @"Comments",
+        self.dataRelationField : COMMENTS_RELATION
     };
     
-    [self performSegueWithIdentifier:@"SettingsShowData" sender:data];
+    [self performSegueWithIdentifier:self.DATA_SEGUE sender:data];
 }
 
 - (IBAction)viewLikesTap:(id)sender {
     NSDictionary *data = @{
-        @"navTitle" : @"Likes",
-        @"relation" : LIKES_RELATION
+        self.dataNavTitleField : @"Likes",
+        self.dataRelationField : LIKES_RELATION
     };
     
-    [self performSegueWithIdentifier:@"SettingsShowData" sender:data];
+    [self performSegueWithIdentifier:self.DATA_SEGUE sender:data];
 }
 
 - (IBAction)viewDislikesTap:(id)sender {
     NSDictionary *data = @{
-        @"navTitle" : @"Dislikes",
-        @"relation" : DISLIKES_RELATION
+        self.dataNavTitleField : @"Dislikes",
+        self.dataRelationField : DISLIKES_RELATION
     };
     
-    [self performSegueWithIdentifier:@"SettingsShowData" sender:data];
+    [self performSegueWithIdentifier:self.DATA_SEGUE sender:data];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"SettingsShowData"]) {
+    if ([segue.identifier isEqualToString:self.DATA_SEGUE]) {
         DataViewController *dataVC = [segue destinationViewController];
         NSDictionary *data = sender;
         dataVC.data = data;
