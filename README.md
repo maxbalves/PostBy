@@ -92,19 +92,28 @@ App allows users to see and create posts for their timeline. Each timeline will 
 **Flow Navigation** (Screen to Screen)
 
 * Login/Signup screen
+   
    => Home Feed
 * Home/Timeline screen
+   
    => Post Detail Screen
+   
    => Settings Screen
 * Create/Compose post screen
+   
    => Home Feed (after creating post)
 * Map screen
+   
    => Post Detail Screen (on clicked post)
 * Post Detail Screen
+   
    => Home Screen (go back)
+   
    => Map Screen (shows post location)
+   
    => Create/Compose Screen (edit post)
 * Settings Screen
+   
    => Data Screen
 
 ## Wireframes (not updated to newest screens)
@@ -220,7 +229,7 @@ For now, the app will offset these heavy queries to CloudCode and assume that it
 One of the difficult/ambiguous technical problems is the handling of edge cases with Like/Dislike feature. As stated above, it's possible that the data of a post the user sees locally is no longer the most updated version of the post as in the Parse database.
 - The current solution queries the updated post on the database, overwrites it with the local changes, and saves it.
 
-For future improvent, a CloudCode function could be created and called to run the checks and return the correct, updated data of the post. The app will then only need to wait to update the data on the screen without worrying about the logic.
+For future improvent, a CloudCode function could be created and called to run the checks and return the correct, updated data of the post. The app will then only need to wait to update the data on the screen without worrying about the logic. The function could be made asynchronous too.
 
 ### Map Design
 The use has the ability to see the location of posts on the map. The map allows the user to look freely on other areas outside of the 5-mile radius, instead of locking on the user's location.
