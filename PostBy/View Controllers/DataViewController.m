@@ -27,6 +27,8 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *arrayOfData;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
+
 @property (nonatomic) BOOL showComments;
 @property (nonatomic) BOOL showPosts;
 
@@ -57,6 +59,11 @@
     
     NSString *title = [NSString stringWithFormat:@"Your %@", self.dataNavTitle];
     [self.navBar setTitle:title];
+    
+    // Pull-to-refresh
+    self.refreshControl = [UIRefreshControl new];
+    [self.refreshControl addTarget:self action:@selector(queryData) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -64,6 +71,8 @@
 }
 
 - (void) queryData {
+    [self.refreshControl beginRefreshing];
+    
     PFRelation *relation = [PFUser.currentUser relationForKey:self.dataRelation];
     PFQuery *query = [relation query];
     [query setLimit:self.MAX_DATA_SHOWN];
@@ -77,6 +86,7 @@
             self.arrayOfData = [PostViewModel postVMsWithArray:objects];
         }
         [self.tableView reloadData];
+        [self.refreshControl endRefreshing];
     }];
 }
 
