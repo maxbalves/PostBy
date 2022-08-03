@@ -88,7 +88,7 @@
     self.MAX_POSTS_SHOWN = 10;
     self.ADDITIONAL_POSTS = 5;
     
-    [self updateNumPostsShownButton];
+    [self refreshMapTap:nil];
 }
 
 - (IBAction)increaseMaxPostsTap:(id)sender {
