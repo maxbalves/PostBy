@@ -32,6 +32,7 @@
     self.commentText.text = commentVM.commentText;
     self.commentDate.text = commentVM.commentShortDate;
     
+    self.profilePic.layer.cornerRadius = self.profilePic.frame.size.width / CORNER_RADIUS_DIV_CONST;
     if (commentVM.profilePicUrl == nil) {
         [self.profilePic setImage:[UIImage imageNamed:DEFAULT_PROFILE_PIC]];
     } else {

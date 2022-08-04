@@ -74,6 +74,7 @@
     self.postDateLabel.text = self.postVM.postDate;
     
     // Profile Picture
+    self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / CORNER_RADIUS_DIV_CONST;
     if (self.postVM.profilePicUrl == nil) {
         [self.profilePicture setImage:[UIImage imageNamed:DEFAULT_PROFILE_PIC]];
     } else {

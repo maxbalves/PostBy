@@ -18,6 +18,7 @@ NSString *const MAIN_STORYBOARD = @"Main";
 
 NSString *const DEFAULT_PROFILE_PIC = @"profile_tab.png";
 
+NSInteger const CORNER_RADIUS_DIV_CONST = 8;
 NSInteger const PIN_IMG_WIDTH = 50;
 NSInteger const PIN_IMG_HEIGHT = 50;
 

@@ -102,6 +102,10 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+- (IBAction)onTap:(id)sender {
+    [self.view endEditing:YES];
+}
+
 - (void) presentHome {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:MAIN_STORYBOARD bundle:nil];
     UITabBarController *tabBarController = [storyboard instantiateViewControllerWithIdentifier:@"TabBarController"];

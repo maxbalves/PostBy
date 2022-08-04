@@ -31,6 +31,8 @@
     postVM.delegate = self;
     _postVM = postVM;
     
+    self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / CORNER_RADIUS_DIV_CONST;
+    
     [self refreshCell];
 }
 

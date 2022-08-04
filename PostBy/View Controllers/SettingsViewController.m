@@ -66,6 +66,8 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
     self.usernameLabel.text = PFUser.currentUser.username;
     self.createdOnLabel.text = [self returnFormatedDateString:PFUser.currentUser.createdAt];
     
+    self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / CORNER_RADIUS_DIV_CONST;
+    
     PFFileObject *profilePicObj = [PFUser.currentUser valueForKey:PROFILE_PIC_FIELD];
     NSURL *url = [NSURL URLWithString:profilePicObj.url];
     [self.profilePicture setImageWithURL:url];
