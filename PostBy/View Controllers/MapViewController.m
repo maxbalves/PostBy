@@ -98,6 +98,7 @@
     self.MAX_POSTS_SHOWN = 10;
     self.ADDITIONAL_POSTS = 5;
     
+    self.mapView.showsCompass = YES;
     self.isLockedOnUser = NO;
     
     [self refreshMapTap:nil];
@@ -224,12 +225,14 @@
         [self.mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
         self.mapView.scrollEnabled = NO;
         self.mapView.rotateEnabled = NO;
+        self.mapView.showsCompass = NO;
     } else {
         UIImage *img = [UIImage systemImageNamed:@"lock.open"];
         [self setButton:self.lockButton Image:img];
         [self.mapView setUserTrackingMode:MKUserTrackingModeNone animated:YES];
         self.mapView.scrollEnabled = YES;
         self.mapView.rotateEnabled = YES;
+        self.mapView.showsCompass = YES;
     }
 }
 
@@ -275,6 +278,14 @@
         // Increase pin size with animation
         annotationView.transform = CGAffineTransformMakeScale(1.0, 1.0);
     }];
+    
+    // Pin Tint Color
+    // Theme Color
+    NSNumber *red = DARK_THEME_COLOR[@"red"];
+    NSNumber *green = DARK_THEME_COLOR[@"green"];
+    NSNumber *blue = DARK_THEME_COLOR[@"blue"];
+    NSNumber *alpha = DARK_THEME_COLOR[@"alpha"];
+    annotationView.pinTintColor = [UIColor colorWithRed:red.floatValue green:green.floatValue blue:blue.floatValue alpha:alpha.intValue];
     
     return annotationView;
 }
