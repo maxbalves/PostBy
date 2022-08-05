@@ -33,6 +33,10 @@
     
     self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / CORNER_RADIUS_DIV_CONST;
     
+    self.layer.borderWidth = CELL_BORDER_WIDTH;
+    self.layer.borderColor = [[UIColor systemGray6Color] CGColor];
+    self.layer.cornerRadius = self.frame.size.height / CORNER_RADIUS_DIV_CONST;
+    
     [self refreshCell];
 }
 
