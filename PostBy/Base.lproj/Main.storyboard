@@ -104,8 +104,11 @@
                                     <constraint firstAttribute="height" constant="40" id="5Hn-Pw-9Ap"/>
                                     <constraint firstAttribute="width" constant="40" id="D7v-mk-Wbf"/>
                                 </constraints>
+                                <color key="tintColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" image="arrow.clockwise" catalog="system" title=""/>
+                                <buttonConfiguration key="configuration" style="filled" image="arrow.clockwise" catalog="system" title="">
+                                    <color key="baseBackgroundColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="refreshMapTap:" destination="2Fp-KD-VT7" eventType="touchUpInside" id="aJh-jZ-prF"/>
                                 </connections>
@@ -116,8 +119,11 @@
                                     <constraint firstAttribute="width" constant="40" id="IoM-q5-eXH"/>
                                     <constraint firstAttribute="height" constant="40" id="qKd-sE-O3h"/>
                                 </constraints>
+                                <color key="tintColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" image="minus" catalog="system" title=""/>
+                                <buttonConfiguration key="configuration" style="filled" image="minus" catalog="system" title="">
+                                    <color key="baseBackgroundColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="decreaseMaxPostsTap:" destination="2Fp-KD-VT7" eventType="touchUpInside" id="jvJ-I6-TpP"/>
                                 </connections>
@@ -131,8 +137,11 @@
                                     <constraint firstAttribute="height" constant="40" id="BxT-Rb-dbC"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="45" id="XnN-JD-lRA"/>
                                 </constraints>
+                                <color key="tintColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="0/0"/>
+                                <buttonConfiguration key="configuration" style="filled" title="0/0">
+                                    <color key="baseBackgroundColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </buttonConfiguration>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PN6-Vx-zXa">
                                 <rect key="frame" x="148" y="676" width="40" height="40"/>
@@ -140,8 +149,11 @@
                                     <constraint firstAttribute="width" constant="40" id="8G2-x2-x9X"/>
                                     <constraint firstAttribute="height" constant="40" id="Nr1-1V-K7S"/>
                                 </constraints>
+                                <color key="tintColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" image="plus" catalog="system" title=""/>
+                                <buttonConfiguration key="configuration" style="filled" image="plus" catalog="system" title="">
+                                    <color key="baseBackgroundColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="increaseMaxPostsTap:" destination="2Fp-KD-VT7" eventType="touchUpInside" id="reX-zS-EJk"/>
                                 </connections>
@@ -152,8 +164,11 @@
                                     <constraint firstAttribute="height" constant="40" id="8fA-D7-FCD"/>
                                     <constraint firstAttribute="width" constant="40" id="fkq-5L-ABj"/>
                                 </constraints>
+                                <color key="tintColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" image="lock.open" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="filled" image="lock.open" catalog="system">
+                                    <color key="baseBackgroundColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="lockButtonTap:" destination="2Fp-KD-VT7" eventType="touchUpInside" id="ZfK-JS-Ufx"/>
                                 </connections>
@@ -184,7 +199,9 @@
                                 <rect key="frame" x="288" y="5" width="86" height="34.333333333333336"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="location.square" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="plain" image="location.square" catalog="system">
+                                    <color key="baseForegroundColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </buttonConfiguration>
                                 <connections>
                                     <action selector="userLocationButtonTap:" destination="2Fp-KD-VT7" eventType="touchUpInside" id="OYn-Iz-bUP"/>
                                 </connections>

@@ -82,6 +82,13 @@
     self.locationManager.delegate = self;
     [self.locationManager requestWhenInUseAuthorization];
     
+    // Theme Color
+    NSNumber *red = DARK_THEME_COLOR[@"red"];
+    NSNumber *green = DARK_THEME_COLOR[@"green"];
+    NSNumber *blue = DARK_THEME_COLOR[@"blue"];
+    NSNumber *alpha = DARK_THEME_COLOR[@"alpha"];
+    self.mapView.tintColor = [UIColor colorWithRed:red.floatValue green:green.floatValue blue:blue.floatValue alpha:alpha.intValue];
+    
     if ([CLLocationManager locationServicesEnabled]) {
         [self.locationManager startUpdatingLocation];
         self.mapView.showsUserLocation = YES;
