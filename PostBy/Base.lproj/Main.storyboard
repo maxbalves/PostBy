@@ -146,6 +146,18 @@
                                     <action selector="increaseMaxPostsTap:" destination="2Fp-KD-VT7" eventType="touchUpInside" id="reX-zS-EJk"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v9i-cf-UOf">
+                                <rect key="frame" x="305" y="133" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="8fA-D7-FCD"/>
+                                    <constraint firstAttribute="width" constant="40" id="fkq-5L-ABj"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" image="lock.open" catalog="system"/>
+                                <connections>
+                                    <action selector="lockButtonTap:" destination="2Fp-KD-VT7" eventType="touchUpInside" id="ZfK-JS-Ufx"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PMd-uM-QOt"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
@@ -160,6 +172,8 @@
                             <constraint firstItem="uWe-o8-CPc" firstAttribute="centerY" secondItem="ZNh-TQ-NJz" secondAttribute="centerY" id="FCK-u6-BPt"/>
                             <constraint firstItem="PMd-uM-QOt" firstAttribute="bottom" secondItem="OzO-tV-b1y" secondAttribute="bottom" id="FPv-yA-CHj"/>
                             <constraint firstItem="JRi-3S-KaK" firstAttribute="leading" secondItem="uWe-o8-CPc" secondAttribute="trailing" constant="15" id="Mdq-Q1-jne"/>
+                            <constraint firstItem="v9i-cf-UOf" firstAttribute="top" secondItem="PMd-uM-QOt" secondAttribute="top" constant="45" id="meT-FC-X6U"/>
+                            <constraint firstItem="PMd-uM-QOt" firstAttribute="trailing" secondItem="v9i-cf-UOf" secondAttribute="trailing" constant="45" id="opb-qb-WVw"/>
                             <constraint firstItem="ZNh-TQ-NJz" firstAttribute="leading" secondItem="PN6-Vx-zXa" secondAttribute="trailing" constant="8" symbolic="YES" id="xiJ-FD-2YX"/>
                             <constraint firstItem="PMd-uM-QOt" firstAttribute="bottom" secondItem="JRi-3S-KaK" secondAttribute="bottom" constant="45" id="zlw-Kd-WMf"/>
                         </constraints>
@@ -178,6 +192,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="lockButton" destination="v9i-cf-UOf" id="QyJ-tb-sDq"/>
                         <outlet property="mapView" destination="OzO-tV-b1y" id="RY5-Xm-TfW"/>
                         <outlet property="numPostsShownButton" destination="ZNh-TQ-NJz" id="JI5-ar-SQK"/>
                         <segue destination="huZ-5l-SlD" kind="show" identifier="MapShowDetails" id="fc8-9e-t6P"/>
@@ -911,8 +926,8 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="QLg-42-V1d"/>
-        <segue reference="LR4-eu-E0Y"/>
-        <segue reference="f4A-cQ-P1m"/>
+        <segue reference="fc8-9e-t6P"/>
+        <segue reference="fiN-uM-lEw"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
@@ -924,6 +939,7 @@
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="house" catalog="system" width="128" height="106"/>
         <image name="location.square" catalog="system" width="128" height="114"/>
+        <image name="lock.open" catalog="system" width="128" height="110"/>
         <image name="map" catalog="system" width="128" height="110"/>
         <image name="mappin.circle" catalog="system" width="128" height="121"/>
         <image name="minus" catalog="system" width="128" height="24"/>

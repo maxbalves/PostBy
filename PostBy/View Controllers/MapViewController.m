@@ -30,6 +30,9 @@
 @property (nonatomic) int MAX_POSTS_SHOWN;
 @property (nonatomic) int ADDITIONAL_POSTS;
 
+@property (strong, nonatomic) IBOutlet UIButton *lockButton;
+@property (nonatomic) BOOL isLockedOnUser;
+
 @property (nonatomic) double CLOSE_ZOOM;
 @property (nonatomic) double MEDIUM_ZOOM;
 
@@ -87,6 +90,8 @@
     self.POSTS_SHOWN_LIMIT = 100;
     self.MAX_POSTS_SHOWN = 10;
     self.ADDITIONAL_POSTS = 5;
+    
+    self.isLockedOnUser = NO;
     
     [self refreshMapTap:nil];
 }
@@ -200,6 +205,31 @@
     if (longitude > self.LONGITUDE_MAX)
         return self.LONGITUDE_MAX;
     return longitude;
+}
+
+- (IBAction)lockButtonTap:(id)sender {
+    self.isLockedOnUser = !self.isLockedOnUser;
+    
+    // Change button image
+    if (self.isLockedOnUser) {
+        UIImage *img = [UIImage systemImageNamed:@"lock"];
+        [self setButton:self.lockButton Image:img];
+        [self.mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
+        self.mapView.scrollEnabled = NO;
+        self.mapView.rotateEnabled = NO;
+    } else {
+        UIImage *img = [UIImage systemImageNamed:@"lock.open"];
+        [self setButton:self.lockButton Image:img];
+        [self.mapView setUserTrackingMode:MKUserTrackingModeNone animated:YES];
+        self.mapView.scrollEnabled = YES;
+        self.mapView.rotateEnabled = YES;
+    }
+}
+
+- (void) setButton:(id)button Image:(UIImage *)img {
+    [self.lockButton setImage:img forState:UIControlStateNormal];
+    [self.lockButton setImage:img forState:UIControlStateSelected];
+    [self.lockButton setImage:img forState:UIControlStateHighlighted];
 }
 
 // Change pin/annotation look
