@@ -230,9 +230,3 @@ One of the difficult/ambiguous technical problems is the handling of edge cases 
 - The current solution queries the updated post on the database, overwrites it with the local changes, and saves it.
 
 For future improvent, a CloudCode function could be created and called to run the checks and return the correct, updated data of the post. The app will then only need to wait to update the data on the screen without worrying about the logic. The function could be made asynchronous too.
-
-### Map Design
-The use has the ability to see the location of posts on the map. The map allows the user to look freely on other areas outside of the 5-mile radius, instead of locking on the user's location.
-- Currently, the user has to manually move through the map and click a refresh button to see the posts in the area.
-
-For future improvement, the map could have an option to lock the view on the user's location and zoom closely. This would allow the user to see posts near them without needing to constantly adjust the map view.
