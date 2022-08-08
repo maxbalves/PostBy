@@ -219,14 +219,31 @@ App allows users to see and create posts for their timeline. Each timeline will 
     - CloudJob was created and set up as a Cron Job in order to automatically delete old posts
 
 ## Future Improvements
+Although the app works as intended, there are still multiple improvements that could be made to the app in order to polish and improve it for publication in the App Store. Some of those improvements are:
+
 ### Query Limit
 Parse used to contain a retrieval limit of 1000 objects per query. However, that has since been removed. Although it solves many problems, it creates ambiguity.
 - No specific limit is stated for Parse Server, so it's impossible to know the limitations of Parse now
 
 For now, the app will offset these heavy queries to CloudCode and assume that it will be able to complete them, no matter the size. For future improvement, it would be smart to look in-depth into Parse Server's limit by reaching out to its developers, or perhaps considering other powerful servers.
 
+### Query Count
+Related to above, the app uses `await query.count();` before setting a query's limit in order to make sure all results are retrived. The problem is that these functions can cause small delays in efficiency. One possible solution is to just set a really high number for the size of the query that will never be surpassed (hopefully). For example, a `const QUERY_LIMIT = 1000000000;`. This could save time.
+
+### App Design
+The app contains a tab bar controller where users can switch from Home Screen, Map Screen, and Compose Screen. The problem is that:
+- Due to the tab bar controller, it's possible to view the same post from multiple screens (specifically Home & Details Screen from Map) but without it being in sync. In other words, although the posts are the same, they may not be the most updated version of it.
+
+For now, the Like/Dislike check was implemented in order to prevent any problems due to that. On top of that, it would be wise to prevent the user from having access to the tab bar controller if they are in any screens other the Home, Map, and Compose Screen.
+
 ### Like/Dislike Check
 One of the difficult/ambiguous technical problems is the handling of edge cases with Like/Dislike feature. As stated above, it's possible that the data of a post the user sees locally is no longer the most updated version of the post as in the Parse database.
 - The current solution queries the updated post on the database, overwrites it with the local changes, and saves it.
 
-For future improvent, a CloudCode function could be created and called to run the checks and return the correct, updated data of the post. The app will then only need to wait to update the data on the screen without worrying about the logic. The function could be made asynchronous too.
+For future improvement, a CloudCode function could be created and called to run the checks and return the correct, updated data of the post. The app will then only need to wait to update the data on the screen without worrying about the logic. The function could be made asynchronous and in the client side too.
+
+### Request Quota
+Primarily for the Free Plan, Parse has a quota of 25k requests per month for the app. Because my app relies heavily on saving, deleting, and querying data, it's possible for it to easily surpass that limit. Therefore the app is not easily scalable. Current solution:
+- Implement CloudCode in order to handle heavy queries for deleting data. As stated by Back4App Youtube tutorial video, CloudCode functions only cost one request, no matter how many operations they run.
+
+However, there are still a great amount of requests being made to the app. It would be wise to further investigate the problem and pin-point what functions are resposible for those requests. It would also be good to look into a way to group all objects that need to be deleted/saved and use a function such as `saveAllInBackground` or `deleteAllInBackground` in order to only spend one request for multiple saves or deletions.
