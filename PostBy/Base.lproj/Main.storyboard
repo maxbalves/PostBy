@@ -35,7 +35,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DBw-sm-st1">
                                 <rect key="frame" x="255" y="376.66666666666669" width="60" height="31"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Login"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Login"/>
                                 <connections>
                                     <action selector="loginUser:" destination="BYZ-38-t0r" eventType="touchUpInside" id="msU-vf-Ygy"/>
                                 </connections>
@@ -43,7 +43,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ht9-6e-e7r">
                                 <rect key="frame" x="75" y="376.66666666666669" width="75" height="31"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Sign Up"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Sign Up"/>
                                 <connections>
                                     <action selector="registerUser:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yqr-UJ-h8P"/>
                                 </connections>
@@ -51,6 +51,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <color key="tintColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="X8g-mX-Tfq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="15c-U8-3Dz"/>
@@ -176,6 +177,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="PMd-uM-QOt"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <color key="tintColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="PMd-uM-QOt" firstAttribute="trailing" secondItem="JRi-3S-KaK" secondAttribute="trailing" constant="45" id="4S2-GV-Tw6"/>
                             <constraint firstItem="uWe-o8-CPc" firstAttribute="leading" secondItem="ZNh-TQ-NJz" secondAttribute="trailing" constant="8" id="4fV-rZ-uIA"/>
@@ -314,6 +316,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="HoK-Oq-Kb9"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <color key="tintColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="HoK-Oq-Kb9" firstAttribute="bottom" secondItem="iPt-5S-3nP" secondAttribute="bottom" id="FI6-6x-NY5"/>
                             <constraint firstItem="iPt-5S-3nP" firstAttribute="leading" secondItem="HoK-Oq-Kb9" secondAttribute="leading" constant="15" id="hLz-C3-Ppc"/>
@@ -418,7 +421,7 @@
                                 <rect key="frame" x="309" y="88" width="66" height="31"/>
                                 <color key="tintColor" systemColor="systemPinkColor"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Delete">
+                                <buttonConfiguration key="configuration" style="gray" title="Delete">
                                     <color key="baseForegroundColor" systemColor="systemRedColor"/>
                                 </buttonConfiguration>
                                 <connections>
@@ -428,7 +431,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcv-5a-kmW">
                                 <rect key="frame" x="230" y="88" width="49" height="31"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Edit"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Edit"/>
                                 <connections>
                                     <action selector="editPost:" destination="huZ-5l-SlD" eventType="touchUpInside" id="Qbc-x8-bCR"/>
                                 </connections>
@@ -519,6 +522,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="CrP-1Q-LJp"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="tintColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="CrP-1Q-LJp" firstAttribute="trailing" secondItem="BuS-7T-BJ8" secondAttribute="trailing" constant="30" id="0PR-sb-4qx"/>
                             <constraint firstItem="RTc-0P-wfx" firstAttribute="leading" secondItem="g3i-iu-6m1" secondAttribute="trailing" id="0pW-Wg-r5b"/>
@@ -647,6 +651,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Pbc-rL-Ohi"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <color key="tintColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="Q8P-P1-ySH" firstAttribute="top" secondItem="Fft-Ju-lXu" secondAttribute="bottom" constant="8" id="2ST-rV-fKo"/>
@@ -717,7 +722,7 @@
                                     <constraint firstAttribute="width" constant="150" id="zh7-VR-JAj"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Change Picture"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Change Picture"/>
                                 <connections>
                                     <action selector="changePicture:" destination="BTW-Z5-PLK" eventType="touchUpInside" id="zA8-zA-Ml3"/>
                                 </connections>
@@ -736,7 +741,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xRL-65-PvL">
                                 <rect key="frame" x="30" y="363" width="93" height="31"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="View Likes"/>
+                                <buttonConfiguration key="configuration" style="filled" title="View Likes"/>
                                 <connections>
                                     <action selector="viewLikesTap:" destination="BTW-Z5-PLK" eventType="touchUpInside" id="nsZ-nN-SWE"/>
                                 </connections>
@@ -744,7 +749,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2kd-MA-BDv">
                                 <rect key="frame" x="30" y="312" width="95" height="31"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="View Posts"/>
+                                <buttonConfiguration key="configuration" style="filled" title="View Posts"/>
                                 <connections>
                                     <action selector="viewPostsTap:" destination="BTW-Z5-PLK" eventType="touchUpInside" id="TVR-dY-2mv"/>
                                 </connections>
@@ -752,7 +757,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MJF-fE-JgD">
                                 <rect key="frame" x="231" y="312" width="129" height="31"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="View Comments"/>
+                                <buttonConfiguration key="configuration" style="filled" title="View Comments"/>
                                 <connections>
                                     <action selector="viewCommentsTap:" destination="BTW-Z5-PLK" eventType="touchUpInside" id="r4o-8U-zu1"/>
                                 </connections>
@@ -760,7 +765,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qQ9-ce-KKe">
                                 <rect key="frame" x="241" y="363" width="109" height="31"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="View Dislikes"/>
+                                <buttonConfiguration key="configuration" style="filled" title="View Dislikes"/>
                                 <connections>
                                     <action selector="viewDislikesTap:" destination="BTW-Z5-PLK" eventType="touchUpInside" id="uVS-Lh-XGW"/>
                                 </connections>
@@ -768,6 +773,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="THR-Gt-5tz"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <color key="tintColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="V8q-el-HuW" firstAttribute="leading" secondItem="dG3-eW-2zn" secondAttribute="trailing" constant="8" symbolic="YES" id="2vD-fc-JAU"/>
                             <constraint firstItem="dG3-eW-2zn" firstAttribute="top" secondItem="THR-Gt-5tz" secondAttribute="top" constant="30" id="3hR-4x-mNv"/>
@@ -882,6 +888,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="J8v-qd-ePm"/>
                         <color key="backgroundColor" systemColor="systemGray6Color"/>
+                        <color key="tintColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="J8v-qd-ePm" firstAttribute="bottom" secondItem="Rfe-bZ-u66" secondAttribute="bottom" id="7KP-bL-pCX"/>
                             <constraint firstItem="zC9-6B-2Dg" firstAttribute="top" secondItem="J8v-qd-ePm" secondAttribute="top" constant="8" id="BoO-2x-66n"/>
@@ -911,6 +918,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="thK-Gw-dsN">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -930,6 +938,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KMK-fa-8J1">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.25071647759999999" green="0.246006012" blue="0.2976741195" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -943,8 +952,8 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="QLg-42-V1d"/>
-        <segue reference="fc8-9e-t6P"/>
-        <segue reference="fiN-uM-lEw"/>
+        <segue reference="LR4-eu-E0Y"/>
+        <segue reference="f4A-cQ-P1m"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="arrow.clockwise" catalog="system" width="115" height="128"/>
