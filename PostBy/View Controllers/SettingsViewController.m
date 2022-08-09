@@ -89,17 +89,10 @@ typedef NS_ENUM(NSUInteger, MenuChoices) {
     menu.textOfRows = @[@"Likes", @"Dislikes", @"Posts", @"Comments", @"Account"];
     menu.numberOfRows = menu.textOfRows.count;
     
-    // Theme Color
-    NSNumber *red = DARK_THEME_COLOR[@"red"];
-    NSNumber *green = DARK_THEME_COLOR[@"green"];
-    NSNumber *blue = DARK_THEME_COLOR[@"blue"];
-    NSNumber *alpha = DARK_THEME_COLOR[@"alpha"];
-    UIColor *darkColor = [UIColor colorWithRed:red.floatValue green:green.floatValue blue:blue.floatValue alpha:alpha.intValue];
-
     menu.activeColor = [UIColor whiteColor];
     menu.inactiveColor = [UIColor whiteColor];
     // Background
-    menu.titleViewColor = darkColor;
+    menu.titleViewColor = DARK_THEME_COLOR;
     
     [self.view addSubview:menu];
 }

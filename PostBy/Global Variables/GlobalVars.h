@@ -8,11 +8,13 @@
 // Frameworks
 #import <Foundation/Foundation.h>
 
+// Definitions
+#define DARK_THEME_COLOR [UIColor colorWithRed:(64.0/255.0) green:(63.0/255.0) blue:(76.0/255.0) alpha:1]
+
 extern NSString *const MAIN_STORYBOARD;
 
 extern NSString *const DEFAULT_PROFILE_PIC;
 
-extern NSDictionary *const DARK_THEME_COLOR;
 extern NSInteger const CELL_BORDER_WIDTH;
 extern NSInteger const CORNER_RADIUS_DIV_CONST;
 extern NSInteger const PIN_IMG_WIDTH;

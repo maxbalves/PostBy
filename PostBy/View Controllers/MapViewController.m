@@ -82,12 +82,7 @@
     self.locationManager.delegate = self;
     [self.locationManager requestWhenInUseAuthorization];
     
-    // Theme Color
-    NSNumber *red = DARK_THEME_COLOR[@"red"];
-    NSNumber *green = DARK_THEME_COLOR[@"green"];
-    NSNumber *blue = DARK_THEME_COLOR[@"blue"];
-    NSNumber *alpha = DARK_THEME_COLOR[@"alpha"];
-    self.mapView.tintColor = [UIColor colorWithRed:red.floatValue green:green.floatValue blue:blue.floatValue alpha:alpha.intValue];
+    self.mapView.tintColor = DARK_THEME_COLOR;
     
     if ([CLLocationManager locationServicesEnabled]) {
         [self.locationManager startUpdatingLocation];
@@ -280,12 +275,7 @@
     }];
     
     // Pin Tint Color
-    // Theme Color
-    NSNumber *red = DARK_THEME_COLOR[@"red"];
-    NSNumber *green = DARK_THEME_COLOR[@"green"];
-    NSNumber *blue = DARK_THEME_COLOR[@"blue"];
-    NSNumber *alpha = DARK_THEME_COLOR[@"alpha"];
-    annotationView.pinTintColor = [UIColor colorWithRed:red.floatValue green:green.floatValue blue:blue.floatValue alpha:alpha.intValue];
+    annotationView.pinTintColor = DARK_THEME_COLOR;
     
     return annotationView;
 }
