@@ -74,6 +74,7 @@
     self.postDateLabel.text = self.postVM.postDate;
     
     // Profile Picture
+    self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / CORNER_RADIUS_DIV_CONST;
     if (self.postVM.profilePicUrl == nil) {
         [self.profilePicture setImage:[UIImage imageNamed:DEFAULT_PROFILE_PIC]];
     } else {
@@ -121,6 +122,7 @@
         if (posts != nil) {
             if (posts.count > 0) {
                 self.postVM = [[PostViewModel alloc] initWithPost:posts[0]];
+                [self setUpUI];
             } else {
                 [self invalidPostAlert];
             }
@@ -280,9 +282,11 @@
         mapVC.postVMtoShow = sender;
     } else if ([segue.identifier isEqualToString:self.EDIT_SEGUE]) {
         ComposeViewController *composeVC = [segue destinationViewController];
+        composeVC.navigationItem.title = @"Edit";
         composeVC.postVMToUpdate = sender;
     } else if ([segue.identifier isEqualToString:self.COMMENT_SEGUE]) {
         ComposeViewController *composeVC = [segue destinationViewController];
+        composeVC.navigationItem.title = @"Comment";
         composeVC.postVMToComment = sender;
     }
 }

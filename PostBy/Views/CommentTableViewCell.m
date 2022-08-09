@@ -18,6 +18,10 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
+    self.layer.borderWidth = CELL_BORDER_WIDTH;
+    self.layer.borderColor = [[UIColor systemGray6Color] CGColor];
+    self.layer.cornerRadius = self.frame.size.height / CORNER_RADIUS_DIV_CONST;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -32,6 +36,7 @@
     self.commentText.text = commentVM.commentText;
     self.commentDate.text = commentVM.commentShortDate;
     
+    self.profilePic.layer.cornerRadius = self.profilePic.frame.size.width / CORNER_RADIUS_DIV_CONST;
     if (commentVM.profilePicUrl == nil) {
         [self.profilePic setImage:[UIImage imageNamed:DEFAULT_PROFILE_PIC]];
     } else {

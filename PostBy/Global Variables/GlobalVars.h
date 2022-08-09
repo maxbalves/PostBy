@@ -5,12 +5,16 @@
 //  Created by Max Bagatini Alves on 7/18/22.
 //
 
+// Frameworks
 #import <Foundation/Foundation.h>
 
 extern NSString *const MAIN_STORYBOARD;
 
 extern NSString *const DEFAULT_PROFILE_PIC;
 
+extern NSDictionary *const DARK_THEME_COLOR;
+extern NSInteger const CELL_BORDER_WIDTH;
+extern NSInteger const CORNER_RADIUS_DIV_CONST;
 extern NSInteger const PIN_IMG_WIDTH;
 extern NSInteger const PIN_IMG_HEIGHT;
 

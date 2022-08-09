@@ -30,6 +30,9 @@
 @property (nonatomic) int MAX_POSTS_SHOWN;
 @property (nonatomic) int ADDITIONAL_POSTS;
 
+@property (strong, nonatomic) IBOutlet UIButton *lockButton;
+@property (nonatomic) BOOL isLockedOnUser;
+
 @property (nonatomic) double CLOSE_ZOOM;
 @property (nonatomic) double MEDIUM_ZOOM;
 
@@ -79,6 +82,13 @@
     self.locationManager.delegate = self;
     [self.locationManager requestWhenInUseAuthorization];
     
+    // Theme Color
+    NSNumber *red = DARK_THEME_COLOR[@"red"];
+    NSNumber *green = DARK_THEME_COLOR[@"green"];
+    NSNumber *blue = DARK_THEME_COLOR[@"blue"];
+    NSNumber *alpha = DARK_THEME_COLOR[@"alpha"];
+    self.mapView.tintColor = [UIColor colorWithRed:red.floatValue green:green.floatValue blue:blue.floatValue alpha:alpha.intValue];
+    
     if ([CLLocationManager locationServicesEnabled]) {
         [self.locationManager startUpdatingLocation];
         self.mapView.showsUserLocation = YES;
@@ -88,7 +98,10 @@
     self.MAX_POSTS_SHOWN = 10;
     self.ADDITIONAL_POSTS = 5;
     
-    [self updateNumPostsShownButton];
+    self.mapView.showsCompass = YES;
+    self.isLockedOnUser = NO;
+    
+    [self refreshMapTap:nil];
 }
 
 - (IBAction)increaseMaxPostsTap:(id)sender {
@@ -202,6 +215,33 @@
     return longitude;
 }
 
+- (IBAction)lockButtonTap:(id)sender {
+    self.isLockedOnUser = !self.isLockedOnUser;
+    
+    // Change button image
+    if (self.isLockedOnUser) {
+        UIImage *img = [UIImage systemImageNamed:@"lock"];
+        [self setButton:self.lockButton Image:img];
+        [self.mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
+        self.mapView.scrollEnabled = NO;
+        self.mapView.rotateEnabled = NO;
+        self.mapView.showsCompass = NO;
+    } else {
+        UIImage *img = [UIImage systemImageNamed:@"lock.open"];
+        [self setButton:self.lockButton Image:img];
+        [self.mapView setUserTrackingMode:MKUserTrackingModeNone animated:YES];
+        self.mapView.scrollEnabled = YES;
+        self.mapView.rotateEnabled = YES;
+        self.mapView.showsCompass = YES;
+    }
+}
+
+- (void) setButton:(id)button Image:(UIImage *)img {
+    [self.lockButton setImage:img forState:UIControlStateNormal];
+    [self.lockButton setImage:img forState:UIControlStateSelected];
+    [self.lockButton setImage:img forState:UIControlStateHighlighted];
+}
+
 // Change pin/annotation look
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     // If the annotation is the user location, don't change it
@@ -238,6 +278,14 @@
         // Increase pin size with animation
         annotationView.transform = CGAffineTransformMakeScale(1.0, 1.0);
     }];
+    
+    // Pin Tint Color
+    // Theme Color
+    NSNumber *red = DARK_THEME_COLOR[@"red"];
+    NSNumber *green = DARK_THEME_COLOR[@"green"];
+    NSNumber *blue = DARK_THEME_COLOR[@"blue"];
+    NSNumber *alpha = DARK_THEME_COLOR[@"alpha"];
+    annotationView.pinTintColor = [UIColor colorWithRed:red.floatValue green:green.floatValue blue:blue.floatValue alpha:alpha.intValue];
     
     return annotationView;
 }

@@ -260,9 +260,9 @@
 - (void) saveAndRefresh {
     [self.post saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         [PFUser.currentUser saveInBackground];
+        [self reloadLikeDislikeData];
+        [self.delegate didLoadLikeDislikeData];
     }];
-    [self reloadLikeDislikeData];
-    [self.delegate didLoadLikeDislikeData];
 }
 
 - (void) deletePost {

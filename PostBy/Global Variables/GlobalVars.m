@@ -18,6 +18,9 @@ NSString *const MAIN_STORYBOARD = @"Main";
 
 NSString *const DEFAULT_PROFILE_PIC = @"profile_tab.png";
 
+NSDictionary *const DARK_THEME_COLOR = @{@"red" : @(64/255.0), @"green" : @(63/255.0), @"blue" : @(76/255.0), @"alpha" : @1};
+NSInteger const CELL_BORDER_WIDTH = 5;
+NSInteger const CORNER_RADIUS_DIV_CONST = 8;
 NSInteger const PIN_IMG_WIDTH = 50;
 NSInteger const PIN_IMG_HEIGHT = 50;
 
