@@ -122,6 +122,7 @@
         if (posts != nil) {
             if (posts.count > 0) {
                 self.postVM = [[PostViewModel alloc] initWithPost:posts[0]];
+                [self setUpUI];
             } else {
                 [self invalidPostAlert];
             }
