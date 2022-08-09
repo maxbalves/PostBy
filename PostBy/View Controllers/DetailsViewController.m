@@ -282,9 +282,11 @@
         mapVC.postVMtoShow = sender;
     } else if ([segue.identifier isEqualToString:self.EDIT_SEGUE]) {
         ComposeViewController *composeVC = [segue destinationViewController];
+        composeVC.navigationItem.title = @"Edit";
         composeVC.postVMToUpdate = sender;
     } else if ([segue.identifier isEqualToString:self.COMMENT_SEGUE]) {
         ComposeViewController *composeVC = [segue destinationViewController];
+        composeVC.navigationItem.title = @"Comment";
         composeVC.postVMToComment = sender;
     }
 }
