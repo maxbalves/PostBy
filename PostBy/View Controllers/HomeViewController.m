@@ -55,7 +55,7 @@
     self.NEWEST_SORT = 0;
     self.TRENDING_SORT = 1;
     
-    self.QUERY_MILE_RADIUS = 5;
+    self.QUERY_MILE_RADIUS = 3;
     
     self.MAX_POSTS_SHOWN = 10;
     self.ADDITIONAL_POSTS = 10;
